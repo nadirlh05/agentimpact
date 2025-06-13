@@ -3,8 +3,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { useNavigate } from "react-router-dom";
 
 const Index = () => {
+  const navigate = useNavigate();
+
   const aiCategories = [
     { name: "Chatbots Conversationnels", icon: "💬", count: "127 solutions" },
     { name: "Automatisation RPA", icon: "🤖", count: "89 solutions" },
@@ -76,6 +79,13 @@ const Index = () => {
             <a href="#" className="text-gray-600 hover:text-blue-600 transition-colors">Catégories</a>
             <a href="#" className="text-gray-600 hover:text-blue-600 transition-colors">Blog</a>
             <a href="#" className="text-gray-600 hover:text-blue-600 transition-colors">Ressources</a>
+            <Button 
+              variant="ghost"
+              onClick={() => navigate('/generator')}
+              className="text-blue-600 hover:text-blue-700 font-medium"
+            >
+              Générateur IA
+            </Button>
           </nav>
           <div className="flex items-center space-x-4">
             <Button variant="ghost">Connexion</Button>
@@ -110,6 +120,18 @@ const Index = () => {
                   Rechercher
                 </Button>
               </div>
+            </div>
+
+            {/* Call to Action for Generator */}
+            <div className="mb-8">
+              <Button
+                onClick={() => navigate('/generator')}
+                size="lg"
+                className="bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-lg px-8 py-4"
+              >
+                <Zap className="w-5 h-5 mr-2" />
+                Essayer le Générateur IA
+              </Button>
             </div>
 
             {/* Stats */}
