@@ -5,7 +5,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useNavigate } from "react-router-dom";
 import { GeneratorForm } from "@/components/GeneratorForm";
+import { ApiKeyInput } from "@/components/ApiKeyInput";
 import { useToast } from "@/hooks/use-toast";
+import { AIService } from "@/services/aiService";
 
 interface GeneratedDescription {
   id: string;
@@ -21,33 +23,73 @@ const ProductGenerator = () => {
   const { toast } = useToast();
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedDescriptions, setGeneratedDescriptions] = useState<GeneratedDescription[]>([]);
+  const [apiKey, setApiKey] = useState("");
 
   const handleGenerate = async (formData: any) => {
+    if (!apiKey.trim()) {
+      toast({
+        title: "Clé API manquante",
+        description: "Veuillez saisir votre clé API OpenRouter pour continuer.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsGenerating(true);
     
     try {
-      // Simulation de la génération (à remplacer par l'appel API réel)
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      const aiService = new AIService(apiKey);
       
-      const newDescription: GeneratedDescription = {
-        id: Date.now().toString(),
-        productName: formData.productName,
-        description: `Voici une description générée pour ${formData.productName}. Cette description respecte le style ${formData.writingStyle} et contient environ ${formData.wordCount} mots. Elle est rédigée en ${formData.language} et ${formData.includeBenefits ? 'inclut' : 'n\'inclut pas'} les bénéfices produits.`,
-        language: formData.language,
-        wordCount: formData.wordCount,
-        style: formData.writingStyle
-      };
-      
-      setGeneratedDescriptions(prev => [newDescription, ...prev]);
-      
-      toast({
-        title: "Description générée avec succès !",
-        description: `Nouvelle description créée pour ${formData.productName}`,
-      });
+      if (formData.bulkMode && formData.bulkProducts.length > 0) {
+        // Génération en mode bulk
+        const promises = formData.bulkProducts.map(async (productName: string) => {
+          const response = await aiService.generateDescription({
+            ...formData,
+            productName
+          });
+          
+          return {
+            id: `${Date.now()}-${Math.random()}`,
+            productName,
+            description: response.description,
+            language: formData.language,
+            wordCount: formData.wordCount,
+            style: formData.writingStyle
+          };
+        });
+
+        const newDescriptions = await Promise.all(promises);
+        setGeneratedDescriptions(prev => [...newDescriptions, ...prev]);
+        
+        toast({
+          title: "Descriptions générées avec succès !",
+          description: `${newDescriptions.length} descriptions créées`,
+        });
+      } else {
+        // Génération simple
+        const response = await aiService.generateDescription(formData);
+        
+        const newDescription: GeneratedDescription = {
+          id: Date.now().toString(),
+          productName: formData.productName,
+          description: response.description,
+          language: formData.language,
+          wordCount: formData.wordCount,
+          style: formData.writingStyle
+        };
+        
+        setGeneratedDescriptions(prev => [newDescription, ...prev]);
+        
+        toast({
+          title: "Description générée avec succès !",
+          description: `Nouvelle description créée pour ${formData.productName}`,
+        });
+      }
     } catch (error) {
+      console.error('Erreur lors de la génération:', error);
       toast({
         title: "Erreur lors de la génération",
-        description: "Une erreur est survenue lors de la génération de la description.",
+        description: error instanceof Error ? error.message : "Une erreur est survenue lors de la génération de la description.",
         variant: "destructive",
       });
     } finally {
@@ -129,6 +171,11 @@ const ProductGenerator = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Formulaire de génération */}
           <div>
+            <ApiKeyInput 
+              onApiKeyChange={setApiKey}
+              hasValidKey={!!apiKey.trim()}
+            />
+            
             <Card className="sticky top-24">
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2">
@@ -158,7 +205,7 @@ const ProductGenerator = () => {
                   <p className="text-gray-500">
                     Aucune description générée pour le moment.
                     <br />
-                    Utilisez le formulaire pour créer votre première description !
+                    Configurez votre clé API et utilisez le formulaire pour créer votre première description !
                   </p>
                 </CardContent>
               </Card>
