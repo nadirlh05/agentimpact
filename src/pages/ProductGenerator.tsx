@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { ArrowLeft, Zap, Download, Copy, Wand2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -6,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useNavigate } from "react-router-dom";
 import { GeneratorForm } from "@/components/GeneratorForm";
 import { ApiKeyInput } from "@/components/ApiKeyInput";
+import UserProfile from "@/components/UserProfile";
 import { useToast } from "@/hooks/use-toast";
 import { AIService } from "@/services/aiService";
 
@@ -155,15 +155,18 @@ const ProductGenerator = () => {
             </div>
           </div>
           
-          {generatedDescriptions.length > 0 && (
-            <Button 
-              onClick={exportDescriptions}
-              className="bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-700 hover:to-violet-700"
-            >
-              <Download className="w-4 h-4 mr-2" />
-              Exporter ({generatedDescriptions.length})
-            </Button>
-          )}
+          <div className="flex items-center space-x-4">
+            <UserProfile />
+            {generatedDescriptions.length > 0 && (
+              <Button 
+                onClick={exportDescriptions}
+                className="bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-700 hover:to-violet-700"
+              >
+                <Download className="w-4 h-4 mr-2" />
+                Exporter ({generatedDescriptions.length})
+              </Button>
+            )}
+          </div>
         </div>
       </header>
 
