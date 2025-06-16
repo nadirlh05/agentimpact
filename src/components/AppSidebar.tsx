@@ -1,5 +1,5 @@
 
-import { Home, Plus, CreditCard, HelpCircle, MessageSquare, User } from 'lucide-react';
+import { Home, Plus, CreditCard, HelpCircle, MessageSquare } from 'lucide-react';
 import {
   Sidebar,
   SidebarContent,
@@ -48,8 +48,8 @@ export function AppSidebar() {
   const location = useLocation();
 
   return (
-    <Sidebar>
-      <SidebarHeader className="p-4">
+    <Sidebar side="left" className="border-r">
+      <SidebarHeader className="p-4 border-b">
         <div className="flex items-center space-x-2">
           <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
             <span className="text-white font-bold text-sm">PG</span>
@@ -58,7 +58,7 @@ export function AppSidebar() {
         </div>
       </SidebarHeader>
       
-      <SidebarContent>
+      <SidebarContent className="p-2">
         <SidebarGroup>
           <SidebarGroupLabel>Navigation</SidebarGroupLabel>
           <SidebarGroupContent>
@@ -68,7 +68,7 @@ export function AppSidebar() {
                   <SidebarMenuButton 
                     onClick={() => navigate(item.url)}
                     isActive={location.pathname === item.url}
-                    className="w-full"
+                    className="w-full justify-start"
                   >
                     <item.icon className="w-4 h-4" />
                     <span>{item.title}</span>
@@ -80,7 +80,7 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
       
-      <SidebarFooter className="p-4">
+      <SidebarFooter className="p-4 border-t">
         <UserProfile />
       </SidebarFooter>
     </Sidebar>
