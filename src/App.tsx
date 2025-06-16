@@ -3,7 +3,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "@/contexts/AuthProvider";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import AuthenticatedLayout from "@/components/AuthenticatedLayout";
@@ -28,6 +28,12 @@ const AppContent = () => {
         <>
           <Route path="/" element={<Index />} />
           <Route path="/auth" element={<Auth />} />
+          {/* Redirection vers auth pour toutes les routes protégées */}
+          <Route path="/generator" element={<Navigate to="/auth" replace />} />
+          <Route path="/projets" element={<Navigate to="/auth" replace />} />
+          <Route path="/credits" element={<Navigate to="/auth" replace />} />
+          <Route path="/faq" element={<Navigate to="/auth" replace />} />
+          <Route path="/support" element={<Navigate to="/auth" replace />} />
           <Route path="*" element={<NotFound />} />
         </>
       ) : (
