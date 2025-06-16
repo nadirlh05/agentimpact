@@ -1,39 +1,65 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Plus, Calendar, Settings } from 'lucide-react';
+import { Plus, Calendar, Settings, Loader2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@/contexts/AuthProvider';
+import { supabase } from '@/integrations/supabase/client';
+import { useToast } from '@/hooks/use-toast';
+
+interface Project {
+  id: string;
+  name: string;
+  description: string | null;
+  status: string;
+  created_at: string;
+  user_id: string;
+}
 
 const Projets = () => {
   const navigate = useNavigate();
-  const [projets] = useState([
-    {
-      id: 1,
-      nom: "Site E-commerce",
-      description: "Boutique en ligne pour vêtements",
-      statut: "En cours",
-      dateCreation: "2024-01-15",
-      credits: 250,
-    },
-    {
-      id: 2,
-      nom: "Application Mobile",
-      description: "App de gestion de tâches",
-      statut: "Terminé",
-      dateCreation: "2024-01-10",
-      credits: 180,
-    },
-    {
-      id: 3,
-      nom: "Dashboard Analytics",
-      description: "Interface d'analyse de données",
-      statut: "En attente",
-      dateCreation: "2024-01-20",
-      credits: 320,
-    },
-  ]);
+  const { user } = useAuth();
+  const { toast } = useToast();
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const fetchProjects = async () => {
+    if (!user) return;
+
+    try {
+      const { data, error } = await supabase
+        .from('projects')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        console.error('Error fetching projects:', error);
+        toast({
+          title: "Erreur",
+          description: "Impossible de charger les projets.",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      setProjects(data || []);
+    } catch (error) {
+      console.error('Unexpected error:', error);
+      toast({
+        title: "Erreur",
+        description: "Une erreur inattendue s'est produite.",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchProjects();
+  }, [user]);
 
   const getStatusColor = (statut: string) => {
     switch (statut) {
@@ -48,6 +74,14 @@ const Projets = () => {
     }
   };
 
+  if (loading) {
+    return (
+      <div className="p-6 flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin" />
+      </div>
+    );
+  }
+
   return (
     <div className="p-6 space-y-6">
       <div className="flex justify-between items-center">
@@ -61,38 +95,37 @@ const Projets = () => {
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {projets.map((projet) => (
-          <Card key={projet.id} className="hover:shadow-lg transition-shadow cursor-pointer">
-            <CardHeader className="pb-3">
-              <div className="flex justify-between items-start">
-                <CardTitle className="text-lg">{projet.nom}</CardTitle>
-                <Button variant="ghost" size="sm">
-                  <Settings className="w-4 h-4" />
-                </Button>
-              </div>
-              <Badge className={getStatusColor(projet.statut)} variant="secondary">
-                {projet.statut}
-              </Badge>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <p className="text-gray-600 text-sm">{projet.description}</p>
-              <div className="flex items-center space-x-2 text-sm text-gray-500">
-                <Calendar className="w-4 h-4" />
-                <span>Créé le {new Date(projet.dateCreation).toLocaleDateString('fr-FR')}</span>
-              </div>
-              <div className="flex justify-between items-center pt-2">
-                <span className="text-sm font-medium">Crédits utilisés: {projet.credits}</span>
-                <Button variant="outline" size="sm">
-                  Voir détails
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-
-      {projets.length === 0 && (
+      {projects.length > 0 ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {projects.map((projet) => (
+            <Card key={projet.id} className="hover:shadow-lg transition-shadow cursor-pointer">
+              <CardHeader className="pb-3">
+                <div className="flex justify-between items-start">
+                  <CardTitle className="text-lg">{projet.name}</CardTitle>
+                  <Button variant="ghost" size="sm">
+                    <Settings className="w-4 h-4" />
+                  </Button>
+                </div>
+                <Badge className={getStatusColor(projet.status)} variant="secondary">
+                  {projet.status}
+                </Badge>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <p className="text-gray-600 text-sm">{projet.description || "Aucune description"}</p>
+                <div className="flex items-center space-x-2 text-sm text-gray-500">
+                  <Calendar className="w-4 h-4" />
+                  <span>Créé le {new Date(projet.created_at).toLocaleDateString('fr-FR')}</span>
+                </div>
+                <div className="flex justify-between items-center pt-2">
+                  <Button variant="outline" size="sm">
+                    Voir détails
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      ) : (
         <div className="text-center py-12">
           <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <Plus className="w-8 h-8 text-gray-400" />

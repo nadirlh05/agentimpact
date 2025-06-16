@@ -9,6 +9,56 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      generated_descriptions: {
+        Row: {
+          bold_words: string[] | null
+          created_at: string
+          description: string
+          id: string
+          include_benefits: boolean | null
+          language: string
+          product_name: string
+          project_id: string
+          user_id: string
+          word_count: number
+          writing_style: string
+        }
+        Insert: {
+          bold_words?: string[] | null
+          created_at?: string
+          description: string
+          id?: string
+          include_benefits?: boolean | null
+          language: string
+          product_name: string
+          project_id: string
+          user_id: string
+          word_count: number
+          writing_style: string
+        }
+        Update: {
+          bold_words?: string[] | null
+          created_at?: string
+          description?: string
+          id?: string
+          include_benefits?: boolean | null
+          language?: string
+          product_name?: string
+          project_id?: string
+          user_id?: string
+          word_count?: number
+          writing_style?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "generated_descriptions_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           created_at: string
@@ -30,6 +80,36 @@ export type Database = {
           full_name?: string | null
           id?: string
           updated_at?: string
+        }
+        Relationships: []
+      }
+      projects: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          name: string
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          name: string
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          name?: string
+          status?: string
+          updated_at?: string
+          user_id?: string
         }
         Relationships: []
       }

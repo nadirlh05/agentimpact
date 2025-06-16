@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { ArrowLeft, Zap, Download, Copy, Wand2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -8,6 +9,8 @@ import { ApiKeyInput } from "@/components/ApiKeyInput";
 import UserProfile from "@/components/UserProfile";
 import { useToast } from "@/hooks/use-toast";
 import { AIService } from "@/services/aiService";
+import { useAuth } from "@/contexts/AuthProvider";
+import { supabase } from "@/integrations/supabase/client";
 
 interface GeneratedDescription {
   id: string;
@@ -21,9 +24,74 @@ interface GeneratedDescription {
 const ProductGenerator = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { user } = useAuth();
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedDescriptions, setGeneratedDescriptions] = useState<GeneratedDescription[]>([]);
   const [apiKey, setApiKey] = useState("");
+  const [currentProject, setCurrentProject] = useState<{id: string, name: string} | null>(null);
+
+  const createProject = async (projectName: string) => {
+    if (!user) return null;
+
+    try {
+      const { data, error } = await supabase
+        .from('projects')
+        .insert({
+          name: projectName,
+          description: `Projet créé pour générer des descriptions de produits`,
+          user_id: user.id,
+          status: 'En cours'
+        })
+        .select()
+        .single();
+
+      if (error) {
+        console.error('Error creating project:', error);
+        toast({
+          title: "Erreur",
+          description: "Impossible de créer le projet.",
+          variant: "destructive",
+        });
+        return null;
+      }
+
+      return data;
+    } catch (error) {
+      console.error('Unexpected error creating project:', error);
+      return null;
+    }
+  };
+
+  const saveDescriptionToDatabase = async (description: GeneratedDescription, projectId: string) => {
+    if (!user) return;
+
+    try {
+      const { error } = await supabase
+        .from('generated_descriptions')
+        .insert({
+          project_id: projectId,
+          user_id: user.id,
+          product_name: description.productName,
+          description: description.description,
+          language: description.language,
+          word_count: description.wordCount,
+          writing_style: description.style,
+          bold_words: [],
+          include_benefits: true
+        });
+
+      if (error) {
+        console.error('Error saving description:', error);
+        toast({
+          title: "Avertissement",
+          description: "Description générée mais pas sauvegardée en base de données.",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      console.error('Unexpected error saving description:', error);
+    }
+  };
 
   const handleGenerate = async (formData: any) => {
     if (!apiKey.trim()) {
@@ -35,11 +103,34 @@ const ProductGenerator = () => {
       return;
     }
 
+    if (!user) {
+      toast({
+        title: "Authentification requise",
+        description: "Vous devez être connecté pour générer des descriptions.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsGenerating(true);
     
     try {
       const aiService = new AIService(apiKey);
       
+      // Create or get current project
+      let project = currentProject;
+      if (!project) {
+        const projectName = formData.bulkMode && formData.bulkProducts.length > 0 
+          ? `Projet ${new Date().toLocaleDateString('fr-FR')}`
+          : `Projet ${formData.productName}`;
+        
+        const createdProject = await createProject(projectName);
+        if (createdProject) {
+          project = { id: createdProject.id, name: createdProject.name };
+          setCurrentProject(project);
+        }
+      }
+
       if (formData.bulkMode && formData.bulkProducts.length > 0) {
         // Génération en mode bulk
         const promises = formData.bulkProducts.map(async (productName: string) => {
@@ -59,11 +150,19 @@ const ProductGenerator = () => {
         });
 
         const newDescriptions = await Promise.all(promises);
+        
+        // Save all descriptions to database
+        if (project) {
+          for (const desc of newDescriptions) {
+            await saveDescriptionToDatabase(desc, project.id);
+          }
+        }
+        
         setGeneratedDescriptions(prev => [...newDescriptions, ...prev]);
         
         toast({
           title: "Descriptions générées avec succès !",
-          description: `${newDescriptions.length} descriptions créées`,
+          description: `${newDescriptions.length} descriptions créées${project ? ' et sauvegardées' : ''}`,
         });
       } else {
         // Génération simple
@@ -78,11 +177,16 @@ const ProductGenerator = () => {
           style: formData.writingStyle
         };
         
+        // Save to database
+        if (project) {
+          await saveDescriptionToDatabase(newDescription, project.id);
+        }
+        
         setGeneratedDescriptions(prev => [newDescription, ...prev]);
         
         toast({
           title: "Description générée avec succès !",
-          description: `Nouvelle description créée pour ${formData.productName}`,
+          description: `Nouvelle description créée pour ${formData.productName}${project ? ' et sauvegardée' : ''}`,
         });
       }
     } catch (error) {
@@ -171,6 +275,14 @@ const ProductGenerator = () => {
       </header>
 
       <div className="container mx-auto px-4 py-8">
+        {currentProject && (
+          <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+            <p className="text-blue-800">
+              <strong>Projet actuel :</strong> {currentProject.name}
+            </p>
+          </div>
+        )}
+
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Formulaire de génération */}
           <div>
