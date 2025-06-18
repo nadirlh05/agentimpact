@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Plus, Calendar, Settings, Loader2 } from 'lucide-react';
+import { Plus, Calendar, Settings, Loader2, Users, Bot, Target } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthProvider';
 import { supabase } from '@/integrations/supabase/client';
@@ -38,7 +38,7 @@ const Projets = () => {
         console.error('Error fetching projects:', error);
         toast({
           title: "Erreur",
-          description: "Impossible de charger les projets.",
+          description: "Impossible de charger vos projets de coaching.",
           variant: "destructive",
         });
         return;
@@ -74,6 +74,12 @@ const Projets = () => {
     }
   };
 
+  const getProjectIcon = (name: string) => {
+    if (name.toLowerCase().includes('coaching')) return Users;
+    if (name.toLowerCase().includes('bot') || name.toLowerCase().includes('ia')) return Bot;
+    return Target;
+  };
+
   if (loading) {
     return (
       <div className="p-6 flex items-center justify-center">
@@ -86,8 +92,8 @@ const Projets = () => {
     <div className="p-6 space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Mes Projets</h1>
-          <p className="text-gray-600 mt-2">Gérez tous vos projets en un seul endroit</p>
+          <h1 className="text-3xl font-bold text-gray-900">Mes Projets de Coaching IA</h1>
+          <p className="text-gray-600 mt-2">Gérez vos projets de coaching et solutions IA personnalisées</p>
         </div>
         <Button onClick={() => navigate('/generator')} className="flex items-center space-x-2">
           <Plus className="w-4 h-4" />
@@ -97,43 +103,49 @@ const Projets = () => {
 
       {projects.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {projects.map((projet) => (
-            <Card key={projet.id} className="hover:shadow-lg transition-shadow cursor-pointer">
-              <CardHeader className="pb-3">
-                <div className="flex justify-between items-start">
-                  <CardTitle className="text-lg">{projet.name}</CardTitle>
-                  <Button variant="ghost" size="sm">
-                    <Settings className="w-4 h-4" />
-                  </Button>
-                </div>
-                <Badge className={getStatusColor(projet.status)} variant="secondary">
-                  {projet.status}
-                </Badge>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <p className="text-gray-600 text-sm">{projet.description || "Aucune description"}</p>
-                <div className="flex items-center space-x-2 text-sm text-gray-500">
-                  <Calendar className="w-4 h-4" />
-                  <span>Créé le {new Date(projet.created_at).toLocaleDateString('fr-FR')}</span>
-                </div>
-                <div className="flex justify-between items-center pt-2">
-                  <Button variant="outline" size="sm">
-                    Voir détails
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+          {projects.map((projet) => {
+            const IconComponent = getProjectIcon(projet.name);
+            return (
+              <Card key={projet.id} className="hover:shadow-lg transition-shadow cursor-pointer">
+                <CardHeader className="pb-3">
+                  <div className="flex justify-between items-start">
+                    <div className="flex items-center space-x-2">
+                      <IconComponent className="w-5 h-5 text-blue-600" />
+                      <CardTitle className="text-lg">{projet.name}</CardTitle>
+                    </div>
+                    <Button variant="ghost" size="sm">
+                      <Settings className="w-4 h-4" />
+                    </Button>
+                  </div>
+                  <Badge className={getStatusColor(projet.status)} variant="secondary">
+                    {projet.status}
+                  </Badge>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  <p className="text-gray-600 text-sm">{projet.description || "Description du projet de coaching à ajouter"}</p>
+                  <div className="flex items-center space-x-2 text-sm text-gray-500">
+                    <Calendar className="w-4 h-4" />
+                    <span>Créé le {new Date(projet.created_at).toLocaleDateString('fr-FR')}</span>
+                  </div>
+                  <div className="flex justify-between items-center pt-2">
+                    <Button variant="outline" size="sm">
+                      Voir le coaching
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            );
+          })}
         </div>
       ) : (
         <div className="text-center py-12">
-          <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <Plus className="w-8 h-8 text-gray-400" />
+          <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <Bot className="w-8 h-8 text-blue-600" />
           </div>
-          <h3 className="text-lg font-medium text-gray-900 mb-2">Aucun projet</h3>
-          <p className="text-gray-500 mb-4">Commencez par créer votre premier projet</p>
+          <h3 className="text-lg font-medium text-gray-900 mb-2">Aucun projet de coaching</h3>
+          <p className="text-gray-500 mb-4">Commencez par créer votre premier projet de coaching IA</p>
           <Button onClick={() => navigate('/generator')}>
-            Créer un projet
+            Créer un projet de coaching
           </Button>
         </div>
       )}

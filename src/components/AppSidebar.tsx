@@ -17,7 +17,7 @@ import UserProfile from './UserProfile';
 
 const menuItems = [
   {
-    title: "Mes projets",
+    title: "Mes projets de coaching",
     url: "/projets",
     icon: Home,
   },
@@ -27,7 +27,7 @@ const menuItems = [
     icon: Plus,
   },
   {
-    title: "Acheter des crédits",
+    title: "Nos solutions",
     url: "/credits",
     icon: CreditCard,
   },
@@ -52,9 +52,9 @@ export function AppSidebar() {
       <SidebarHeader className="p-4 border-b">
         <div className="flex items-center space-x-2">
           <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-            <span className="text-white font-bold text-sm">PG</span>
+            <span className="text-white font-bold text-sm">IA</span>
           </div>
-          <span className="font-bold text-lg">Product Generator</span>
+          <span className="font-bold text-lg">Coaching IA Pro</span>
         </div>
       </SidebarHeader>
       
