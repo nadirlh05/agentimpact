@@ -1,12 +1,16 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { CreditCard, Zap, Star, Check, Bot, Users, Sparkles } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
+import { useToast } from '@/hooks/use-toast';
 
 const Credits = () => {
   const [creditsActuels] = useState(1250);
+  const [isLoading, setIsLoading] = useState<string | null>(null);
+  const { toast } = useToast();
   
   const forfaits = [
     {
@@ -78,6 +82,70 @@ const Credits = () => {
       ]
     }
   ];
+
+  useEffect(() => {
+    // Check for payment success/cancel in URL params
+    const urlParams = new URLSearchParams(window.location.search);
+    const success = urlParams.get('success');
+    const canceled = urlParams.get('canceled');
+    const plan = urlParams.get('plan');
+
+    if (success === 'true' && plan) {
+      toast({
+        title: "Paiement réussi !",
+        description: `Votre abonnement ${plan} a été activé avec succès.`,
+      });
+      // Clear URL params
+      window.history.replaceState({}, document.title, window.location.pathname);
+    } else if (canceled === 'true') {
+      toast({
+        title: "Paiement annulé",
+        description: "Votre paiement a été annulé. Vous pouvez réessayer à tout moment.",
+        variant: "destructive",
+      });
+      // Clear URL params
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+  }, [toast]);
+
+  const handlePayment = async (forfait: typeof forfaits[0]) => {
+    if (typeof forfait.prix !== 'number') {
+      toast({
+        title: "Contact requis",
+        description: "Pour ce forfait, veuillez nous contacter directement.",
+      });
+      return;
+    }
+
+    setIsLoading(forfait.nom);
+    
+    try {
+      const { data, error } = await supabase.functions.invoke('create-payment', {
+        body: {
+          planName: forfait.nom,
+          amount: forfait.prix,
+        },
+      });
+
+      if (error) {
+        throw error;
+      }
+
+      if (data?.url) {
+        // Open Stripe checkout in a new tab
+        window.open(data.url, '_blank');
+      }
+    } catch (error) {
+      console.error('Payment error:', error);
+      toast({
+        title: "Erreur de paiement",
+        description: "Une erreur s'est produite lors du traitement du paiement. Veuillez réessayer.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(null);
+    }
+  };
 
   return (
     <div className="p-6 space-y-6">
@@ -178,9 +246,11 @@ const Credits = () => {
                       : 'border-blue-600 text-blue-600 hover:bg-blue-50'
                   }`}
                   variant={forfait.buttonStyle === 'default' ? 'default' : 'outline'}
+                  onClick={() => handlePayment(forfait)}
+                  disabled={isLoading === forfait.nom}
                 >
                   <CreditCard className="w-4 h-4 mr-2" />
-                  Commencer maintenant
+                  {isLoading === forfait.nom ? 'Traitement...' : 'Commencer maintenant'}
                 </Button>
               </CardContent>
             </Card>
