@@ -1,237 +1,99 @@
 
 import { useState } from "react";
-import { ArrowLeft, Zap, Download, Copy, Wand2 } from "lucide-react";
+import { ArrowLeft, Bot, Users, Zap, CheckCircle, Star, MessageSquare, CreditCard } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { useNavigate } from "react-router-dom";
-import { GeneratorForm } from "@/components/GeneratorForm";
-import { ApiKeyInput } from "@/components/ApiKeyInput";
 import UserProfile from "@/components/UserProfile";
 import { useToast } from "@/hooks/use-toast";
-import { AIService } from "@/services/aiService";
-import { useAuth } from "@/contexts/AuthProvider";
 import { supabase } from "@/integrations/supabase/client";
-
-interface GeneratedDescription {
-  id: string;
-  productName: string;
-  description: string;
-  language: string;
-  wordCount: number;
-  style: string;
-}
 
 const ProductGenerator = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
-  const { user } = useAuth();
-  const [isGenerating, setIsGenerating] = useState(false);
-  const [generatedDescriptions, setGeneratedDescriptions] = useState<GeneratedDescription[]>([]);
-  const [apiKey, setApiKey] = useState("");
-  const [currentProject, setCurrentProject] = useState<{id: string, name: string} | null>(null);
+  const [isLoading, setIsLoading] = useState<string | null>(null);
 
-  const createProject = async (projectName: string) => {
-    if (!user) return null;
-
-    try {
-      const { data, error } = await supabase
-        .from('projects')
-        .insert({
-          name: projectName,
-          description: `Projet créé pour générer des descriptions de produits`,
-          user_id: user.id,
-          status: 'En cours'
-        })
-        .select()
-        .single();
-
-      if (error) {
-        console.error('Error creating project:', error);
-        toast({
-          title: "Erreur",
-          description: "Impossible de créer le projet.",
-          variant: "destructive",
-        });
-        return null;
-      }
-
-      return data;
-    } catch (error) {
-      console.error('Unexpected error creating project:', error);
-      return null;
+  const exemplesSolutions = [
+    {
+      titre: "IA de Gestion des Commandes Fournisseurs",
+      description: "Automatisation complète de vos processus d'approvisionnement",
+      icon: Bot,
+      couleur: "bg-blue-500",
+      exemples: [
+        "Surveillance automatique des stocks",
+        "Génération de bons de commande intelligents",
+        "Négociation automatique avec les fournisseurs",
+        "Prédiction des besoins futurs"
+      ],
+      solution: "Solution sur mesure avec IA locale",
+      prix: "À partir de 2 500€"
+    },
+    {
+      titre: "Assistant IA Client 24/7",
+      description: "Répondez à vos clients automatiquement, jour et nuit",
+      icon: MessageSquare,
+      couleur: "bg-green-500",
+      exemples: [
+        "Réponses instantanées aux questions courantes",
+        "Prise de rendez-vous automatique",
+        "Qualification des prospects",
+        "Escalade intelligente vers vos équipes"
+      ],
+      solution: "Assistant IA Pro",
+      prix: "227€/mois"
+    },
+    {
+      titre: "Crew IA Multi-Agents",
+      description: "Une équipe d'agents IA spécialisés pour votre entreprise",
+      icon: Users,
+      couleur: "bg-purple-500",
+      exemples: [
+        "Agent commercial pour la prospection",
+        "Agent support client avancé",
+        "Agent de suivi projet",
+        "Agent d'analyse de données"
+      ],
+      solution: "Crew IA Enterprise",
+      prix: "Sur mesure"
     }
-  };
+  ];
 
-  const saveDescriptionToDatabase = async (description: GeneratedDescription, projectId: string) => {
-    if (!user) return;
-
-    try {
-      const { error } = await supabase
-        .from('generated_descriptions')
-        .insert({
-          project_id: projectId,
-          user_id: user.id,
-          product_name: description.productName,
-          description: description.description,
-          language: description.language,
-          word_count: description.wordCount,
-          writing_style: description.style,
-          bold_words: [],
-          include_benefits: true
-        });
-
-      if (error) {
-        console.error('Error saving description:', error);
-        toast({
-          title: "Avertissement",
-          description: "Description générée mais pas sauvegardée en base de données.",
-          variant: "destructive",
-        });
-      }
-    } catch (error) {
-      console.error('Unexpected error saving description:', error);
+  const processusAide = [
+    {
+      etape: "1",
+      titre: "Analyse de vos besoins",
+      description: "Nous étudions en détail vos processus actuels et identifions les opportunités d'automatisation"
+    },
+    {
+      etape: "2", 
+      titre: "Conception sur mesure",
+      description: "Nous concevons une solution IA parfaitement adaptée à votre secteur et vos contraintes"
+    },
+    {
+      etape: "3",
+      titre: "Développement & formation",
+      description: "Nos experts développent votre IA et forment vos équipes pour une adoption optimale"
+    },
+    {
+      etape: "4",
+      titre: "Déploiement & suivi",
+      description: "Mise en production sécurisée avec support continu et optimisations régulières"
     }
-  };
+  ];
 
-  const handleGenerate = async (formData: any) => {
-    if (!apiKey.trim()) {
-      toast({
-        title: "Clé API manquante",
-        description: "Veuillez saisir votre clé API OpenRouter pour continuer.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    if (!user) {
-      toast({
-        title: "Authentification requise",
-        description: "Vous devez être connecté pour générer des descriptions.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    setIsGenerating(true);
+  const handleContactSolution = async (solution: string) => {
+    setIsLoading(solution);
     
-    try {
-      const aiService = new AIService(apiKey);
-      
-      // Create or get current project
-      let project = currentProject;
-      if (!project) {
-        const projectName = formData.bulkMode && formData.bulkProducts.length > 0 
-          ? `Projet ${new Date().toLocaleDateString('fr-FR')}`
-          : `Projet ${formData.productName}`;
-        
-        const createdProject = await createProject(projectName);
-        if (createdProject) {
-          project = { id: createdProject.id, name: createdProject.name };
-          setCurrentProject(project);
-        }
-      }
-
-      if (formData.bulkMode && formData.bulkProducts.length > 0) {
-        // Génération en mode bulk
-        const promises = formData.bulkProducts.map(async (productName: string) => {
-          const response = await aiService.generateDescription({
-            ...formData,
-            productName
-          });
-          
-          return {
-            id: `${Date.now()}-${Math.random()}`,
-            productName,
-            description: response.description,
-            language: formData.language,
-            wordCount: formData.wordCount,
-            style: formData.writingStyle
-          };
-        });
-
-        const newDescriptions = await Promise.all(promises);
-        
-        // Save all descriptions to database
-        if (project) {
-          for (const desc of newDescriptions) {
-            await saveDescriptionToDatabase(desc, project.id);
-          }
-        }
-        
-        setGeneratedDescriptions(prev => [...newDescriptions, ...prev]);
-        
-        toast({
-          title: "Descriptions générées avec succès !",
-          description: `${newDescriptions.length} descriptions créées${project ? ' et sauvegardées' : ''}`,
-        });
-      } else {
-        // Génération simple
-        const response = await aiService.generateDescription(formData);
-        
-        const newDescription: GeneratedDescription = {
-          id: Date.now().toString(),
-          productName: formData.productName,
-          description: response.description,
-          language: formData.language,
-          wordCount: formData.wordCount,
-          style: formData.writingStyle
-        };
-        
-        // Save to database
-        if (project) {
-          await saveDescriptionToDatabase(newDescription, project.id);
-        }
-        
-        setGeneratedDescriptions(prev => [newDescription, ...prev]);
-        
-        toast({
-          title: "Description générée avec succès !",
-          description: `Nouvelle description créée pour ${formData.productName}${project ? ' et sauvegardée' : ''}`,
-        });
-      }
-    } catch (error) {
-      console.error('Erreur lors de la génération:', error);
-      toast({
-        title: "Erreur lors de la génération",
-        description: error instanceof Error ? error.message : "Une erreur est survenue lors de la génération de la description.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsGenerating(false);
-    }
-  };
-
-  const copyToClipboard = async (text: string) => {
-    try {
-      await navigator.clipboard.writeText(text);
-      toast({
-        title: "Copié !",
-        description: "La description a été copiée dans le presse-papiers.",
-      });
-    } catch (error) {
-      toast({
-        title: "Erreur de copie",
-        description: "Impossible de copier la description.",
-        variant: "destructive",
-      });
-    }
-  };
-
-  const exportDescriptions = () => {
-    const csvContent = [
-      "Nom du produit,Description,Langue,Nombre de mots,Style",
-      ...generatedDescriptions.map(desc => 
-        `"${desc.productName}","${desc.description}","${desc.language}","${desc.wordCount}","${desc.style}"`
-      )
-    ].join('\n');
+    // Simuler une action de contact
+    await new Promise(resolve => setTimeout(resolve, 1000));
     
-    const blob = new Blob([csvContent], { type: 'text/csv' });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'descriptions-produits.csv';
-    a.click();
-    window.URL.revokeObjectURL(url);
+    toast({
+      title: "Demande envoyée !",
+      description: `Nous vous recontacterons sous 24h pour discuter de la solution ${solution}.`,
+    });
+    
+    setIsLoading(null);
   };
 
   return (
@@ -254,108 +116,144 @@ const ProductGenerator = () => {
                 <Zap className="w-5 h-5 text-white" />
               </div>
               <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text text-transparent">
-                Générateur de Descriptions
+                Solutions IA Sur Mesure
               </span>
             </div>
           </div>
           
           <div className="flex items-center space-x-4">
             <UserProfile />
-            {generatedDescriptions.length > 0 && (
-              <Button 
-                onClick={exportDescriptions}
-                className="bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-700 hover:to-violet-700"
-              >
-                <Download className="w-4 h-4 mr-2" />
-                Exporter ({generatedDescriptions.length})
-              </Button>
-            )}
+            <Button 
+              onClick={() => navigate('/credits')}
+              className="bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-700 hover:to-violet-700"
+            >
+              <CreditCard className="w-4 h-4 mr-2" />
+              Voir nos tarifs
+            </Button>
           </div>
         </div>
       </header>
 
       <div className="container mx-auto px-4 py-8">
-        {currentProject && (
-          <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-            <p className="text-blue-800">
-              <strong>Projet actuel :</strong> {currentProject.name}
-            </p>
-          </div>
-        )}
+        {/* Section d'introduction */}
+        <div className="text-center mb-12">
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">
+            Comment nous vous aidons à réussir avec l'IA
+          </h1>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            Découvrez nos solutions personnalisées d'intelligence artificielle conçues pour automatiser 
+            vos processus métier et booster votre productivité.
+          </p>
+        </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Formulaire de génération */}
-          <div>
-            <ApiKeyInput 
-              onApiKeyChange={setApiKey}
-              hasValidKey={!!apiKey.trim()}
-            />
-            
-            <Card className="sticky top-24">
-              <CardHeader>
-                <CardTitle className="flex items-center space-x-2">
-                  <Wand2 className="w-5 h-5 text-blue-600" />
-                  <span>Générateur IA</span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <GeneratorForm 
-                  onGenerate={handleGenerate} 
-                  isLoading={isGenerating}
-                />
-              </CardContent>
-            </Card>
-          </div>
+        {/* Exemples de solutions */}
+        <div className="mb-16">
+          <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
+            Exemples de solutions que nous créons
+          </h2>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {exemplesSolutions.map((solution, index) => (
+              <Card key={index} className="hover:shadow-xl transition-all duration-300 border-0 shadow-lg">
+                <CardHeader className="pb-4">
+                  <div className={`w-12 h-12 ${solution.couleur} rounded-xl flex items-center justify-center mb-4`}>
+                    <solution.icon className="w-6 h-6 text-white" />
+                  </div>
+                  <CardTitle className="text-xl text-gray-900">{solution.titre}</CardTitle>
+                  <p className="text-gray-600">{solution.description}</p>
+                </CardHeader>
+                
+                <CardContent className="space-y-6">
+                  <div>
+                    <h4 className="font-semibold text-gray-900 mb-3">Ce que nous mettons en place :</h4>
+                    <ul className="space-y-2">
+                      {solution.exemples.map((exemple, idx) => (
+                        <li key={idx} className="flex items-start space-x-2">
+                          <CheckCircle className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
+                          <span className="text-sm text-gray-700">{exemple}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
 
-          {/* Résultats générés */}
-          <div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">
-              Descriptions générées ({generatedDescriptions.length})
-            </h2>
-            
-            {generatedDescriptions.length === 0 ? (
-              <Card className="border-dashed border-2 border-gray-300">
-                <CardContent className="text-center py-12">
-                  <Wand2 className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                  <p className="text-gray-500">
-                    Aucune description générée pour le moment.
-                    <br />
-                    Configurez votre clé API et utilisez le formulaire pour créer votre première description !
-                  </p>
+                  <div className="border-t pt-4">
+                    <div className="flex items-center justify-between mb-3">
+                      <Badge variant="outline" className="text-blue-600 border-blue-600">
+                        {solution.solution}
+                      </Badge>
+                      <span className="font-bold text-lg text-gray-900">{solution.prix}</span>
+                    </div>
+                    
+                    <Button 
+                      className="w-full"
+                      onClick={() => handleContactSolution(solution.solution)}
+                      disabled={isLoading === solution.solution}
+                    >
+                      {isLoading === solution.solution ? 'En cours...' : 'Demander un devis'}
+                    </Button>
+                  </div>
                 </CardContent>
               </Card>
-            ) : (
-              <div className="space-y-4">
-                {generatedDescriptions.map((desc) => (
-                  <Card key={desc.id} className="border-l-4 border-blue-600">
-                    <CardHeader className="pb-3">
-                      <div className="flex items-center justify-between">
-                        <CardTitle className="text-lg">{desc.productName}</CardTitle>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => copyToClipboard(desc.description)}
-                        >
-                          <Copy className="w-4 h-4" />
-                        </Button>
-                      </div>
-                      <div className="flex items-center space-x-4 text-sm text-gray-500">
-                        <span>🌐 {desc.language}</span>
-                        <span>📝 {desc.wordCount} mots</span>
-                        <span>✨ {desc.style}</span>
-                      </div>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-gray-700 leading-relaxed">
-                        {desc.description}
-                      </p>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            )}
+            ))}
           </div>
         </div>
+
+        {/* Notre processus */}
+        <div className="mb-16">
+          <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
+            Notre processus d'accompagnement
+          </h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {processusAide.map((etape, index) => (
+              <Card key={index} className="text-center border-0 shadow-lg">
+                <CardHeader className="pb-4">
+                  <div className="w-12 h-12 bg-gradient-to-r from-blue-600 to-violet-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span className="text-white font-bold text-lg">{etape.etape}</span>
+                  </div>
+                  <CardTitle className="text-lg">{etape.titre}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-600 text-sm">{etape.description}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+
+        {/* Section CTA */}
+        <Card className="bg-gradient-to-r from-blue-600 to-violet-600 text-white border-0">
+          <CardContent className="p-8 text-center">
+            <Star className="w-12 h-12 mx-auto mb-4 opacity-90" />
+            <h3 className="text-2xl font-bold mb-4">
+              Prêt à transformer votre entreprise avec l'IA ?
+            </h3>
+            <p className="text-lg opacity-90 mb-6 max-w-2xl mx-auto">
+              Nos experts analysent gratuitement vos besoins et vous proposent une solution 
+              d'intelligence artificielle parfaitement adaptée à votre activité.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button 
+                size="lg" 
+                variant="secondary"
+                onClick={() => navigate('/support')}
+                className="bg-white text-blue-600 hover:bg-gray-100"
+              >
+                <MessageSquare className="w-5 h-5 mr-2" />
+                Consultation gratuite
+              </Button>
+              <Button 
+                size="lg" 
+                variant="outline"
+                onClick={() => navigate('/credits')}
+                className="border-white text-white hover:bg-white/10"
+              >
+                <CreditCard className="w-5 h-5 mr-2" />
+                Voir tous nos tarifs
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
