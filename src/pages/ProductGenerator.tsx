@@ -4,10 +4,11 @@ import { ArrowLeft, Bot, Users, Zap, CheckCircle, Star, MessageSquare, CreditCar
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useNavigate } from "react-router-dom";
 import UserProfile from "@/components/UserProfile";
 import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
+import { ExampleGenerator } from "@/components/ExampleGenerator";
 
 const ProductGenerator = () => {
   const navigate = useNavigate();
@@ -146,80 +147,103 @@ const ProductGenerator = () => {
           </p>
         </div>
 
-        {/* Exemples de solutions */}
-        <div className="mb-16">
-          <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
-            Exemples de solutions que nous créons
-          </h2>
-          
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {exemplesSolutions.map((solution, index) => (
-              <Card key={index} className="hover:shadow-xl transition-all duration-300 border-0 shadow-lg">
-                <CardHeader className="pb-4">
-                  <div className={`w-12 h-12 ${solution.couleur} rounded-xl flex items-center justify-center mb-4`}>
-                    <solution.icon className="w-6 h-6 text-white" />
-                  </div>
-                  <CardTitle className="text-xl text-gray-900">{solution.titre}</CardTitle>
-                  <p className="text-gray-600">{solution.description}</p>
-                </CardHeader>
-                
-                <CardContent className="space-y-6">
-                  <div>
-                    <h4 className="font-semibold text-gray-900 mb-3">Ce que nous mettons en place :</h4>
-                    <ul className="space-y-2">
-                      {solution.exemples.map((exemple, idx) => (
-                        <li key={idx} className="flex items-start space-x-2">
-                          <CheckCircle className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
-                          <span className="text-sm text-gray-700">{exemple}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+        {/* Onglets */}
+        <Tabs defaultValue="examples" className="mb-16">
+          <TabsList className="grid w-full grid-cols-2 mb-8">
+            <TabsTrigger value="examples">Exemples de solutions</TabsTrigger>
+            <TabsTrigger value="generator">Générateur personnalisé</TabsTrigger>
+          </TabsList>
 
-                  <div className="border-t pt-4">
-                    <div className="flex items-center justify-between mb-3">
-                      <Badge variant="outline" className="text-blue-600 border-blue-600">
-                        {solution.solution}
-                      </Badge>
-                      <span className="font-bold text-lg text-gray-900">{solution.prix}</span>
-                    </div>
+          <TabsContent value="examples" className="space-y-16">
+            {/* Exemples de solutions */}
+            <div>
+              <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
+                Exemples de solutions que nous créons
+              </h2>
+              
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                {exemplesSolutions.map((solution, index) => (
+                  <Card key={index} className="hover:shadow-xl transition-all duration-300 border-0 shadow-lg">
+                    <CardHeader className="pb-4">
+                      <div className={`w-12 h-12 ${solution.couleur} rounded-xl flex items-center justify-center mb-4`}>
+                        <solution.icon className="w-6 h-6 text-white" />
+                      </div>
+                      <CardTitle className="text-xl text-gray-900">{solution.titre}</CardTitle>
+                      <p className="text-gray-600">{solution.description}</p>
+                    </CardHeader>
                     
-                    <Button 
-                      className="w-full"
-                      onClick={() => handleContactSolution(solution.solution)}
-                      disabled={isLoading === solution.solution}
-                    >
-                      {isLoading === solution.solution ? 'En cours...' : 'Demander un devis'}
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
+                    <CardContent className="space-y-6">
+                      <div>
+                        <h4 className="font-semibold text-gray-900 mb-3">Ce que nous mettons en place :</h4>
+                        <ul className="space-y-2">
+                          {solution.exemples.map((exemple, idx) => (
+                            <li key={idx} className="flex items-start space-x-2">
+                              <CheckCircle className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
+                              <span className="text-sm text-gray-700">{exemple}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
 
-        {/* Notre processus */}
-        <div className="mb-16">
-          <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
-            Notre processus d'accompagnement
-          </h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {processusAide.map((etape, index) => (
-              <Card key={index} className="text-center border-0 shadow-lg">
-                <CardHeader className="pb-4">
-                  <div className="w-12 h-12 bg-gradient-to-r from-blue-600 to-violet-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <span className="text-white font-bold text-lg">{etape.etape}</span>
-                  </div>
-                  <CardTitle className="text-lg">{etape.titre}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-gray-600 text-sm">{etape.description}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
+                      <div className="border-t pt-4">
+                        <div className="flex items-center justify-between mb-3">
+                          <Badge variant="outline" className="text-blue-600 border-blue-600">
+                            {solution.solution}
+                          </Badge>
+                          <span className="font-bold text-lg text-gray-900">{solution.prix}</span>
+                        </div>
+                        
+                        <Button 
+                          className="w-full"
+                          onClick={() => handleContactSolution(solution.solution)}
+                          disabled={isLoading === solution.solution}
+                        >
+                          {isLoading === solution.solution ? 'En cours...' : 'Demander un devis'}
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </div>
+
+            {/* Notre processus */}
+            <div>
+              <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
+                Notre processus d'accompagnement
+              </h2>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {processusAide.map((etape, index) => (
+                  <Card key={index} className="text-center border-0 shadow-lg">
+                    <CardHeader className="pb-4">
+                      <div className="w-12 h-12 bg-gradient-to-r from-blue-600 to-violet-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span className="text-white font-bold text-lg">{etape.etape}</span>
+                      </div>
+                      <CardTitle className="text-lg">{etape.titre}</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-gray-600 text-sm">{etape.description}</p>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="generator">
+            <div>
+              <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
+                Générez un exemple personnalisé
+              </h2>
+              <p className="text-lg text-gray-600 text-center mb-8 max-w-2xl mx-auto">
+                Décrivez votre entreprise et vos défis, notre IA vous proposera un exemple concret 
+                d'accompagnement adapté à vos besoins.
+              </p>
+              <ExampleGenerator />
+            </div>
+          </TabsContent>
+        </Tabs>
 
         {/* Section CTA */}
         <Card className="bg-gradient-to-r from-blue-600 to-violet-600 text-white border-0">

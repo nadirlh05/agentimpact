@@ -1,0 +1,260 @@
+
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Lightbulb, Wand2, CheckCircle, ArrowRight, DollarSign } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import { OpenRouterService } from "@/services/openRouterService";
+import { ApiKeyInput } from "./ApiKeyInput";
+
+interface GeneratedExample {
+  solution: string;
+  benefits: string[];
+  implementation: string[];
+  pricing: string;
+}
+
+export const ExampleGenerator = () => {
+  const [apiKey, setApiKey] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [generatedExample, setGeneratedExample] = useState<GeneratedExample | null>(null);
+  const { toast } = useToast();
+
+  const [formData, setFormData] = useState({
+    businessType: "",
+    challenge: "",
+    budget: ""
+  });
+
+  const businessTypes = [
+    "E-commerce",
+    "Santé",
+    "Finance", 
+    "Éducation",
+    "Manufacturing",
+    "Services professionnels",
+    "Restaurant/Hôtellerie",
+    "Immobilier",
+    "Transport/Logistique",
+    "Autre"
+  ];
+
+  const budgetRanges = [
+    "< 5 000€",
+    "5 000€ - 15 000€", 
+    "15 000€ - 50 000€",
+    "50 000€ - 100 000€",
+    "> 100 000€"
+  ];
+
+  const handleGenerate = async () => {
+    if (!apiKey.trim()) {
+      toast({
+        title: "Clé API manquante",
+        description: "Veuillez configurer votre clé API OpenRouter.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    if (!formData.businessType || !formData.challenge.trim()) {
+      toast({
+        title: "Informations manquantes",
+        description: "Veuillez remplir le type d'entreprise et le défi.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const service = new OpenRouterService(apiKey);
+      const example = await service.generateExample(formData);
+      setGeneratedExample(example);
+      
+      toast({
+        title: "Exemple généré !",
+        description: "Votre exemple d'accompagnement IA a été créé avec succès.",
+      });
+    } catch (error) {
+      console.error('Erreur lors de la génération:', error);
+      toast({
+        title: "Erreur de génération",
+        description: error instanceof Error ? error.message : "Une erreur est survenue",
+        variant: "destructive"
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleReset = () => {
+    setGeneratedExample(null);
+    setFormData({
+      businessType: "",
+      challenge: "",
+      budget: ""
+    });
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* Configuration API */}
+      <ApiKeyInput 
+        onApiKeyChange={setApiKey}
+        hasValidKey={!!apiKey}
+      />
+
+      {/* Formulaire de génération */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center space-x-2">
+            <Lightbulb className="w-5 h-5 text-yellow-500" />
+            <span>Générateur d'exemples d'accompagnement IA</span>
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label>Type d'entreprise</Label>
+              <Select value={formData.businessType} onValueChange={(value) => setFormData(prev => ({ ...prev, businessType: value }))}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Sélectionnez votre secteur" />
+                </SelectTrigger>
+                <SelectContent>
+                  {businessTypes.map((type) => (
+                    <SelectItem key={type} value={type}>
+                      {type}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-2">
+              <Label>Budget approximatif (optionnel)</Label>
+              <Select value={formData.budget} onValueChange={(value) => setFormData(prev => ({ ...prev, budget: value }))}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Sélectionnez une fourchette" />
+                </SelectTrigger>
+                <SelectContent>
+                  {budgetRanges.map((budget) => (
+                    <SelectItem key={budget} value={budget}>
+                      {budget}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <Label>Défi ou problématique principale</Label>
+            <Textarea
+              placeholder="Ex: Nous avons des difficultés à gérer nos stocks et nos commandes fournisseurs..."
+              value={formData.challenge}
+              onChange={(e) => setFormData(prev => ({ ...prev, challenge: e.target.value }))}
+              rows={3}
+            />
+          </div>
+
+          <div className="flex space-x-2">
+            <Button
+              onClick={handleGenerate}
+              disabled={isLoading || !apiKey}
+              className="bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-700 hover:to-violet-700"
+            >
+              {isLoading ? (
+                <>
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2" />
+                  Génération...
+                </>
+              ) : (
+                <>
+                  <Wand2 className="w-4 h-4 mr-2" />
+                  Générer un exemple
+                </>
+              )}
+            </Button>
+            
+            {generatedExample && (
+              <Button variant="outline" onClick={handleReset}>
+                Nouveau exemple
+              </Button>
+            )}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Résultat généré */}
+      {generatedExample && (
+        <Card className="border-l-4 border-l-green-500">
+          <CardHeader>
+            <CardTitle className="text-green-700">Exemple d'accompagnement généré</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            {/* Solution */}
+            <div>
+              <h4 className="font-semibold text-gray-900 mb-2">Solution recommandée :</h4>
+              <p className="text-gray-700 bg-blue-50 p-3 rounded-lg">{generatedExample.solution}</p>
+            </div>
+
+            {/* Bénéfices */}
+            <div>
+              <h4 className="font-semibold text-gray-900 mb-3">Bénéfices attendus :</h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                {generatedExample.benefits.map((benefit, index) => (
+                  <div key={index} className="flex items-start space-x-2">
+                    <CheckCircle className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
+                    <span className="text-sm text-gray-700">{benefit}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Étapes d'implémentation */}
+            <div>
+              <h4 className="font-semibold text-gray-900 mb-3">Étapes d'implémentation :</h4>
+              <div className="space-y-3">
+                {generatedExample.implementation.map((step, index) => (
+                  <div key={index} className="flex items-start space-x-3">
+                    <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs font-bold">
+                      {index + 1}
+                    </div>
+                    <span className="text-sm text-gray-700">{step}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Prix */}
+            <div className="bg-gradient-to-r from-blue-50 to-violet-50 p-4 rounded-lg">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-2">
+                  <DollarSign className="w-5 h-5 text-blue-600" />
+                  <span className="font-semibold text-gray-900">Estimation tarifaire :</span>
+                </div>
+                <Badge variant="outline" className="text-blue-600 border-blue-600 font-bold">
+                  {generatedExample.pricing}
+                </Badge>
+              </div>
+            </div>
+
+            {/* CTA */}
+            <div className="border-t pt-4">
+              <Button className="w-full bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700">
+                <ArrowRight className="w-4 h-4 mr-2" />
+                Discuter de cette solution
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+    </div>
+  );
+};
