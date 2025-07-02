@@ -35,16 +35,19 @@ const Support = () => {
     
     setIsLoading(true);
     try {
+      // Charger uniquement les tickets de l'utilisateur connecté
       const { data, error } = await supabase
         .from('support_tickets')
         .select('*')
-        .or(`user_id.eq.${user.id},email_from.eq."${user.email}"`)
+        .eq('user_id', user.id)
         .order('created_at', { ascending: false });
 
       if (error) {
         console.error('Supabase error:', error);
         throw error;
       }
+      
+      console.log('Tickets loaded successfully:', data);
       setTickets(data || []);
     } catch (error: any) {
       console.error('Error loading tickets:', error);
