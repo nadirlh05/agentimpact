@@ -88,6 +88,7 @@ const Support = () => {
   };
 
   const authenticateGmail = async () => {
+    console.log('=== DÉBUT AUTHENTIFICATION GMAIL ===');
     try {
       console.log('Starting Gmail authentication...');
       
