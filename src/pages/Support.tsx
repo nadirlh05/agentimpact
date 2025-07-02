@@ -89,19 +89,26 @@ const Support = () => {
 
   const authenticateGmail = async () => {
     try {
+      console.log('Starting Gmail authentication...');
+      
       // Utiliser le client Supabase pour appeler la fonction
       const { data, error } = await supabase.functions.invoke('gmail-support', {
         method: 'GET'
       });
       
+      console.log('Supabase function response:', { data, error });
+      
       if (error) {
+        console.error('Supabase function error:', error);
         throw error;
       }
       
       if (data?.authUrl) {
+        console.log('Redirecting to Google OAuth URL:', data.authUrl);
         // Rediriger vers l'URL d'authentification Google
         window.location.href = data.authUrl;
       } else {
+        console.error('No authUrl received:', data);
         throw new Error('Aucune URL d\'authentification reçue');
       }
       
