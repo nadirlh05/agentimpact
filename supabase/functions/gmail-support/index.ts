@@ -14,11 +14,24 @@ interface GmailMessage {
       name: string;
       value: string;
     }>;
+    parts?: Array<{
+      mimeType: string;
+      body: {
+        data?: string;
+      };
+    }>;
+    body?: {
+      data?: string;
+    };
   };
 }
 
+interface GmailListResponse {
+  messages: Array<{ id: string; threadId: string }>;
+  nextPageToken?: string;
+}
+
 const handler = async (req: Request): Promise<Response> => {
-  // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
@@ -29,63 +42,162 @@ const handler = async (req: Request): Promise<Response> => {
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
     );
 
-    const gmailApiKey = Deno.env.get('GMAIL_API_KEY');
-    if (!gmailApiKey) {
-      throw new Error('GMAIL_API_KEY not configured');
+    // Récupérer les tokens OAuth depuis la requête ou la base de données
+    const { accessToken, userEmail } = await req.json();
+    
+    if (!accessToken) {
+      return new Response(
+        JSON.stringify({ error: 'Access token required' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
     }
 
-    // Pour cette démonstration, nous allons simuler la récupération d'emails
-    // En production, vous devriez utiliser l'API Gmail avec OAuth
-    console.log('Simulating Gmail API call...');
+    console.log('Starting Gmail sync for:', userEmail);
 
-    // Simuler quelques tickets reçus par email
-    const simulatedEmails = [
-      {
-        subject: "Problème de connexion",
-        from: "user@example.com",
-        body: "Je n'arrive pas à me connecter à mon compte",
-        messageId: "gmail_msg_001",
-        receivedAt: new Date().toISOString()
+    // 1. Rechercher les emails dans la boîte de réception
+    const searchQuery = 'in:inbox is:unread subject:(support OR aide OR problème OR bug OR erreur)';
+    const listUrl = `https://www.googleapis.com/gmail/v1/users/me/messages?q=${encodeURIComponent(searchQuery)}&maxResults=10`;
+    
+    const listResponse = await fetch(listUrl, {
+      headers: {
+        'Authorization': `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
       },
-      {
-        subject: "Demande d'aide facturation",
-        from: "client@company.com", 
-        body: "J'ai une question sur ma dernière facture",
-        messageId: "gmail_msg_002",
-        receivedAt: new Date().toISOString()
-      }
-    ];
+    });
+
+    if (!listResponse.ok) {
+      throw new Error(`Gmail API error: ${listResponse.status} - ${await listResponse.text()}`);
+    }
+
+    const listData: GmailListResponse = await listResponse.json();
+    
+    if (!listData.messages || listData.messages.length === 0) {
+      return new Response(
+        JSON.stringify({ 
+          success: true, 
+          processed: 0,
+          message: 'Aucun nouvel email de support trouvé'
+        }),
+        { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
 
     let processedCount = 0;
 
-    for (const email of simulatedEmails) {
-      // Vérifier si ce message Gmail n'a pas déjà été traité
-      const { data: existingTicket } = await supabaseClient
-        .from('support_tickets')
-        .select('id')
-        .eq('gmail_message_id', email.messageId)
-        .maybeSingle();
+    // 2. Traiter chaque message
+    for (const messageRef of listData.messages) {
+      try {
+        // Vérifier si ce message n'a pas déjà été traité
+        const { data: existingTicket } = await supabaseClient
+          .from('support_tickets')
+          .select('id')
+          .eq('gmail_message_id', messageRef.id)
+          .maybeSingle();
 
-      if (!existingTicket) {
-        // Créer un nouveau ticket depuis l'email
+        if (existingTicket) {
+          console.log(`Message ${messageRef.id} already processed, skipping`);
+          continue;
+        }
+
+        // Récupérer le message complet
+        const messageUrl = `https://www.googleapis.com/gmail/v1/users/me/messages/${messageRef.id}`;
+        const messageResponse = await fetch(messageUrl, {
+          headers: {
+            'Authorization': `Bearer ${accessToken}`,
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (!messageResponse.ok) {
+          console.error(`Failed to fetch message ${messageRef.id}:`, messageResponse.status);
+          continue;
+        }
+
+        const message: GmailMessage = await messageResponse.json();
+        
+        // 3. Extraire les informations du message
+        const headers = message.payload.headers;
+        const subject = headers.find(h => h.name.toLowerCase() === 'subject')?.value || 'Sans sujet';
+        const from = headers.find(h => h.name.toLowerCase() === 'from')?.value || 'Expéditeur inconnu';
+        const date = headers.find(h => h.name.toLowerCase() === 'date')?.value;
+
+        // Extraire l'email de l'expéditeur
+        const emailMatch = from.match(/<([^>]+)>/);
+        const emailFrom = emailMatch ? emailMatch[1] : from.split(' ')[0];
+
+        // 4. Extraire le contenu du message
+        let messageBody = '';
+        
+        if (message.payload.body?.data) {
+          // Message simple
+          messageBody = atob(message.payload.body.data.replace(/-/g, '+').replace(/_/g, '/'));
+        } else if (message.payload.parts) {
+          // Message multipart
+          for (const part of message.payload.parts) {
+            if (part.mimeType === 'text/plain' && part.body?.data) {
+              messageBody = atob(part.body.data.replace(/-/g, '+').replace(/_/g, '/'));
+              break;
+            }
+          }
+        }
+
+        // Utiliser le snippet si pas de contenu trouvé
+        if (!messageBody) {
+          messageBody = message.snippet;
+        }
+
+        // 5. Déterminer la catégorie automatiquement
+        let categorie = 'autre';
+        const subjectLower = subject.toLowerCase();
+        if (subjectLower.includes('facturation') || subjectLower.includes('paiement')) {
+          categorie = 'facturation';
+        } else if (subjectLower.includes('technique') || subjectLower.includes('bug') || subjectLower.includes('erreur')) {
+          categorie = 'technique';
+        } else if (subjectLower.includes('compte') || subjectLower.includes('connexion')) {
+          categorie = 'compte';
+        }
+
+        // 6. Déterminer la priorité
+        let priorite = 'normale';
+        if (subjectLower.includes('urgent') || subjectLower.includes('critique')) {
+          priorite = 'elevee';
+        }
+
+        // 7. Créer le ticket dans la base de données
         const { error: insertError } = await supabaseClient
           .from('support_tickets')
           .insert({
-            email_from: email.from,
-            sujet: email.subject,
-            message: email.body,
-            gmail_message_id: email.messageId,
+            email_from: emailFrom,
+            sujet: subject,
+            message: messageBody.substring(0, 5000), // Limiter la taille
+            gmail_message_id: messageRef.id,
             statut: 'En attente',
-            priorite: 'normale',
-            categorie: 'email'
+            priorite: priorite,
+            categorie: categorie,
+            created_at: date ? new Date(date).toISOString() : new Date().toISOString()
           });
 
         if (insertError) {
           console.error('Error inserting ticket:', insertError);
         } else {
           processedCount++;
-          console.log(`Created ticket from email: ${email.subject}`);
+          console.log(`Created ticket from email: ${subject} (${emailFrom})`);
+          
+          // Marquer l'email comme lu (optionnel)
+          await fetch(`https://www.googleapis.com/gmail/v1/users/me/messages/${messageRef.id}/modify`, {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${accessToken}`,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              removeLabelIds: ['UNREAD']
+            })
+          });
         }
+      } catch (messageError) {
+        console.error(`Error processing message ${messageRef.id}:`, messageError);
+        continue;
       }
     }
 
@@ -93,7 +205,8 @@ const handler = async (req: Request): Promise<Response> => {
       JSON.stringify({ 
         success: true, 
         processed: processedCount,
-        message: `${processedCount} nouveaux tickets créés depuis Gmail`
+        message: `${processedCount} nouveaux tickets créés depuis Gmail`,
+        totalEmails: listData.messages.length
       }),
       {
         status: 200,

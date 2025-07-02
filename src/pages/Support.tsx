@@ -24,10 +24,28 @@ const Support = () => {
   const [tickets, setTickets] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [gmailAccessToken, setGmailAccessToken] = useState<string | null>(null);
+  const [userEmail, setUserEmail] = useState<string | null>(null);
 
   // Charger les tickets au montage du composant
   useEffect(() => {
     loadTickets();
+    
+    // Vérifier si on revient de l'authentification Gmail
+    const urlParams = new URLSearchParams(window.location.search);
+    const accessToken = urlParams.get('access_token');
+    const email = urlParams.get('user_email');
+    
+    if (accessToken && email) {
+      setGmailAccessToken(accessToken);
+      setUserEmail(email);
+      // Nettoyer l'URL
+      window.history.replaceState({}, document.title, window.location.pathname);
+      toast({
+        title: "Gmail connecté",
+        description: `Synchronisation activée pour ${email}`,
+      });
+    }
   }, [user]);
 
   const loadTickets = async () => {
@@ -61,16 +79,49 @@ const Support = () => {
     }
   };
 
+  const authenticateGmail = async () => {
+    try {
+      const { data, error } = await supabase.functions.invoke('gmail-auth');
+      
+      if (error) throw error;
+      
+      // Rediriger vers l'URL d'authentification Google
+      window.open(data.authUrl, '_blank');
+      
+    } catch (error: any) {
+      console.error('Error starting Gmail auth:', error);
+      toast({
+        title: "Erreur d'authentification",
+        description: "Impossible de démarrer l'authentification Gmail",
+        variant: "destructive",
+      });
+    }
+  };
+
   const refreshGmailTickets = async () => {
+    if (!gmailAccessToken) {
+      toast({
+        title: "Gmail non connecté",
+        description: "Veuillez d'abord vous connecter à Gmail",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsRefreshing(true);
     try {
-      const { data, error } = await supabase.functions.invoke('gmail-support');
+      const { data, error } = await supabase.functions.invoke('gmail-support', {
+        body: {
+          accessToken: gmailAccessToken,
+          userEmail: userEmail
+        }
+      });
       
       if (error) throw error;
       
       toast({
         title: "Synchronisation réussie",
-        description: `${data.processed} messages Gmail traités`,
+        description: data.message || `${data.processed} messages Gmail traités`,
       });
       
       // Recharger les tickets après synchronisation
@@ -79,7 +130,7 @@ const Support = () => {
       console.error('Error refreshing Gmail tickets:', error);
       toast({
         title: "Erreur de synchronisation",
-        description: "Impossible de synchroniser avec Gmail",
+        description: `Impossible de synchroniser avec Gmail: ${error.message}`,
         variant: "destructive",
       });
     } finally {
@@ -281,16 +332,35 @@ const Support = () => {
                 </div>
                 <span className="text-foreground">Mes tickets de support</span>
               </div>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={refreshGmailTickets}
-                disabled={isRefreshing}
-                className="flex items-center space-x-1"
-              >
-                <RefreshCw className={`w-4 h-4 ${isRefreshing ? 'animate-spin' : ''}`} />
-                <span>Synchroniser Gmail</span>
-              </Button>
+              <div className="flex flex-col sm:flex-row gap-2">
+                {!gmailAccessToken ? (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={authenticateGmail}
+                    className="flex items-center space-x-1"
+                  >
+                    <Mail className="w-4 h-4" />
+                    <span>Connecter Gmail</span>
+                  </Button>
+                ) : (
+                  <div className="flex items-center space-x-2">
+                    <Badge variant="secondary" className="text-xs">
+                      Gmail connecté: {userEmail}
+                    </Badge>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={refreshGmailTickets}
+                      disabled={isRefreshing}
+                      className="flex items-center space-x-1"
+                    >
+                      <RefreshCw className={`w-4 h-4 ${isRefreshing ? 'animate-spin' : ''}`} />
+                      <span>Synchroniser</span>
+                    </Button>
+                  </div>
+                )}
+              </div>
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
