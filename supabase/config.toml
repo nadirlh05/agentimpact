@@ -22,3 +22,6 @@ external_url = "http://localhost:54321"
 
 [functions.create-payment]
 verify_jwt = false
+
+[functions.gmail-support]
+verify_jwt = false
