@@ -1,16 +1,19 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
-import { MessageSquare, Mail, Clock, CheckCircle } from 'lucide-react';
+import { MessageSquare, Mail, Clock, CheckCircle, RefreshCw } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
+import { useAuth } from '@/contexts/AuthProvider';
 
 const Support = () => {
   const { toast } = useToast();
+  const { user } = useAuth();
   const [formData, setFormData] = useState({
     sujet: '',
     categorie: '',
@@ -18,22 +21,65 @@ const Support = () => {
     priorite: 'normale'
   });
 
-  const [tickets] = useState([
-    {
-      id: "T-001",
-      sujet: "Problème avec l'export PDF",
-      statut: "En cours",
-      date: "2024-01-15",
-      derniereReponse: "Équipe support",
-    },
-    {
-      id: "T-002", 
-      sujet: "Question sur les crédits",
-      statut: "Résolu",
-      date: "2024-01-10",
-      derniereReponse: "Vous",
+  const [tickets, setTickets] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+
+  // Charger les tickets au montage du composant
+  useEffect(() => {
+    loadTickets();
+  }, [user]);
+
+  const loadTickets = async () => {
+    if (!user) return;
+    
+    setIsLoading(true);
+    try {
+      const { data, error } = await supabase
+        .from('support_tickets')
+        .select('*')
+        .or(`user_id.eq.${user.id},email_from.eq.${user.email}`)
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+      setTickets(data || []);
+    } catch (error: any) {
+      console.error('Error loading tickets:', error);
+      toast({
+        title: "Erreur",
+        description: "Impossible de charger les tickets",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
     }
-  ]);
+  };
+
+  const refreshGmailTickets = async () => {
+    setIsRefreshing(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('gmail-support');
+      
+      if (error) throw error;
+      
+      toast({
+        title: "Synchronisation réussie",
+        description: `${data.processed} messages Gmail traités`,
+      });
+      
+      // Recharger les tickets après synchronisation
+      await loadTickets();
+    } catch (error: any) {
+      console.error('Error refreshing Gmail tickets:', error);
+      toast({
+        title: "Erreur de synchronisation",
+        description: "Impossible de synchroniser avec Gmail",
+        variant: "destructive",
+      });
+    } finally {
+      setIsRefreshing(false);
+    }
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -169,38 +215,71 @@ const Support = () => {
         {/* Mes tickets */}
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center space-x-2">
-              <Clock className="w-5 h-5" />
-              <span>Mes tickets</span>
+            <CardTitle className="flex items-center justify-between">
+              <div className="flex items-center space-x-2">
+                <Clock className="w-5 h-5" />
+                <span>Mes tickets</span>
+              </div>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={refreshGmailTickets}
+                disabled={isRefreshing}
+                className="flex items-center space-x-1"
+              >
+                <RefreshCw className={`w-4 h-4 ${isRefreshing ? 'animate-spin' : ''}`} />
+                <span>Synchroniser Gmail</span>
+              </Button>
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            {tickets.map((ticket) => (
-              <div 
-                key={ticket.id} 
-                className="border rounded-lg p-4 hover:bg-gray-50 transition-colors cursor-pointer"
-              >
-                <div className="flex justify-between items-start mb-2">
-                  <div>
-                    <h4 className="font-medium text-gray-900">{ticket.sujet}</h4>
-                    <p className="text-sm text-gray-500">#{ticket.id}</p>
-                  </div>
-                  <Badge className={getStatutColor(ticket.statut)} variant="secondary">
-                    {ticket.statut}
-                  </Badge>
-                </div>
-                <div className="flex justify-between items-center text-sm text-gray-500">
-                  <span>Créé le {new Date(ticket.date).toLocaleDateString('fr-FR')}</span>
-                  <span>Dernière réponse: {ticket.derniereReponse}</span>
-                </div>
+            {isLoading ? (
+              <div className="text-center py-8">
+                <RefreshCw className="w-8 h-8 text-gray-400 mx-auto mb-4 animate-spin" />
+                <p className="text-gray-500">Chargement des tickets...</p>
               </div>
-            ))}
-
-            {tickets.length === 0 && (
+            ) : tickets.length > 0 ? (
+              tickets.map((ticket) => (
+                <div 
+                  key={ticket.id} 
+                  className="border rounded-lg p-4 hover:bg-gray-50 transition-colors cursor-pointer"
+                >
+                  <div className="flex justify-between items-start mb-2">
+                    <div>
+                      <h4 className="font-medium text-gray-900">{ticket.sujet}</h4>
+                      <p className="text-sm text-gray-500">#{ticket.id.slice(0, 8)}</p>
+                      {ticket.email_from && (
+                        <p className="text-xs text-gray-400">De: {ticket.email_from}</p>
+                      )}
+                    </div>
+                    <div className="flex flex-col items-end space-y-1">
+                      <Badge className={getStatutColor(ticket.statut)} variant="secondary">
+                        {ticket.statut}
+                      </Badge>
+                      {ticket.priorite && ticket.priorite !== 'normale' && (
+                        <Badge variant="outline" className="text-xs">
+                          {ticket.priorite}
+                        </Badge>
+                      )}
+                    </div>
+                  </div>
+                  <div className="text-sm text-gray-600 mb-2 line-clamp-2">
+                    {ticket.message}
+                  </div>
+                  <div className="flex justify-between items-center text-sm text-gray-500">
+                    <span>Créé le {new Date(ticket.created_at).toLocaleDateString('fr-FR')}</span>
+                    <span className="text-xs">{ticket.categorie || 'Non catégorisé'}</span>
+                  </div>
+                </div>
+              ))
+            ) : (
               <div className="text-center py-8">
                 <CheckCircle className="w-12 h-12 text-gray-400 mx-auto mb-4" />
                 <h3 className="text-lg font-medium text-gray-900 mb-2">Aucun ticket</h3>
                 <p className="text-gray-500">Vous n'avez pas encore créé de ticket de support</p>
+                <p className="text-xs text-gray-400 mt-2">
+                  Utilisez le bouton "Synchroniser Gmail" pour récupérer les tickets envoyés par email
+                </p>
               </div>
             )}
           </CardContent>

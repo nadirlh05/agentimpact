@@ -113,6 +113,48 @@ export type Database = {
         }
         Relationships: []
       }
+      support_tickets: {
+        Row: {
+          categorie: string | null
+          created_at: string
+          email_from: string
+          gmail_message_id: string | null
+          id: string
+          message: string
+          priorite: string | null
+          statut: string | null
+          sujet: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          categorie?: string | null
+          created_at?: string
+          email_from: string
+          gmail_message_id?: string | null
+          id?: string
+          message: string
+          priorite?: string | null
+          statut?: string | null
+          sujet: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          categorie?: string | null
+          created_at?: string
+          email_from?: string
+          gmail_message_id?: string | null
+          id?: string
+          message?: string
+          priorite?: string | null
+          statut?: string | null
+          sujet?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
