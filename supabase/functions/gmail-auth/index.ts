@@ -16,7 +16,7 @@ const handler = async (req: Request): Promise<Response> => {
     // Configuration OAuth Google
     const clientId = Deno.env.get('GOOGLE_CLIENT_ID');
     const clientSecret = Deno.env.get('GOOGLE_CLIENT_SECRET');
-    const redirectUri = `${url.origin}/functions/v1/gmail-auth-callback`;
+    const redirectUri = 'https://cxcdfurwsefllhxucjnz.supabase.co/functions/v1/gmail-auth-callback';
     
     if (!clientId || !clientSecret) {
       return new Response(
