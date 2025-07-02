@@ -31,20 +31,28 @@ const Support = () => {
   useEffect(() => {
     loadTickets();
     
-    // Vérifier si on revient de l'authentification Gmail
+    // Vérifier si on revient de la synchronisation Gmail
     const urlParams = new URLSearchParams(window.location.search);
-    const accessToken = urlParams.get('access_token');
-    const email = urlParams.get('user_email');
+    const gmailSync = urlParams.get('gmail_sync');
+    const processedCount = urlParams.get('processed_count');
+    const userEmail = urlParams.get('user_email');
+    const gmailError = urlParams.get('gmail_error');
     
-    if (accessToken && email) {
-      setGmailAccessToken(accessToken);
-      setUserEmail(email);
-      // Nettoyer l'URL
-      window.history.replaceState({}, document.title, window.location.pathname);
+    if (gmailSync === 'success' && processedCount) {
       toast({
-        title: "Gmail connecté",
-        description: `Synchronisation activée pour ${email}`,
+        title: "Gmail synchronisé",
+        description: `${processedCount} tickets créés depuis Gmail (${userEmail})`,
       });
+      // Nettoyer l'URL et recharger les tickets
+      window.history.replaceState({}, document.title, window.location.pathname);
+      loadTickets();
+    } else if (gmailError) {
+      toast({
+        title: "Erreur Gmail",
+        description: "La synchronisation Gmail a échoué",
+        variant: "destructive",
+      });
+      window.history.replaceState({}, document.title, window.location.pathname);
     }
   }, [user]);
 
@@ -81,8 +89,8 @@ const Support = () => {
 
   const authenticateGmail = async () => {
     try {
-      // Appeler directement l'URL de la fonction gmail-auth
-      const authUrl = `https://cxcdfurwsefllhxucjnz.supabase.co/functions/v1/gmail-auth`;
+      // Appeler directement l'URL de la fonction pour obtenir l'URL d'auth
+      const authUrl = `https://cxcdfurwsefllhxucjnz.supabase.co/functions/v1/gmail-support`;
       
       const response = await fetch(authUrl, {
         method: 'GET',
@@ -97,8 +105,8 @@ const Support = () => {
       
       const data = await response.json();
       
-      // Rediriger vers l'URL d'authentification Google
-      window.open(data.authUrl, '_blank');
+      // Rediriger vers l'URL d'authentification Google dans la même fenêtre
+      window.location.href = data.authUrl;
       
     } catch (error: any) {
       console.error('Error starting Gmail auth:', error);
@@ -111,54 +119,8 @@ const Support = () => {
   };
 
   const refreshGmailTickets = async () => {
-    if (!gmailAccessToken) {
-      toast({
-        title: "Gmail non connecté",
-        description: "Veuillez d'abord vous connecter à Gmail",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    setIsRefreshing(true);
-    try {
-      // Appeler directement l'URL de la fonction gmail-support
-      const supportUrl = `https://cxcdfurwsefllhxucjnz.supabase.co/functions/v1/gmail-support`;
-      
-      const response = await fetch(supportUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          accessToken: gmailAccessToken,
-          userEmail: userEmail
-        })
-      });
-      
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      
-      const data = await response.json();
-      
-      toast({
-        title: "Synchronisation réussie",
-        description: data.message || `${data.processed} messages Gmail traités`,
-      });
-      
-      // Recharger les tickets après synchronisation
-      await loadTickets();
-    } catch (error: any) {
-      console.error('Error refreshing Gmail tickets:', error);
-      toast({
-        title: "Erreur de synchronisation",
-        description: `Impossible de synchroniser avec Gmail: ${error.message}`,
-        variant: "destructive",
-      });
-    } finally {
-      setIsRefreshing(false);
-    }
+    // Pour cette version simplifiée, on redirige vers l'auth Gmail
+    authenticateGmail();
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -355,35 +317,16 @@ const Support = () => {
                 </div>
                 <span className="text-foreground">Mes tickets de support</span>
               </div>
-              <div className="flex flex-col sm:flex-row gap-2">
-                {!gmailAccessToken ? (
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={authenticateGmail}
-                    className="flex items-center space-x-1"
-                  >
-                    <Mail className="w-4 h-4" />
-                    <span>Connecter Gmail</span>
-                  </Button>
-                ) : (
-                  <div className="flex items-center space-x-2">
-                    <Badge variant="secondary" className="text-xs">
-                      Gmail connecté: {userEmail}
-                    </Badge>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={refreshGmailTickets}
-                      disabled={isRefreshing}
-                      className="flex items-center space-x-1"
-                    >
-                      <RefreshCw className={`w-4 h-4 ${isRefreshing ? 'animate-spin' : ''}`} />
-                      <span>Synchroniser</span>
-                    </Button>
-                  </div>
-                )}
-              </div>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={authenticateGmail}
+                disabled={isRefreshing}
+                className="flex items-center space-x-1"
+              >
+                <RefreshCw className={`w-4 h-4 ${isRefreshing ? 'animate-spin' : ''}`} />
+                <span>Synchroniser Gmail</span>
+              </Button>
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
