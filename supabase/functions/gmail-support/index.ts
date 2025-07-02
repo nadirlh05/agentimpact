@@ -35,7 +35,7 @@ const handler = async (req: Request): Promise<Response> => {
     }
 
     // Route 1: Démarrer l'authentification OAuth
-    if (req.method === 'GET' && url.pathname.includes('/gmail-support')) {
+    if (req.method === 'GET' && !url.pathname.includes('/callback')) {
       const authUrl = new URL('https://accounts.google.com/o/oauth2/v2/auth');
       authUrl.searchParams.set('client_id', clientId);
       authUrl.searchParams.set('redirect_uri', redirectUri);
