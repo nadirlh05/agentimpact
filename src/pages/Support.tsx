@@ -81,9 +81,21 @@ const Support = () => {
 
   const authenticateGmail = async () => {
     try {
-      const { data, error } = await supabase.functions.invoke('gmail-auth');
+      // Appeler directement l'URL de la fonction gmail-auth
+      const authUrl = `https://cxcdfurwsefllhxucjnz.supabase.co/functions/v1/gmail-auth`;
       
-      if (error) throw error;
+      const response = await fetch(authUrl, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      const data = await response.json();
       
       // Rediriger vers l'URL d'authentification Google
       window.open(data.authUrl, '_blank');
@@ -92,7 +104,7 @@ const Support = () => {
       console.error('Error starting Gmail auth:', error);
       toast({
         title: "Erreur d'authentification",
-        description: "Impossible de démarrer l'authentification Gmail",
+        description: `Impossible de démarrer l'authentification Gmail: ${error.message}`,
         variant: "destructive",
       });
     }
@@ -110,14 +122,25 @@ const Support = () => {
 
     setIsRefreshing(true);
     try {
-      const { data, error } = await supabase.functions.invoke('gmail-support', {
-        body: {
+      // Appeler directement l'URL de la fonction gmail-support
+      const supportUrl = `https://cxcdfurwsefllhxucjnz.supabase.co/functions/v1/gmail-support`;
+      
+      const response = await fetch(supportUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
           accessToken: gmailAccessToken,
           userEmail: userEmail
-        }
+        })
       });
       
-      if (error) throw error;
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      const data = await response.json();
       
       toast({
         title: "Synchronisation réussie",
