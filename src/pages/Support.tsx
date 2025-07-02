@@ -38,16 +38,19 @@ const Support = () => {
       const { data, error } = await supabase
         .from('support_tickets')
         .select('*')
-        .or(`user_id.eq.${user.id},email_from.eq.${user.email}`)
+        .or(`user_id.eq.${user.id},email_from.eq."${user.email}"`)
         .order('created_at', { ascending: false });
 
-      if (error) throw error;
+      if (error) {
+        console.error('Supabase error:', error);
+        throw error;
+      }
       setTickets(data || []);
     } catch (error: any) {
       console.error('Error loading tickets:', error);
       toast({
-        title: "Erreur",
-        description: "Impossible de charger les tickets",
+        title: "Erreur de chargement",
+        description: `Impossible de charger les tickets: ${error.message}`,
         variant: "destructive",
       });
     } finally {
@@ -81,7 +84,7 @@ const Support = () => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!formData.sujet || !formData.categorie || !formData.message) {
@@ -93,17 +96,62 @@ const Support = () => {
       return;
     }
 
-    toast({
-      title: "Ticket créé",
-      description: "Votre demande a été envoyée. Nous vous répondrons sous 24h.",
-    });
+    if (!user) {
+      toast({
+        title: "Erreur",
+        description: "Vous devez être connecté pour créer un ticket.",
+        variant: "destructive",
+      });
+      return;
+    }
 
-    setFormData({
-      sujet: '',
-      categorie: '',
-      message: '',
-      priorite: 'normale'
-    });
+    setIsLoading(true);
+    try {
+      const { data, error } = await supabase
+        .from('support_tickets')
+        .insert({
+          user_id: user.id,
+          email_from: user.email || '',
+          sujet: formData.sujet,
+          categorie: formData.categorie,
+          message: formData.message,
+          priorite: formData.priorite,
+          statut: 'En attente'
+        })
+        .select()
+        .single();
+
+      if (error) {
+        console.error('Error creating ticket:', error);
+        throw error;
+      }
+
+      toast({
+        title: "Ticket créé avec succès",
+        description: `Votre ticket #${data.id.slice(0, 8)} a été créé. Nous vous répondrons sous 24h.`,
+      });
+
+      // Réinitialiser le formulaire
+      setFormData({
+        sujet: '',
+        categorie: '',
+        message: '',
+        priorite: 'normale'
+      });
+
+      // Recharger les tickets
+      await loadTickets();
+
+    } catch (error: any) {
+      console.error('Error creating ticket:', error);
+      toast({
+        title: "Erreur lors de la création",
+        description: `Impossible de créer le ticket: ${error.message}`,
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const getStatutColor = (statut: string) => {
@@ -209,8 +257,12 @@ const Support = () => {
                 />
               </div>
 
-              <Button type="submit" className="w-full">
-                Envoyer le ticket
+              <Button 
+                type="submit" 
+                className="w-full" 
+                disabled={isLoading}
+              >
+                {isLoading ? 'Création en cours...' : 'Envoyer le ticket'}
               </Button>
             </form>
           </CardContent>
