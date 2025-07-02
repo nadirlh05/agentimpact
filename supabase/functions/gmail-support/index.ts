@@ -56,7 +56,7 @@ const handler = async (req: Request): Promise<Response> => {
       
       if (!code) {
         // Rediriger vers l'app avec une erreur
-        const appUrl = new URL('https://preview--digital-future-agents.lovable.app/support');
+        const appUrl = new URL('https://16cef3ce-8556-4997-bd6a-33bb6433bff9.lovableproject.com/support');
         appUrl.searchParams.set('gmail_error', 'authorization_failed');
         return Response.redirect(appUrl.toString(), 302);
       }
@@ -96,7 +96,7 @@ const handler = async (req: Request): Promise<Response> => {
         const processed = await syncWithGmail(tokens.access_token, supabaseClient);
 
         // Rediriger vers l'application avec les résultats
-        const appUrl = new URL('https://preview--digital-future-agents.lovable.app/support');
+        const appUrl = new URL('https://16cef3ce-8556-4997-bd6a-33bb6433bff9.lovableproject.com/support');
         appUrl.searchParams.set('gmail_sync', 'success');
         appUrl.searchParams.set('processed_count', processed.toString());
         appUrl.searchParams.set('user_email', userInfo.email);
@@ -105,7 +105,7 @@ const handler = async (req: Request): Promise<Response> => {
 
       } catch (error) {
         console.error('OAuth callback error:', error);
-        const appUrl = new URL('https://preview--digital-future-agents.lovable.app/support');
+        const appUrl = new URL('https://16cef3ce-8556-4997-bd6a-33bb6433bff9.lovableproject.com/support');
         appUrl.searchParams.set('gmail_error', 'sync_failed');
         return Response.redirect(appUrl.toString(), 302);
       }
