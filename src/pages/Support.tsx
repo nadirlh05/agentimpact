@@ -120,22 +120,26 @@ const Support = () => {
   };
 
   return (
-    <div className="p-6 space-y-6">
-      <div className="text-center">
-        <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-          <MessageSquare className="w-8 h-8 text-blue-600" />
+    <div className="space-y-8">
+      <div className="text-center space-y-4">
+        <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto">
+          <MessageSquare className="w-8 h-8 text-primary" />
         </div>
-        <h1 className="text-3xl font-bold text-gray-900">Support Client</h1>
-        <p className="text-gray-600 mt-2">Nous sommes là pour vous aider</p>
+        <div>
+          <h1 className="text-3xl font-bold text-foreground">Support technique</h1>
+          <p className="text-muted-foreground mt-2">Notre équipe d'experts est là pour vous accompagner dans votre transformation IA</p>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Formulaire de contact */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center space-x-2">
-              <Mail className="w-5 h-5" />
-              <span>Créer un ticket</span>
+        <Card className="border border-border bg-card shadow-soft">
+          <CardHeader className="border-b border-border">
+            <CardTitle className="flex items-center space-x-3">
+              <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
+                <Mail className="w-4 h-4 text-primary" />
+              </div>
+              <span className="text-foreground">Créer un nouveau ticket</span>
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -213,12 +217,14 @@ const Support = () => {
         </Card>
 
         {/* Mes tickets */}
-        <Card>
-          <CardHeader>
+        <Card className="border border-border bg-card shadow-soft">
+          <CardHeader className="border-b border-border">
             <CardTitle className="flex items-center justify-between">
-              <div className="flex items-center space-x-2">
-                <Clock className="w-5 h-5" />
-                <span>Mes tickets</span>
+              <div className="flex items-center space-x-3">
+                <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
+                  <Clock className="w-4 h-4 text-primary" />
+                </div>
+                <span className="text-foreground">Mes tickets de support</span>
               </div>
               <Button
                 variant="outline"
@@ -287,26 +293,36 @@ const Support = () => {
       </div>
 
       {/* Informations de contact */}
-      <Card className="bg-blue-50">
-        <CardContent className="p-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-            <div>
-              <Mail className="w-8 h-8 text-blue-600 mx-auto mb-2" />
-              <h3 className="font-medium text-gray-900">Email</h3>
-              <p className="text-sm text-gray-600">support@productgenerator.com</p>
-              <p className="text-xs text-gray-500 mt-1">Réponse sous 24h</p>
+      <Card className="bg-gradient-secondary border-0 shadow-large">
+        <CardContent className="p-8">
+          <div className="text-center mb-8">
+            <h3 className="text-xl font-semibold text-foreground mb-2">Autres moyens de nous contacter</h3>
+            <p className="text-muted-foreground">Choisissez le canal qui vous convient le mieux</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="text-center">
+              <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mx-auto mb-4">
+                <Mail className="w-6 h-6 text-primary" />
+              </div>
+              <h4 className="font-semibold text-foreground mb-2">Email</h4>
+              <p className="text-sm text-muted-foreground mb-1">support@digitalfuture.ai</p>
+              <p className="text-xs text-muted-foreground">Réponse sous 24h</p>
             </div>
-            <div>
-              <Clock className="w-8 h-8 text-blue-600 mx-auto mb-2" />
-              <h3 className="font-medium text-gray-900">Horaires</h3>
-              <p className="text-sm text-gray-600">Lun-Ven 9h-18h</p>
-              <p className="text-xs text-gray-500 mt-1">Heure de Paris</p>
+            <div className="text-center">
+              <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mx-auto mb-4">
+                <Clock className="w-6 h-6 text-primary" />
+              </div>
+              <h4 className="font-semibold text-foreground mb-2">Horaires</h4>
+              <p className="text-sm text-muted-foreground mb-1">Lun-Ven 9h-18h</p>
+              <p className="text-xs text-muted-foreground">Heure de Paris</p>
             </div>
-            <div>
-              <MessageSquare className="w-8 h-8 text-blue-600 mx-auto mb-2" />
-              <h3 className="font-medium text-gray-900">Chat en direct</h3>
-              <p className="text-sm text-gray-600">Disponible pour Pro+</p>
-              <p className="text-xs text-gray-500 mt-1">Réponse immédiate</p>
+            <div className="text-center">
+              <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mx-auto mb-4">
+                <MessageSquare className="w-6 h-6 text-primary" />
+              </div>
+              <h4 className="font-semibold text-foreground mb-2">Support prioritaire</h4>
+              <p className="text-sm text-muted-foreground mb-1">Disponible pour Pro+</p>
+              <p className="text-xs text-muted-foreground">Réponse immédiate</p>
             </div>
           </div>
         </CardContent>

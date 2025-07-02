@@ -59,37 +59,43 @@ const FAQ = () => {
   };
 
   return (
-    <div className="p-6 space-y-6">
-      <div className="text-center">
-        <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-          <HelpCircle className="w-8 h-8 text-blue-600" />
+    <div className="space-y-8">
+      <div className="text-center space-y-4">
+        <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto">
+          <HelpCircle className="w-8 h-8 text-primary" />
         </div>
-        <h1 className="text-3xl font-bold text-gray-900">Questions Fréquentes</h1>
-        <p className="text-gray-600 mt-2">Trouvez rapidement les réponses à vos questions</p>
+        <div>
+          <h1 className="text-3xl font-bold text-foreground">Centre d'aide</h1>
+          <p className="text-muted-foreground mt-2">Trouvez rapidement les réponses à vos questions sur nos solutions IA</p>
+        </div>
       </div>
 
-      <div className="max-w-3xl mx-auto space-y-4">
+      <div className="max-w-4xl mx-auto space-y-4">
         {faqItems.map((item) => (
-          <Card key={item.id}>
+          <Card key={item.id} className="border border-border bg-card shadow-soft hover:shadow-medium transition-all duration-200">
             <Collapsible 
               open={openItems.includes(item.id)}
               onOpenChange={() => toggleItem(item.id)}
             >
               <CollapsibleTrigger asChild>
-                <CardHeader className="cursor-pointer hover:bg-gray-50 transition-colors">
+                <CardHeader className="cursor-pointer hover:bg-muted/50 transition-colors rounded-t-lg">
                   <CardTitle className="flex justify-between items-center text-left">
-                    <span className="text-lg font-medium">{item.question}</span>
-                    <ChevronDown 
-                      className={`w-5 h-5 transition-transform ${
-                        openItems.includes(item.id) ? 'rotate-180' : ''
-                      }`}
-                    />
+                    <span className="text-lg font-medium text-foreground">{item.question}</span>
+                    <div className="ml-4 flex-shrink-0">
+                      <ChevronDown 
+                        className={`w-5 h-5 text-muted-foreground transition-transform duration-200 ${
+                          openItems.includes(item.id) ? 'rotate-180' : ''
+                        }`}
+                      />
+                    </div>
                   </CardTitle>
                 </CardHeader>
               </CollapsibleTrigger>
               <CollapsibleContent>
-                <CardContent className="pt-0">
-                  <p className="text-gray-600 leading-relaxed">{item.reponse}</p>
+                <CardContent className="pt-0 pb-6">
+                  <div className="border-t border-border pt-4">
+                    <p className="text-muted-foreground leading-relaxed">{item.reponse}</p>
+                  </div>
                 </CardContent>
               </CollapsibleContent>
             </Collapsible>
@@ -97,20 +103,25 @@ const FAQ = () => {
         ))}
       </div>
 
-      <div className="text-center bg-blue-50 rounded-lg p-6 max-w-2xl mx-auto">
-        <h3 className="text-lg font-medium text-gray-900 mb-2">
-          Vous ne trouvez pas votre réponse ?
-        </h3>
-        <p className="text-gray-600 mb-4">
-          Notre équipe support est là pour vous aider
-        </p>
-        <a 
-          href="/support" 
-          className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
-        >
-          Contacter le support
-        </a>
-      </div>
+      <Card className="bg-gradient-secondary border-0 shadow-large max-w-2xl mx-auto">
+        <CardContent className="p-8 text-center">
+          <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mx-auto mb-4">
+            <HelpCircle className="w-6 h-6 text-primary" />
+          </div>
+          <h3 className="text-xl font-semibold text-foreground mb-2">
+            Une autre question ?
+          </h3>
+          <p className="text-muted-foreground mb-6">
+            Notre équipe d'experts en IA est là pour vous accompagner
+          </p>
+          <a 
+            href="/support" 
+            className="inline-flex items-center px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:opacity-90 transition-opacity font-medium shadow-medium"
+          >
+            Contacter le support
+          </a>
+        </CardContent>
+      </Card>
     </div>
   );
 };

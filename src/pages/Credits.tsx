@@ -150,19 +150,19 @@ const Credits = () => {
   return (
     <div className="p-6 space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-gray-900">Nos Tarifs</h1>
-        <p className="text-gray-600 mt-2">Choisissez l'offre qui correspond le mieux à vos besoins</p>
+        <h1 className="text-3xl font-bold text-foreground">Solutions & Tarifs</h1>
+        <p className="text-muted-foreground mt-2">Choisissez l'offre qui correspond le mieux à vos besoins d'automatisation IA</p>
       </div>
 
       {/* Solde actuel */}
-      <Card className="bg-gradient-to-r from-blue-500 to-purple-600 text-white">
+      <Card className="bg-gradient-primary text-primary-foreground shadow-large">
         <CardContent className="p-6">
           <div className="flex items-center justify-between">
             <div>
               <h3 className="text-lg font-medium opacity-90">Solde actuel</h3>
               <p className="text-3xl font-bold">{creditsActuels.toLocaleString()} crédits</p>
             </div>
-            <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center">
+            <div className="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center">
               <Zap className="w-8 h-8" />
             </div>
           </div>

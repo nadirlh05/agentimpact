@@ -64,13 +64,13 @@ const Projets = () => {
   const getStatusColor = (statut: string) => {
     switch (statut) {
       case "En cours":
-        return "bg-blue-100 text-blue-800";
+        return "bg-primary/10 text-primary border-primary/20";
       case "Terminé":
-        return "bg-green-100 text-green-800";
+        return "bg-green-100 text-green-700 border-green-200";
       case "En attente":
-        return "bg-yellow-100 text-yellow-800";
+        return "bg-yellow-100 text-yellow-700 border-yellow-200";
       default:
-        return "bg-gray-100 text-gray-800";
+        return "bg-muted text-muted-foreground border-border";
     }
   };
 
@@ -89,66 +89,136 @@ const Projets = () => {
   }
 
   return (
-    <div className="p-6 space-y-6">
-      <div className="flex justify-between items-center">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">Mes Projets de Coaching IA</h1>
-          <p className="text-gray-600 mt-2">Gérez vos projets de coaching et solutions IA personnalisées</p>
-        </div>
-        <Button onClick={() => navigate('/generator')} className="flex items-center space-x-2">
-          <Plus className="w-4 h-4" />
-          <span>Nouveau projet</span>
-        </Button>
-      </div>
-
-      {projects.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {projects.map((projet) => {
-            const IconComponent = getProjectIcon(projet.name);
-            return (
-              <Card key={projet.id} className="hover:shadow-lg transition-shadow cursor-pointer">
-                <CardHeader className="pb-3">
-                  <div className="flex justify-between items-start">
-                    <div className="flex items-center space-x-2">
-                      <IconComponent className="w-5 h-5 text-blue-600" />
-                      <CardTitle className="text-lg">{projet.name}</CardTitle>
-                    </div>
-                    <Button variant="ghost" size="sm">
-                      <Settings className="w-4 h-4" />
-                    </Button>
-                  </div>
-                  <Badge className={getStatusColor(projet.status)} variant="secondary">
-                    {projet.status}
-                  </Badge>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  <p className="text-gray-600 text-sm">{projet.description || "Description du projet de coaching à ajouter"}</p>
-                  <div className="flex items-center space-x-2 text-sm text-gray-500">
-                    <Calendar className="w-4 h-4" />
-                    <span>Créé le {new Date(projet.created_at).toLocaleDateString('fr-FR')}</span>
-                  </div>
-                  <div className="flex justify-between items-center pt-2">
-                    <Button variant="outline" size="sm">
-                      Voir le coaching
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            );
-          })}
-        </div>
-      ) : (
-        <div className="text-center py-12">
-          <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <Bot className="w-8 h-8 text-blue-600" />
+    <div className="space-y-8">
+      {/* Header avec statistiques */}
+      <div className="space-y-6">
+        <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4">
+          <div>
+            <h1 className="text-3xl font-bold text-foreground">Tableau de bord</h1>
+            <p className="text-muted-foreground mt-2">Vue d'ensemble de vos projets et automatisations IA</p>
           </div>
-          <h3 className="text-lg font-medium text-gray-900 mb-2">Aucun projet de coaching</h3>
-          <p className="text-gray-500 mb-4">Commencez par créer votre premier projet de coaching IA</p>
-          <Button onClick={() => navigate('/generator')}>
-            Créer un projet de coaching
+          <Button onClick={() => navigate('/generator')} className="bg-gradient-primary text-primary-foreground hover:opacity-90 transition-opacity shadow-medium">
+            <Plus className="w-4 h-4 mr-2" />
+            Nouveau projet
           </Button>
         </div>
-      )}
+
+        {/* Statistiques */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <Card className="border border-border bg-card shadow-soft">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-muted-foreground font-medium">Projets actifs</p>
+                  <p className="text-3xl font-bold text-foreground">{projects.filter(p => p.status === 'En cours').length}</p>
+                </div>
+                <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
+                  <Target className="w-6 h-6 text-primary" />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="border border-border bg-card shadow-soft">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-muted-foreground font-medium">Projets terminés</p>
+                  <p className="text-3xl font-bold text-foreground">{projects.filter(p => p.status === 'Terminé').length}</p>
+                </div>
+                <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
+                  <Bot className="w-6 h-6 text-green-600" />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="border border-border bg-card shadow-soft">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-muted-foreground font-medium">Total projets</p>
+                  <p className="text-3xl font-bold text-foreground">{projects.length}</p>
+                </div>
+                <div className="w-12 h-12 bg-accent/10 rounded-xl flex items-center justify-center">
+                  <Users className="w-6 h-6 text-accent" />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+
+      {/* Liste des projets */}
+      <div className="space-y-6">
+        <div className="flex justify-between items-center">
+          <h2 className="text-xl font-semibold text-foreground">Mes Projets</h2>
+          {projects.length > 0 && (
+            <p className="text-sm text-muted-foreground">{projects.length} projet{projects.length > 1 ? 's' : ''}</p>
+          )}
+        </div>
+
+        {projects.length > 0 ? (
+          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+            {projects.map((projet) => {
+              const IconComponent = getProjectIcon(projet.name);
+              return (
+                <Card key={projet.id} className="group border border-border bg-card shadow-soft hover:shadow-medium transition-all duration-200 hover:-translate-y-1 cursor-pointer">
+                  <CardHeader className="pb-4">
+                    <div className="flex justify-between items-start">
+                      <div className="flex items-center space-x-3">
+                        <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                          <IconComponent className="w-5 h-5" />
+                        </div>
+                        <div>
+                          <CardTitle className="text-lg text-foreground">{projet.name}</CardTitle>
+                          <Badge 
+                            className={`${getStatusColor(projet.status)} text-xs`} 
+                            variant="secondary"
+                          >
+                            {projet.status}
+                          </Badge>
+                        </div>
+                      </div>
+                      <Button variant="ghost" size="sm" className="opacity-0 group-hover:opacity-100 transition-opacity">
+                        <Settings className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <p className="text-muted-foreground text-sm leading-relaxed">{projet.description || "Description du projet à ajouter"}</p>
+                    <div className="flex items-center space-x-2 text-sm text-muted-foreground">
+                      <Calendar className="w-4 h-4" />
+                      <span>Créé le {new Date(projet.created_at).toLocaleDateString('fr-FR')}</span>
+                    </div>
+                    <div className="pt-2 border-t border-border">
+                      <Button variant="outline" size="sm" className="w-full group-hover:border-primary group-hover:text-primary transition-colors">
+                        Voir le projet
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </div>
+        ) : (
+          <Card className="border border-dashed border-border bg-muted/30">
+            <CardContent className="p-12 text-center">
+              <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                <Bot className="w-8 h-8 text-primary" />
+              </div>
+              <h3 className="text-xl font-semibold text-foreground mb-2">Créez votre premier projet</h3>
+              <p className="text-muted-foreground mb-6 max-w-md mx-auto">
+                Commencez votre transformation digitale en créant un projet d'automatisation IA personnalisé
+              </p>
+              <Button onClick={() => navigate('/generator')} className="bg-gradient-primary text-primary-foreground hover:opacity-90">
+                <Plus className="w-4 h-4 mr-2" />
+                Créer un projet
+              </Button>
+            </CardContent>
+          </Card>
+        )}
+      </div>
     </div>
   );
 };

@@ -9,17 +9,24 @@ interface AuthenticatedLayoutProps {
 const AuthenticatedLayout = ({ children }: AuthenticatedLayoutProps) => {
   return (
     <SidebarProvider>
-      <div className="min-h-screen flex w-full">
+      <div className="min-h-screen flex w-full bg-background">
         <AppSidebar />
         <SidebarInset className="flex-1">
-          <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
-            <SidebarTrigger className="-ml-1" />
-            <div className="mx-auto">
-              <h2 className="text-lg font-semibold">Product Generator</h2>
+          <header className="flex h-16 shrink-0 items-center gap-4 border-b px-6 bg-card/50 backdrop-blur-sm">
+            <SidebarTrigger className="-ml-1 p-2 hover:bg-muted rounded-lg transition-colors" />
+            <div className="flex-1">
+              <div className="flex items-center space-x-4">
+                <div>
+                  <h1 className="text-xl font-bold text-foreground">Digital Future Agents</h1>
+                  <p className="text-sm text-muted-foreground">Plateforme d'automatisation IA</p>
+                </div>
+              </div>
             </div>
           </header>
-          <main className="flex-1 overflow-auto p-4">
-            {children}
+          <main className="flex-1 overflow-auto p-6 bg-background">
+            <div className="max-w-7xl mx-auto">
+              {children}
+            </div>
           </main>
         </SidebarInset>
       </div>
