@@ -75,6 +75,164 @@ export type Database = {
         }
         Relationships: []
       }
+      client_ai_solutions: {
+        Row: {
+          benefits: string[] | null
+          category: string
+          complexity_level: string | null
+          created_at: string
+          description: string
+          features: string[] | null
+          id: string
+          implementation_time: string | null
+          is_active: boolean | null
+          name: string
+          price_max: number | null
+          price_min: number | null
+          pricing_model: string | null
+          roi_estimate: string | null
+          subcategory: string | null
+          target_company_size: string[] | null
+          target_industries: string[] | null
+          updated_at: string
+        }
+        Insert: {
+          benefits?: string[] | null
+          category: string
+          complexity_level?: string | null
+          created_at?: string
+          description: string
+          features?: string[] | null
+          id?: string
+          implementation_time?: string | null
+          is_active?: boolean | null
+          name: string
+          price_max?: number | null
+          price_min?: number | null
+          pricing_model?: string | null
+          roi_estimate?: string | null
+          subcategory?: string | null
+          target_company_size?: string[] | null
+          target_industries?: string[] | null
+          updated_at?: string
+        }
+        Update: {
+          benefits?: string[] | null
+          category?: string
+          complexity_level?: string | null
+          created_at?: string
+          description?: string
+          features?: string[] | null
+          id?: string
+          implementation_time?: string | null
+          is_active?: boolean | null
+          name?: string
+          price_max?: number | null
+          price_min?: number | null
+          pricing_model?: string | null
+          roi_estimate?: string | null
+          subcategory?: string | null
+          target_company_size?: string[] | null
+          target_industries?: string[] | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      coaching_projects_ia: {
+        Row: {
+          budget: number | null
+          created_at: string
+          end_date: string | null
+          id: string
+          milestones: Json | null
+          notes: string | null
+          opportunity_id: string | null
+          progress_percentage: number | null
+          project_name: string
+          project_type: string | null
+          start_date: string | null
+          status: string | null
+          team_members: string[] | null
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          budget?: number | null
+          created_at?: string
+          end_date?: string | null
+          id?: string
+          milestones?: Json | null
+          notes?: string | null
+          opportunity_id?: string | null
+          progress_percentage?: number | null
+          project_name: string
+          project_type?: string | null
+          start_date?: string | null
+          status?: string | null
+          team_members?: string[] | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          budget?: number | null
+          created_at?: string
+          end_date?: string | null
+          id?: string
+          milestones?: Json | null
+          notes?: string | null
+          opportunity_id?: string | null
+          progress_percentage?: number | null
+          project_name?: string
+          project_type?: string | null
+          start_date?: string | null
+          status?: string | null
+          team_members?: string[] | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "coaching_projects_ia_opportunity_id_fkey"
+            columns: ["opportunity_id"]
+            isOneToOne: false
+            referencedRelation: "opportunities_ia"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      companies: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          industry: string | null
+          name: string
+          size_category: string | null
+          updated_at: string
+          website: string | null
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          industry?: string | null
+          name: string
+          size_category?: string | null
+          updated_at?: string
+          website?: string | null
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          industry?: string | null
+          name?: string
+          size_category?: string | null
+          updated_at?: string
+          website?: string | null
+        }
+        Relationships: []
+      }
       generated_descriptions: {
         Row: {
           bold_words: string[] | null
@@ -121,6 +279,140 @@ export type Database = {
             columns: ["project_id"]
             isOneToOne: false
             referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      leads_prospects_ia: {
+        Row: {
+          company_id: string | null
+          created_at: string
+          email: string
+          first_name: string
+          id: string
+          last_name: string
+          lead_source: string | null
+          notes: string | null
+          phone: string | null
+          position: string | null
+          priority: string | null
+          status: string | null
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          company_id?: string | null
+          created_at?: string
+          email: string
+          first_name: string
+          id?: string
+          last_name: string
+          lead_source?: string | null
+          notes?: string | null
+          phone?: string | null
+          position?: string | null
+          priority?: string | null
+          status?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          company_id?: string | null
+          created_at?: string
+          email?: string
+          first_name?: string
+          id?: string
+          last_name?: string
+          lead_source?: string | null
+          notes?: string | null
+          phone?: string | null
+          position?: string | null
+          priority?: string | null
+          status?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "leads_prospects_ia_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      opportunities_ia: {
+        Row: {
+          company_id: string | null
+          configured_solutions: Json | null
+          created_at: string
+          description: string | null
+          estimated_value: number | null
+          expected_close_date: string | null
+          id: string
+          lead_id: string | null
+          notes: string | null
+          payment_status: string | null
+          probability: number | null
+          stage: string | null
+          stripe_session_id: string | null
+          title: string
+          total_estimated_price: number | null
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          company_id?: string | null
+          configured_solutions?: Json | null
+          created_at?: string
+          description?: string | null
+          estimated_value?: number | null
+          expected_close_date?: string | null
+          id?: string
+          lead_id?: string | null
+          notes?: string | null
+          payment_status?: string | null
+          probability?: number | null
+          stage?: string | null
+          stripe_session_id?: string | null
+          title: string
+          total_estimated_price?: number | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          company_id?: string | null
+          configured_solutions?: Json | null
+          created_at?: string
+          description?: string | null
+          estimated_value?: number | null
+          expected_close_date?: string | null
+          id?: string
+          lead_id?: string | null
+          notes?: string | null
+          payment_status?: string | null
+          probability?: number | null
+          stage?: string | null
+          stripe_session_id?: string | null
+          title?: string
+          total_estimated_price?: number | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "opportunities_ia_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "opportunities_ia_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads_prospects_ia"
             referencedColumns: ["id"]
           },
         ]
