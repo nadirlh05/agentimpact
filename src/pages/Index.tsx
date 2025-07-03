@@ -1,6 +1,6 @@
 import { 
-  Search, 
-  Star, 
+  Brain, 
+  Sparkles, 
   ArrowRight, 
   Zap, 
   Shield, 
@@ -9,11 +9,14 @@ import {
   ChevronRight, 
   Settings,
   BarChart3,
-  NetworkIcon,
+  Lightbulb,
   CheckCircle,
-  Target,
+  Rocket,
   Clock,
-  DollarSign
+  DollarSign,
+  MessageSquare,
+  Code,
+  Bot
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -35,24 +38,24 @@ const Index = () => {
     inactivityDelay: 45000
   });
 
-  const supplierSolutions = [
+  const aiServices = [
     { 
-      name: "Évaluation des Fournisseurs", 
-      icon: Shield, 
-      description: "IA d'analyse des risques et scoring automatique",
-      savings: "30% de réduction des risques"
+      name: "Automatisation Intelligente", 
+      icon: Bot, 
+      description: "Robots et assistants IA personnalisés pour votre métier",
+      benefit: "Jusqu'à 80% de gain de temps"
     },
     { 
-      name: "Gestion des Relations", 
-      icon: NetworkIcon, 
-      description: "Optimisation des communications et workflows",
-      savings: "50% gain de temps"
+      name: "Consultation IA", 
+      icon: Lightbulb, 
+      description: "Accompagnement stratégique et intégration d'IA",
+      benefit: "Solutions sur-mesure"
     },
     { 
-      name: "Analytics Prédictifs", 
-      icon: BarChart3, 
-      description: "Prévision des performances et anticipation",
-      savings: "25% amélioration ROI"
+      name: "Développement d'Agents", 
+      icon: Code, 
+      description: "Création d'agents IA spécialisés et workflows",
+      benefit: "ROI de 300% en moyenne"
     }
   ];
 
@@ -81,88 +84,88 @@ const Index = () => {
         </div>
       </header>
 
-      {/* Hero Section - Supplier Management Focus */}
-      <section 
-        className="py-16 md:py-24 relative overflow-hidden"
-        style={{
-          backgroundImage: `linear-gradient(rgba(79, 70, 229, 0.1), rgba(139, 92, 246, 0.1)), url(${heroImage})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center'
-        }}
-      >
+      {/* Hero Section - IA Services */}
+      <section className="py-16 md:py-24 relative overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
         <div className="container mx-auto px-4 text-center relative z-10">
           <div className="max-w-4xl mx-auto">
+            <div className="flex justify-center mb-6">
+              <div className="flex items-center space-x-2 bg-white/80 backdrop-blur-md px-4 py-2 rounded-full border">
+                <Brain className="w-5 h-5 text-violet-600" />
+                <span className="text-sm font-medium text-gray-700">Spécialiste IA & Automatisation</span>
+              </div>
+            </div>
+            
             <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-              Révolutionnez votre <span className="bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text text-transparent">Gestion de Fournisseurs</span> avec l'IA
+              Transformez votre entreprise avec <span className="bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text text-transparent">l'Intelligence Artificielle</span>
             </h1>
             <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-              Automatisez l'évaluation, optimisez les relations et prédisez les performances de vos fournisseurs. 
-              Réduisez vos coûts de 40% et gagnez 60% de temps administratif.
+              Auto-entrepreneur expert en IA, je vous accompagne dans l'intégration d'agents intelligents et l'automatisation de vos processus métier. 
+              Gagnez en efficacité et en compétitivité.
             </p>
             
             <div className="mb-8 flex flex-col sm:flex-row gap-4 justify-center">
               <Button
-                onClick={() => navigate('/configurator')}
+                onClick={() => navigate('/generator')}
                 size="lg"
                 className="bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-lg px-8 py-4"
               >
-                <Target className="w-5 h-5 mr-2" />
-                Analyser mes Fournisseurs
+                <Sparkles className="w-5 h-5 mr-2" />
+                Découvrir mes Services
               </Button>
               <Button
-                onClick={() => navigate('/auth')}
+                onClick={() => navigate('/support')}
                 size="lg"
                 variant="outline"
                 className="border-violet-600 text-violet-600 hover:bg-violet-50 text-lg px-8 py-4"
               >
-                <Settings className="w-5 h-5 mr-2" />
-                Démo Gratuite
+                <MessageSquare className="w-5 h-5 mr-2" />
+                Consultation Gratuite
               </Button>
             </div>
 
             <div className="flex justify-center items-center space-x-8 text-sm text-gray-500">
               <div className="flex items-center space-x-2">
-                <Shield className="w-4 h-4 text-green-600" />
-                <span>Conformité 100% garantie</span>
+                <CheckCircle className="w-4 h-4 text-green-600" />
+                <span>Expert certifié IA</span>
               </div>
               <div className="flex items-center space-x-2">
                 <Users className="w-4 h-4 text-blue-600" />
-                <span>500+ PME équipées</span>
+                <span>50+ projets réalisés</span>
               </div>
               <div className="flex items-center space-x-2">
                 <TrendingUp className="w-4 h-4 text-violet-600" />
-                <span>40% économies moyennes</span>
+                <span>ROI moyen de 300%</span>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Solutions Section */}
+      {/* Services Section */}
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              Solutions IA pour la Gestion de Fournisseurs
+              Mes Services d'Intelligence Artificielle
             </h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
-              Automatisez chaque étape de votre chaîne d'approvisionnement
+              Des solutions IA personnalisées pour automatiser et optimiser votre activité
             </p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {supplierSolutions.map((solution, index) => {
-              const IconComponent = solution.icon;
+            {aiServices.map((service, index) => {
+              const IconComponent = service.icon;
               return (
                 <Card key={index} className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-2 hover:border-blue-200">
                   <CardContent className="p-8 text-center">
                     <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-violet-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
                       <IconComponent className="w-8 h-8 text-white" />
                     </div>
-                    <h3 className="font-bold text-xl text-gray-900 mb-4">{solution.name}</h3>
-                    <p className="text-gray-600 mb-4">{solution.description}</p>
+                    <h3 className="font-bold text-xl text-gray-900 mb-4">{service.name}</h3>
+                    <p className="text-gray-600 mb-4">{service.description}</p>
                     <Badge className="bg-green-100 text-green-700 font-medium">
-                      {solution.savings}
+                      {service.benefit}
                     </Badge>
                   </CardContent>
                 </Card>
@@ -177,18 +180,19 @@ const Index = () => {
         <div className="container mx-auto px-4 text-center">
           <div className="max-w-3xl mx-auto text-white">
             <h2 className="text-3xl font-bold mb-4">
-              Prêt à optimiser votre gestion de fournisseurs ?
+              Prêt à intégrer l'IA dans votre entreprise ?
             </h2>
             <p className="text-xl mb-8 text-blue-100">
-              Rejoignez les entreprises qui ont déjà transformé leur supply chain avec l'IA
+              Transformez vos processus avec des solutions d'IA sur-mesure et gagnez en compétitivité
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button 
                 size="lg" 
                 className="bg-white text-blue-600 hover:bg-gray-100 font-semibold"
-                onClick={() => navigate('/configurator')}
+                onClick={() => navigate('/generator')}
               >
-                Commencer l'analyse
+                <Rocket className="w-5 h-5 mr-2" />
+                Commencer mon projet
               </Button>
               <Button 
                 size="lg" 
@@ -196,7 +200,8 @@ const Index = () => {
                 className="border-white text-white hover:bg-white hover:text-blue-600"
                 onClick={() => navigate('/support')}
               >
-                Contacter un expert
+                <MessageSquare className="w-5 h-5 mr-2" />
+                Discuter de mon besoin
               </Button>
             </div>
           </div>
