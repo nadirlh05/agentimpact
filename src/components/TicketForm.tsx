@@ -116,11 +116,12 @@ const TicketForm = () => {
 
       console.log('Ticket created successfully:', ticket);
 
-      setSubmitted(true);
       toast({
-        title: "Ticket créé avec succès",
-        description: `Votre ticket a été créé avec succès !`,
+        title: "✅ Ticket créé avec succès !",
+        description: `Votre ticket a été enregistré. Notre équipe vous répondra rapidement.`,
       });
+      
+      setSubmitted(true);
 
       // Reset form
       setFormData({
