@@ -88,7 +88,15 @@ const TicketForm = () => {
         return;
       }
 
-      // Create ticket in database (without file upload for now)
+      console.log('Creating ticket with data:', {
+        user_id: user.id,
+        email_from: formData.clientEmail,
+        sujet: formData.subject,
+        message: formData.description,
+        priorite: formData.priority.toLowerCase()
+      });
+
+      // Create ticket in database
       const { data: ticket, error: dbError } = await supabase
         .from('support_tickets')
         .insert({
@@ -96,50 +104,38 @@ const TicketForm = () => {
           email_from: formData.clientEmail,
           sujet: formData.subject,
           message: formData.description,
-          priorite: formData.priority.toLowerCase(),
-          statut: 'En attente'
+          priorite: formData.priority.toLowerCase()
         })
         .select()
         .single();
 
       if (dbError) {
-        console.error('Database error:', dbError);
-        throw dbError;
+        console.error('Database error details:', dbError);
+        throw new Error(`Erreur base de données: ${dbError.message}`);
       }
 
-      // Send notification emails
-      try {
-        const { error: emailError } = await supabase.functions.invoke('send-ticket-notification', {
-          body: {
-            ticketId: ticket.id,
-            clientName: formData.clientName,
-            clientEmail: formData.clientEmail,
-            subject: formData.subject,
-            description: formData.description,
-            priority: formData.priority
-          }
-        });
-
-        if (emailError) {
-          console.error('Email notification error:', emailError);
-          // Don't fail the whole process if email fails
-        }
-      } catch (emailError) {
-        console.error('Email function error:', emailError);
-        // Continue anyway
-      }
+      console.log('Ticket created successfully:', ticket);
 
       setSubmitted(true);
       toast({
         title: "Ticket créé avec succès",
-        description: `Votre ticket #${ticket.id.slice(-8)} a été créé. Vous recevrez une confirmation par email.`,
+        description: `Votre ticket a été créé avec succès !`,
+      });
+
+      // Reset form
+      setFormData({
+        clientName: '',
+        clientEmail: '',
+        subject: '',
+        description: '',
+        priority: 'Moyenne'
       });
 
     } catch (error) {
-      console.error('Error creating ticket:', error);
+      console.error('Full error details:', error);
       toast({
-        title: "Erreur",
-        description: `Erreur: ${error.message || 'Impossible de créer le ticket'}. Veuillez réessayer.`,
+        title: "Erreur lors de la création",
+        description: error.message || 'Une erreur est survenue',
         variant: "destructive",
       });
     } finally {
