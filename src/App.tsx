@@ -39,11 +39,7 @@ const AppContent = () => {
       ) : (
         // Routes pour utilisateurs connectés avec layout authentifié
         <>
-          <Route path="/" element={
-            <AuthenticatedLayout>
-              <Projets />
-            </AuthenticatedLayout>
-          } />
+          <Route path="/" element={<Navigate to="/projets" replace />} />
           <Route path="/projets" element={
             <AuthenticatedLayout>
               <Projets />
