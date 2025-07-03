@@ -9,6 +9,72 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      ai_assistant_conversations: {
+        Row: {
+          assistant_response: string
+          created_at: string
+          id: string
+          resolved: boolean | null
+          sentiment: string | null
+          session_id: string
+          user_id: string | null
+          user_message: string
+        }
+        Insert: {
+          assistant_response: string
+          created_at?: string
+          id?: string
+          resolved?: boolean | null
+          sentiment?: string | null
+          session_id: string
+          user_id?: string | null
+          user_message: string
+        }
+        Update: {
+          assistant_response?: string
+          created_at?: string
+          id?: string
+          resolved?: boolean | null
+          sentiment?: string | null
+          session_id?: string
+          user_id?: string | null
+          user_message?: string
+        }
+        Relationships: []
+      }
+      ai_assistant_knowledge: {
+        Row: {
+          category: string
+          content: string
+          created_at: string
+          id: string
+          is_active: boolean
+          keywords: string[] | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          category: string
+          content: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          keywords?: string[] | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          category?: string
+          content?: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          keywords?: string[] | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       generated_descriptions: {
         Row: {
           bold_words: string[] | null

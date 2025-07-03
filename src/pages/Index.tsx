@@ -4,9 +4,19 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useNavigate } from "react-router-dom";
+import { AIAssistant } from "@/components/AIAssistant";
+import { AIAssistantTrigger } from "@/components/AIAssistantTrigger";
+import { useAIAssistant } from "@/hooks/useAIAssistant";
 
 const Index = () => {
   const navigate = useNavigate();
+  const { isOpen, triggerSource, openAssistant, closeAssistant } = useAIAssistant({
+    enableExitIntent: true,
+    enableTimer: true,
+    enableInactivity: true,
+    timerDelay: 15000, // 15 seconds on homepage
+    inactivityDelay: 45000 // 45 seconds of inactivity
+  });
 
   const aiCategories = [
     { name: "Chatbots Conversationnels", icon: "💬", count: "127 solutions" },
@@ -338,6 +348,14 @@ const Index = () => {
           </div>
         </div>
       </footer>
+      
+      {/* AI Assistant */}
+      <AIAssistant 
+        isOpen={isOpen} 
+        onClose={closeAssistant} 
+        triggerSource={triggerSource} 
+      />
+      <AIAssistantTrigger onClick={openAssistant} />
     </div>
   );
 };
