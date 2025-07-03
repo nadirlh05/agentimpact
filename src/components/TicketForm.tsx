@@ -88,22 +88,7 @@ const TicketForm = () => {
         return;
       }
 
-      // Upload file if present
-      let attachmentUrl = null;
-      if (file) {
-        attachmentUrl = await uploadFile(file);
-        if (!attachmentUrl) {
-          toast({
-            title: "Erreur d'upload",
-            description: "Impossible d'uploader la pièce jointe. Veuillez réessayer.",
-            variant: "destructive",
-          });
-          setLoading(false);
-          return;
-        }
-      }
-
-      // Create ticket in database
+      // Create ticket in database (without file upload for now)
       const { data: ticket, error: dbError } = await supabase
         .from('support_tickets')
         .insert({
@@ -117,24 +102,31 @@ const TicketForm = () => {
         .select()
         .single();
 
-      if (dbError) throw dbError;
+      if (dbError) {
+        console.error('Database error:', dbError);
+        throw dbError;
+      }
 
       // Send notification emails
-      const { error: emailError } = await supabase.functions.invoke('send-ticket-notification', {
-        body: {
-          ticketId: ticket.id,
-          clientName: formData.clientName,
-          clientEmail: formData.clientEmail,
-          subject: formData.subject,
-          description: formData.description,
-          priority: formData.priority,
-          attachmentUrl
-        }
-      });
+      try {
+        const { error: emailError } = await supabase.functions.invoke('send-ticket-notification', {
+          body: {
+            ticketId: ticket.id,
+            clientName: formData.clientName,
+            clientEmail: formData.clientEmail,
+            subject: formData.subject,
+            description: formData.description,
+            priority: formData.priority
+          }
+        });
 
-      if (emailError) {
-        console.error('Email notification error:', emailError);
-        // Don't fail the whole process if email fails
+        if (emailError) {
+          console.error('Email notification error:', emailError);
+          // Don't fail the whole process if email fails
+        }
+      } catch (emailError) {
+        console.error('Email function error:', emailError);
+        // Continue anyway
       }
 
       setSubmitted(true);
@@ -147,7 +139,7 @@ const TicketForm = () => {
       console.error('Error creating ticket:', error);
       toast({
         title: "Erreur",
-        description: "Impossible de créer le ticket. Veuillez réessayer.",
+        description: `Erreur: ${error.message || 'Impossible de créer le ticket'}. Veuillez réessayer.`,
         variant: "destructive",
       });
     } finally {
@@ -248,36 +240,12 @@ const TicketForm = () => {
           <div className="space-y-2">
             <Label>Pièce Jointe (optionnel)</Label>
             <div className="border-2 border-dashed border-border rounded-lg p-4">
-              {!file ? (
-                <label htmlFor="file-upload" className="cursor-pointer block text-center">
-                  <Upload className="w-8 h-8 mx-auto mb-2 text-muted-foreground" />
-                  <span className="text-sm text-muted-foreground">
-                    Cliquez pour ajouter un fichier (max 5MB)
-                  </span>
-                  <input
-                    id="file-upload"
-                    type="file"
-                    className="hidden"
-                    onChange={handleFileChange}
-                    accept=".jpg,.jpeg,.png,.pdf,.txt,.docx"
-                  />
-                </label>
-              ) : (
-                <div className="flex items-center justify-between">
-                  <span className="text-sm truncate">{file.name}</span>
-                  <Button type="button" variant="ghost" size="sm" onClick={removeFile}>
-                    <X className="w-4 h-4" />
-                  </Button>
-                </div>
-              )}
-              {uploadProgress > 0 && uploadProgress < 100 && (
-                <div className="w-full bg-muted rounded-full h-2 mt-2">
-                  <div 
-                    className="bg-primary h-2 rounded-full transition-all duration-300" 
-                    style={{ width: `${uploadProgress}%` }}
-                  ></div>
-                </div>
-              )}
+              <div className="text-center">
+                <Upload className="w-8 h-8 mx-auto mb-2 text-muted-foreground" />
+                <span className="text-sm text-muted-foreground">
+                  Fonctionnalité de pièce jointe temporairement désactivée
+                </span>
+              </div>
             </div>
           </div>
 
