@@ -17,7 +17,6 @@ import NotFound from "./pages/NotFound";
 import AdminDashboard from "./pages/AdminDashboard";
 import ClientDashboard from "./pages/ClientDashboard";
 import AdminTickets from "./pages/AdminTickets";
-import AdminTicketDetail from "./pages/AdminTicketDetail";
 import AdminUsers from "./pages/AdminUsers";
 import Credits from "./pages/Credits";
 import FAQ from "./pages/FAQ";
@@ -71,7 +70,7 @@ const AppContent = () => {
           <Route path="/admin/tickets/:ticketId" element={
             <AdminRoute>
               <AuthenticatedLayout>
-                <AdminTicketDetail />
+                <div>Détail du ticket à venir</div>
               </AuthenticatedLayout>
             </AdminRoute>
           } />

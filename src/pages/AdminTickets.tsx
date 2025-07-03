@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import { 
   Search, 
   Filter, 
@@ -12,8 +13,12 @@ import {
   Clock,
   CheckCircle,
   AlertCircle,
-  Mail
+  Mail,
+  Send,
+  MessageSquare,
+  X
 } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import { Tables } from '@/integrations/supabase/types';
 import { useNavigate } from 'react-router-dom';
@@ -22,10 +27,14 @@ type Ticket = Tables<'support_tickets'>;
 
 const AdminTickets = () => {
   const navigate = useNavigate();
+  const { toast } = useToast();
   const [tickets, setTickets] = useState<Ticket[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
+  const [selectedTicket, setSelectedTicket] = useState<Ticket | null>(null);
+  const [responseText, setResponseText] = useState('');
+  const [sendingResponse, setSendingResponse] = useState(false);
 
   useEffect(() => {
     fetchTickets();
@@ -55,11 +64,37 @@ const AdminTickets = () => {
         .eq('id', ticketId);
 
       if (error) throw error;
+
+      // Send status update email
+      const ticket = tickets.find(t => t.id === ticketId);
+      if (ticket) {
+        await supabase.functions.invoke('send-ticket-email', {
+          body: {
+            type: 'status_update',
+            ticketId: ticket.id,
+            clientName: 'Client',
+            clientEmail: ticket.email_from,
+            subject: ticket.sujet,
+            message: ticket.message,
+            priority: ticket.priorite || 'normale',
+            status: newStatus
+          }
+        });
+      }
       
       // Refresh tickets
       fetchTickets();
+      toast({
+        title: "Statut mis à jour",
+        description: `Le ticket est maintenant "${newStatus}". Le client a été notifié par email.`,
+      });
     } catch (error) {
       console.error('Error updating ticket status:', error);
+      toast({
+        title: "Erreur",
+        description: "Impossible de mettre à jour le statut.",
+        variant: "destructive",
+      });
     }
   };
 
@@ -76,8 +111,62 @@ const AdminTickets = () => {
       
       // Refresh tickets
       fetchTickets();
+      toast({
+        title: "Ticket supprimé",
+        description: "Le ticket a été supprimé avec succès.",
+      });
     } catch (error) {
       console.error('Error deleting ticket:', error);
+      toast({
+        title: "Erreur",
+        description: "Impossible de supprimer le ticket.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const sendResponse = async (ticket: Ticket) => {
+    if (!responseText.trim()) return;
+
+    setSendingResponse(true);
+    try {
+      // Send response email
+      const { error } = await supabase.functions.invoke('send-ticket-email', {
+        body: {
+          type: 'admin_response',
+          ticketId: ticket.id,
+          clientName: 'Client',
+          clientEmail: ticket.email_from,
+          subject: ticket.sujet,
+          message: ticket.message,
+          priority: ticket.priorite || 'normale',
+          adminResponse: responseText,
+          adminName: 'Nadir Lahyani'
+        }
+      });
+
+      if (error) throw error;
+
+      // Update ticket status to "En cours" if it was pending
+      if (ticket.statut === 'En attente') {
+        await updateTicketStatus(ticket.id, 'En cours');
+      }
+
+      setResponseText('');
+      setSelectedTicket(null);
+      toast({
+        title: "Réponse envoyée",
+        description: "Votre réponse a été envoyée au client par email.",
+      });
+    } catch (error) {
+      console.error('Error sending response:', error);
+      toast({
+        title: "Erreur",
+        description: "Impossible d'envoyer la réponse.",
+        variant: "destructive",
+      });
+    } finally {
+      setSendingResponse(false);
     }
   };
 
@@ -228,10 +317,10 @@ const AdminTickets = () => {
                     <Button
                       size="sm"
                       variant="outline"
-                      onClick={() => navigate(`/admin/tickets/${ticket.id}`)}
+                      onClick={() => setSelectedTicket(ticket)}
                     >
-                      <Eye className="w-4 h-4 mr-1" />
-                      Voir détails
+                      <MessageSquare className="w-4 h-4 mr-1" />
+                      Répondre
                     </Button>
                     {ticket.statut !== 'Résolu' && (
                       <>
@@ -277,6 +366,72 @@ const AdminTickets = () => {
           </Card>
         )}
       </div>
+
+      {/* Response Modal */}
+      {selectedTicket && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <Card className="w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <CardTitle className="flex items-center space-x-2">
+                  <MessageSquare className="w-5 h-5" />
+                  <span>Répondre au ticket #{selectedTicket.id.slice(-8)}</span>
+                </CardTitle>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    setSelectedTicket(null);
+                    setResponseText('');
+                  }}
+                >
+                  <X className="w-4 h-4" />
+                </Button>
+              </div>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {/* Ticket Info */}
+              <div className="bg-muted p-4 rounded-lg">
+                <h3 className="font-semibold mb-2">{selectedTicket.sujet}</h3>
+                <p className="text-sm text-muted-foreground mb-2">
+                  De: {selectedTicket.email_from}
+                </p>
+                <p className="text-sm">{selectedTicket.message}</p>
+              </div>
+
+              {/* Response Form */}
+              <div>
+                <label className="text-sm font-medium">Votre réponse</label>
+                <Textarea
+                  placeholder="Tapez votre réponse ici..."
+                  value={responseText}
+                  onChange={(e) => setResponseText(e.target.value)}
+                  className="min-h-32 mt-2"
+                />
+              </div>
+
+              <div className="flex justify-end space-x-2">
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    setSelectedTicket(null);
+                    setResponseText('');
+                  }}
+                >
+                  Annuler
+                </Button>
+                <Button
+                  onClick={() => sendResponse(selectedTicket)}
+                  disabled={!responseText.trim() || sendingResponse}
+                >
+                  <Send className="w-4 h-4 mr-2" />
+                  {sendingResponse ? 'Envoi...' : 'Envoyer par email'}
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
     </div>
   );
 };
