@@ -105,7 +105,7 @@ const Index = () => {
             
             <div className="mb-8 flex flex-col sm:flex-row gap-4 justify-center">
               <Button
-                onClick={() => navigate('/generator')}
+                onClick={() => navigate('/services')}
                 size="lg"
                 className="bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-lg px-8 py-4"
               >
@@ -189,10 +189,10 @@ const Index = () => {
               <Button 
                 size="lg" 
                 className="bg-white text-blue-600 hover:bg-gray-100 font-semibold"
-                onClick={() => navigate('/generator')}
+                onClick={() => navigate('/services')}
               >
                 <Rocket className="w-5 h-5 mr-2" />
-                Commencer mon projet
+                Découvrir les services
               </Button>
               <Button 
                 size="lg" 

@@ -21,6 +21,7 @@ import AdminUsers from "./pages/AdminUsers";
 import Credits from "./pages/Credits";
 import FAQ from "./pages/FAQ";
 import Support from "./pages/Support";
+import Services from "./pages/Services";
 
 const queryClient = new QueryClient();
 
@@ -34,14 +35,15 @@ const AppContent = () => {
         // Routes pour utilisateurs non connectés
         <>
           <Route path="/" element={<Index />} />
+          <Route path="/services" element={<Services />} />
           <Route path="/auth" element={<Auth />} />
+          <Route path="/support" element={<Support />} />
+          <Route path="/faq" element={<FAQ />} />
           {/* Redirection vers auth pour toutes les routes protégées */}
           <Route path="/generator" element={<Navigate to="/auth" replace />} />
           <Route path="/configurator" element={<Navigate to="/auth" replace />} />
           <Route path="/projets" element={<Navigate to="/auth" replace />} />
           <Route path="/credits" element={<Navigate to="/auth" replace />} />
-          <Route path="/faq" element={<Navigate to="/auth" replace />} />
-          <Route path="/support" element={<Navigate to="/auth" replace />} />
           <Route path="*" element={<NotFound />} />
         </>
       ) : (
