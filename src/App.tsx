@@ -5,14 +5,19 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "@/contexts/AuthProvider";
+import { useUserRole } from "@/hooks/useUserRole";
 import ProtectedRoute from "@/components/ProtectedRoute";
+import AdminRoute from "@/components/AdminRoute";
 import AuthenticatedLayout from "@/components/AuthenticatedLayout";
 import Index from "./pages/Index";
 import ProductGenerator from "./pages/ProductGenerator";
 import OfferConfigurator from "./pages/OfferConfigurator";
 import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
-import Projets from "./pages/Projets";
+import AdminDashboard from "./pages/AdminDashboard";
+import ClientDashboard from "./pages/ClientDashboard";
+import AdminTickets from "./pages/AdminTickets";
+import AdminUsers from "./pages/AdminUsers";
 import Credits from "./pages/Credits";
 import FAQ from "./pages/FAQ";
 import Support from "./pages/Support";
@@ -21,6 +26,7 @@ const queryClient = new QueryClient();
 
 const AppContent = () => {
   const { user } = useAuth();
+  const { isAdmin, loading } = useUserRole();
 
   return (
     <Routes>
@@ -41,11 +47,32 @@ const AppContent = () => {
       ) : (
         // Routes pour utilisateurs connectés avec layout authentifié
         <>
-          <Route path="/" element={<Navigate to="/projets" replace />} />
+          <Route path="/" element={<Navigate to={isAdmin ? "/admin/dashboard" : "/projets"} replace />} />
           <Route path="/projets" element={
             <AuthenticatedLayout>
-              <Projets />
+              <ClientDashboard />
             </AuthenticatedLayout>
+          } />
+          <Route path="/admin/dashboard" element={
+            <AdminRoute>
+              <AuthenticatedLayout>
+                <AdminDashboard />
+              </AuthenticatedLayout>
+            </AdminRoute>
+          } />
+          <Route path="/admin/tickets" element={
+            <AdminRoute>
+              <AuthenticatedLayout>
+                <AdminTickets />
+              </AuthenticatedLayout>
+            </AdminRoute>
+          } />
+          <Route path="/admin/users" element={
+            <AdminRoute>
+              <AuthenticatedLayout>
+                <AdminUsers />
+              </AuthenticatedLayout>
+            </AdminRoute>
           } />
           <Route path="/generator" element={
             <ProtectedRoute>
@@ -78,7 +105,7 @@ const AppContent = () => {
           } />
           <Route path="/auth" element={
             <AuthenticatedLayout>
-              <Projets />
+              <ClientDashboard />
             </AuthenticatedLayout>
           } />
           <Route path="*" element={<NotFound />} />

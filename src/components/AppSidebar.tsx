@@ -1,5 +1,5 @@
 
-import { Home, Plus, CreditCard, HelpCircle, MessageSquare, Bot, BarChart3, Settings, Sliders } from 'lucide-react';
+import { Home, Plus, CreditCard, HelpCircle, MessageSquare, Bot, BarChart3, Settings, Sliders, Users, TicketIcon, Crown, Shield } from 'lucide-react';
 import {
   Sidebar,
   SidebarContent,
@@ -13,9 +13,10 @@ import {
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useUserRole } from '@/hooks/useUserRole';
 import UserProfile from './UserProfile';
 
-const mainMenuItems = [
+const clientMenuItems = [
   {
     title: "Tableau de bord",
     url: "/projets",
@@ -33,6 +34,33 @@ const mainMenuItems = [
     url: "/configurator",
     icon: Sliders,
     description: "Personnaliser vos solutions IA"
+  },
+];
+
+const adminMenuItems = [
+  {
+    title: "Tableau de bord Admin",
+    url: "/admin/dashboard",
+    icon: Shield,
+    description: "Vue d'ensemble administration"
+  },
+  {
+    title: "Gestion Tickets",
+    url: "/admin/tickets",
+    icon: TicketIcon,
+    description: "Support client"
+  },
+  {
+    title: "Gestion Utilisateurs",
+    url: "/admin/users",
+    icon: Users,
+    description: "Rôles et permissions"
+  },
+  {
+    title: "CRM",
+    url: "/admin/crm",
+    icon: BarChart3,
+    description: "Leads et opportunités"
   },
 ];
 
@@ -65,6 +93,7 @@ const supportMenuItems = [
 export function AppSidebar() {
   const navigate = useNavigate();
   const location = useLocation();
+  const { isAdmin, isClient } = useUserRole();
 
   return (
     <Sidebar side="left" className="border-r bg-card">
@@ -81,30 +110,60 @@ export function AppSidebar() {
       </SidebarHeader>
       
       <SidebarContent className="p-4 space-y-6">
-        <SidebarGroup>
-          <SidebarGroupLabel className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-            Outils IA
-          </SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu className="space-y-1">
-              {mainMenuItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton 
-                    onClick={() => navigate(item.url)}
-                    isActive={location.pathname === item.url}
-                    className="w-full justify-start h-12 rounded-lg transition-all duration-200 hover:shadow-soft group"
-                  >
-                    <item.icon className="w-5 h-5 text-primary group-hover:scale-110 transition-transform" />
-                    <div className="flex flex-col items-start">
-                      <span className="font-medium">{item.title}</span>
-                      <span className="text-xs text-muted-foreground">{item.description}</span>
-                    </div>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+        {isAdmin && (
+          <SidebarGroup>
+            <SidebarGroupLabel className="text-xs font-semibold text-muted-foreground uppercase tracking-wider flex items-center space-x-2">
+              <Crown className="w-3 h-3" />
+              <span>Administration</span>
+            </SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu className="space-y-1">
+                {adminMenuItems.map((item) => (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton 
+                      onClick={() => navigate(item.url)}
+                      isActive={location.pathname === item.url}
+                      className="w-full justify-start h-12 rounded-lg transition-all duration-200 hover:shadow-soft group"
+                    >
+                      <item.icon className="w-5 h-5 text-red-600 group-hover:scale-110 transition-transform" />
+                      <div className="flex flex-col items-start">
+                        <span className="font-medium">{item.title}</span>
+                        <span className="text-xs text-muted-foreground">{item.description}</span>
+                      </div>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        )}
+
+        {isClient && (
+          <SidebarGroup>
+            <SidebarGroupLabel className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+              Outils IA
+            </SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu className="space-y-1">
+                {clientMenuItems.map((item) => (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton 
+                      onClick={() => navigate(item.url)}
+                      isActive={location.pathname === item.url}
+                      className="w-full justify-start h-12 rounded-lg transition-all duration-200 hover:shadow-soft group"
+                    >
+                      <item.icon className="w-5 h-5 text-primary group-hover:scale-110 transition-transform" />
+                      <div className="flex flex-col items-start">
+                        <span className="font-medium">{item.title}</span>
+                        <span className="text-xs text-muted-foreground">{item.description}</span>
+                      </div>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        )}
 
         <SidebarGroup>
           <SidebarGroupLabel className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
