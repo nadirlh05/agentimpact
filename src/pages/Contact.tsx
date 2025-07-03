@@ -21,6 +21,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 const Contact = () => {
   const navigate = useNavigate();
@@ -43,8 +44,18 @@ const Contact = () => {
     setIsSubmitting(true);
 
     try {
-      // Simuler l'envoi du formulaire
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      console.log("Envoi de la demande de consultation:", formData);
+      
+      const { data, error } = await supabase.functions.invoke('contact-consultation', {
+        body: formData
+      });
+
+      if (error) {
+        console.error("Erreur Supabase:", error);
+        throw new Error(error.message || "Erreur lors de l'envoi");
+      }
+
+      console.log("Réponse de la fonction:", data);
       
       toast({
         title: "Demande envoyée !",
@@ -63,10 +74,11 @@ const Contact = () => {
         message: "",
         telephone: ""
       });
-    } catch (error) {
+    } catch (error: any) {
+      console.error("Erreur complète:", error);
       toast({
         title: "Erreur",
-        description: "Une erreur est survenue. Veuillez réessayer.",
+        description: "Une erreur est survenue lors de l'envoi. Veuillez réessayer ou nous contacter directement.",
         variant: "destructive",
       });
     } finally {
