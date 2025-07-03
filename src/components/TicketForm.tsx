@@ -75,6 +75,19 @@ const TicketForm = () => {
     setLoading(true);
 
     try {
+      // Get current user
+      const { data: { user } } = await supabase.auth.getUser();
+      
+      if (!user) {
+        toast({
+          title: "Erreur d'authentification",
+          description: "Vous devez être connecté pour créer un ticket.",
+          variant: "destructive",
+        });
+        setLoading(false);
+        return;
+      }
+
       // Upload file if present
       let attachmentUrl = null;
       if (file) {
@@ -94,13 +107,12 @@ const TicketForm = () => {
       const { data: ticket, error: dbError } = await supabase
         .from('support_tickets')
         .insert({
-          client_name: formData.clientName,
+          user_id: user.id,
           email_from: formData.clientEmail,
           sujet: formData.subject,
           message: formData.description,
-          priorite: formData.priority,
-          attachment_url: attachmentUrl,
-          statut: 'Ouvert'
+          priorite: formData.priority.toLowerCase(),
+          statut: 'En attente'
         })
         .select()
         .single();
