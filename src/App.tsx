@@ -22,6 +22,7 @@ import Credits from "./pages/Credits";
 import FAQ from "./pages/FAQ";
 import Support from "./pages/Support";
 import Services from "./pages/Services";
+import Contact from "./pages/Contact";
 
 const queryClient = new QueryClient();
 
@@ -36,6 +37,7 @@ const AppContent = () => {
         <>
           <Route path="/" element={<Index />} />
           <Route path="/services" element={<Services />} />
+          <Route path="/contact" element={<Contact />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="/support" element={<Support />} />
           <Route path="/faq" element={<FAQ />} />

@@ -113,7 +113,7 @@ const Index = () => {
                 Découvrir mes Services
               </Button>
               <Button
-                onClick={() => navigate('/support')}
+                onClick={() => navigate('/contact')}
                 size="lg"
                 variant="outline"
                 className="border-violet-600 text-violet-600 hover:bg-violet-50 text-lg px-8 py-4"
