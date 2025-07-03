@@ -116,9 +116,31 @@ const TicketForm = () => {
 
       console.log('Ticket created successfully:', ticket);
 
+      // Send email notifications
+      try {
+        const { error: emailError } = await supabase.functions.invoke('send-ticket-email', {
+          body: {
+            type: 'new_ticket',
+            ticketId: ticket.id,
+            clientName: formData.clientName,
+            clientEmail: formData.clientEmail,
+            subject: formData.subject,
+            message: formData.description,
+            priority: formData.priority.toLowerCase()
+          }
+        });
+
+        if (emailError) {
+          console.error('Email error:', emailError);
+          // Don't fail the whole process if email fails
+        }
+      } catch (emailError) {
+        console.error('Email function error:', emailError);
+      }
+
       toast({
         title: "✅ Ticket créé avec succès !",
-        description: `Votre ticket a été enregistré. Notre équipe vous répondra rapidement.`,
+        description: `Votre ticket #${ticket.id.slice(-8)} a été créé. Vous recevrez une confirmation par email.`,
       });
       
       setSubmitted(true);

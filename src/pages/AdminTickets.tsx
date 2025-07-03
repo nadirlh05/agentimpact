@@ -16,10 +16,12 @@ import {
 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { Tables } from '@/integrations/supabase/types';
+import { useNavigate } from 'react-router-dom';
 
 type Ticket = Tables<'support_tickets'>;
 
 const AdminTickets = () => {
+  const navigate = useNavigate();
   const [tickets, setTickets] = useState<Ticket[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
@@ -223,6 +225,14 @@ const AdminTickets = () => {
                   </div>
                   
                   <div className="flex items-center space-x-2 ml-4">
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => navigate(`/admin/tickets/${ticket.id}`)}
+                    >
+                      <Eye className="w-4 h-4 mr-1" />
+                      Voir détails
+                    </Button>
                     {ticket.statut !== 'Résolu' && (
                       <>
                         <Button
