@@ -1,4 +1,4 @@
-import { Search, Star, ArrowRight, Zap, Shield, Users, TrendingUp, ChevronRight } from "lucide-react";
+import { Search, Star, ArrowRight, Zap, Shield, Users, TrendingUp, ChevronRight, Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
@@ -133,7 +133,7 @@ const Index = () => {
             </div>
 
             {/* Call to Action for Generator */}
-            <div className="mb-8">
+            <div className="mb-8 flex flex-col sm:flex-row gap-4 justify-center">
               <Button
                 onClick={() => navigate('/generator')}
                 size="lg"
@@ -141,6 +141,15 @@ const Index = () => {
               >
                 <Zap className="w-5 h-5 mr-2" />
                 Essayer le Générateur IA
+              </Button>
+              <Button
+                onClick={() => navigate('/configurator')}
+                size="lg"
+                variant="outline"
+                className="border-violet-600 text-violet-600 hover:bg-violet-50 text-lg px-8 py-4"
+              >
+                <Settings className="w-5 h-5 mr-2" />
+                Configurateur d'Offres
               </Button>
             </div>
 

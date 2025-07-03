@@ -1,5 +1,5 @@
 
-import { Home, Plus, CreditCard, HelpCircle, MessageSquare, Bot, BarChart3, Settings } from 'lucide-react';
+import { Home, Plus, CreditCard, HelpCircle, MessageSquare, Bot, BarChart3, Settings, Sliders } from 'lucide-react';
 import {
   Sidebar,
   SidebarContent,
@@ -27,6 +27,12 @@ const mainMenuItems = [
     url: "/generator",
     icon: Bot,
     description: "Créer des contenus automatiquement"
+  },
+  {
+    title: "Configurateur d'Offres",
+    url: "/configurator",
+    icon: Sliders,
+    description: "Personnaliser vos solutions IA"
   },
 ];
 

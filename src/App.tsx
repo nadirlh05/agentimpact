@@ -9,6 +9,7 @@ import ProtectedRoute from "@/components/ProtectedRoute";
 import AuthenticatedLayout from "@/components/AuthenticatedLayout";
 import Index from "./pages/Index";
 import ProductGenerator from "./pages/ProductGenerator";
+import OfferConfigurator from "./pages/OfferConfigurator";
 import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
 import Projets from "./pages/Projets";
@@ -30,6 +31,7 @@ const AppContent = () => {
           <Route path="/auth" element={<Auth />} />
           {/* Redirection vers auth pour toutes les routes protégées */}
           <Route path="/generator" element={<Navigate to="/auth" replace />} />
+          <Route path="/configurator" element={<Navigate to="/auth" replace />} />
           <Route path="/projets" element={<Navigate to="/auth" replace />} />
           <Route path="/credits" element={<Navigate to="/auth" replace />} />
           <Route path="/faq" element={<Navigate to="/auth" replace />} />
@@ -49,6 +51,13 @@ const AppContent = () => {
             <ProtectedRoute>
               <AuthenticatedLayout>
                 <ProductGenerator />
+              </AuthenticatedLayout>
+            </ProtectedRoute>
+          } />
+          <Route path="/configurator" element={
+            <ProtectedRoute>
+              <AuthenticatedLayout>
+                <OfferConfigurator />
               </AuthenticatedLayout>
             </ProtectedRoute>
           } />

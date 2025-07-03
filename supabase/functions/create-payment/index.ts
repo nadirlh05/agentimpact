@@ -15,7 +15,7 @@ serve(async (req) => {
   }
 
   try {
-    const { planName, amount } = await req.json();
+    const { planName, amount, opportunityId } = await req.json();
 
     // Create Supabase client using the anon key for user authentication
     const supabaseClient = createClient(
@@ -67,13 +67,17 @@ serve(async (req) => {
         },
       ],
       mode: "payment",
-      success_url: `${req.headers.get("origin")}/credits?success=true&plan=${encodeURIComponent(planName)}`,
+      success_url: `${req.headers.get("origin")}/credits?success=true&plan=${encodeURIComponent(planName)}${opportunityId ? `&opportunity=${opportunityId}` : ''}`,
       cancel_url: `${req.headers.get("origin")}/credits?canceled=true`,
+      metadata: opportunityId ? { opportunityId } : {}
     });
 
     console.log(`Payment session created for ${planName}: ${session.id}`);
 
-    return new Response(JSON.stringify({ url: session.url }), {
+    return new Response(JSON.stringify({ 
+      url: session.url,
+      sessionId: session.id 
+    }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 200,
     });
