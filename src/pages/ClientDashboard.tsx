@@ -18,6 +18,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthProvider';
 import WhatsAppTest from '@/components/WhatsAppTest';
 import EnvTest from '@/components/EnvTest';
+import TwilioTest from '@/components/TwilioTest';
 
 interface ClientStats {
   myTickets: number;
@@ -319,14 +320,21 @@ const ClientDashboard = () => {
       </div>
 
       {/* WhatsApp Test Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-4xl mx-auto">
-        <div>
-          <h3 className="text-xl font-bold text-center mb-4">Test Configuration</h3>
-          <EnvTest />
-        </div>
-        <div>
-          <h3 className="text-xl font-bold text-center mb-4">Test WhatsApp</h3>
-          <WhatsAppTest />
+      <div className="space-y-6">
+        <h2 className="text-2xl font-bold text-center">Tests de Diagnostic WhatsApp</h2>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+          <div>
+            <h3 className="text-lg font-semibold text-center mb-4">1. Configuration</h3>
+            <EnvTest />
+          </div>
+          <div>
+            <h3 className="text-lg font-semibold text-center mb-4">2. Connexion Twilio</h3>
+            <TwilioTest />
+          </div>
+          <div>
+            <h3 className="text-lg font-semibold text-center mb-4">3. Test WhatsApp</h3>
+            <WhatsAppTest />
+          </div>
         </div>
       </div>
     </div>
