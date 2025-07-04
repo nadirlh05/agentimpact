@@ -34,3 +34,6 @@ verify_jwt = false
 
 [functions.whatsapp-test]
 verify_jwt = false
+
+[functions.debug-env]
+verify_jwt = false
