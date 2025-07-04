@@ -17,46 +17,46 @@ const ProductGenerator = () => {
 
   const exemplesSolutions = [
     {
-      titre: "IA de Gestion des Commandes Fournisseurs",
-      description: "Automatisation complète de vos processus d'approvisionnement",
+      titre: "Agent IA Facturation Intelligente",
+      description: "Automatisation complète de votre processus de facturation",
       icon: Bot,
       couleur: "bg-blue-500",
       exemples: [
-        "Surveillance automatique des stocks",
-        "Génération de bons de commande intelligents",
-        "Négociation automatique avec les fournisseurs",
-        "Prédiction des besoins futurs"
+        "Génération automatique de factures",
+        "Relances clients personnalisées",
+        "Détection d'anomalies de paiement",
+        "Intégration comptabilité automatique"
       ],
-      solution: "Solution sur mesure avec IA locale",
-      prix: "À partir de 2 500€"
+      solution: "Agent Facturation Pro",
+      prix: "À partir de 3 500€"
     },
     {
-      titre: "Assistant IA Client 24/7",
-      description: "Répondez à vos clients automatiquement, jour et nuit",
+      titre: "Gestionnaire IA Fournisseurs",
+      description: "Optimisez vos relations et négociations fournisseurs",
       icon: MessageSquare,
       couleur: "bg-green-500",
       exemples: [
-        "Réponses instantanées aux questions courantes",
-        "Prise de rendez-vous automatique",
-        "Qualification des prospects",
-        "Escalade intelligente vers vos équipes"
+        "Suivi automatique des commandes",
+        "Négociation de prix intelligente",
+        "Évaluation performance fournisseurs",
+        "Prédiction des ruptures de stock"
       ],
-      solution: "Assistant IA Pro",
-      prix: "227€/mois"
+      solution: "Gestionnaire Fournisseurs IA",
+      prix: "À partir de 4 000€"
     },
     {
-      titre: "Crew IA Multi-Agents",
-      description: "Une équipe d'agents IA spécialisés pour votre entreprise",
+      titre: "CRM Client Intelligence",
+      description: "Gestion automatisée des relations clients",
       icon: Users,
       couleur: "bg-purple-500",
       exemples: [
-        "Agent commercial pour la prospection",
-        "Agent support client avancé",
-        "Agent de suivi projet",
-        "Agent d'analyse de données"
+        "Segmentation client automatique",
+        "Prédiction des besoins clients",
+        "Gestion des réclamations IA",
+        "Suivi satisfaction temps réel"
       ],
-      solution: "Crew IA Enterprise",
-      prix: "Sur mesure"
+      solution: "CRM IA Enterprise",
+      prix: "À partir de 3 000€"
     }
   ];
 
@@ -138,13 +138,13 @@ const ProductGenerator = () => {
       <div className="container mx-auto px-4 py-8">
         {/* Section d'introduction */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            Comment nous vous aidons à réussir avec l'IA
-          </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Découvrez nos solutions personnalisées d'intelligence artificielle conçues pour automatiser 
-            vos processus métier et booster votre productivité.
-          </p>
+            <h1 className="text-4xl font-bold text-gray-900 mb-4">
+              Agents IA pour Facturation & Gestion Clients/Fournisseurs
+            </h1>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Solutions spécialisées pour automatiser votre gestion administrative, optimiser vos relations
+              clients/fournisseurs et réduire vos coûts de 70%.
+            </p>
         </div>
 
         {/* Onglets */}

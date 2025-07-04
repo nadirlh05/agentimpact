@@ -32,15 +32,15 @@ export const ExampleGenerator = () => {
   });
 
   const businessTypes = [
-    "E-commerce",
-    "Santé",
-    "Finance", 
-    "Éducation",
-    "Manufacturing",
-    "Services professionnels",
-    "Restaurant/Hôtellerie",
-    "Immobilier",
-    "Transport/Logistique",
+    "PME/TPE",
+    "E-commerce", 
+    "Services B2B",
+    "Distribution/Négoce",
+    "Consulting/Services",
+    "Manufacturing/Production",
+    "SaaS/Tech",
+    "Retail/Commerce",
+    "Agence/Freelance",
     "Autre"
   ];
 
@@ -115,7 +115,7 @@ export const ExampleGenerator = () => {
         <CardHeader>
           <CardTitle className="flex items-center space-x-2">
             <Lightbulb className="w-5 h-5 text-yellow-500" />
-            <span>Générateur d'exemples d'accompagnement IA</span>
+            <span>Générateur de solutions IA Facturation & Gestion</span>
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -154,9 +154,9 @@ export const ExampleGenerator = () => {
           </div>
 
           <div className="space-y-2">
-            <Label>Défi ou problématique principale</Label>
+            <Label>Défis en facturation/gestion clients-fournisseurs</Label>
             <Textarea
-              placeholder="Ex: Nous avons des difficultés à gérer nos stocks et nos commandes fournisseurs..."
+              placeholder="Ex: Nous perdons du temps sur la facturation manuelle et les relances clients, ou nos relations fournisseurs sont mal organisées..."
               value={formData.challenge}
               onChange={(e) => setFormData(prev => ({ ...prev, challenge: e.target.value }))}
               rows={3}

@@ -31,22 +31,22 @@ const Index = () => {
 
   const aiServices = [
     { 
-      name: "Automatisation Intelligente", 
+      name: "Agents IA Facturation", 
       icon: Bot, 
-      description: "Robots et assistants IA personnalisés pour votre métier",
-      benefit: "Jusqu'à 80% de gain de temps"
+      description: "Automatisation complète de la facturation et des relances",
+      benefit: "Réduction de 90% des erreurs"
     },
     { 
-      name: "Consultation IA", 
+      name: "Gestion Fournisseurs IA", 
       icon: Lightbulb, 
-      description: "Accompagnement stratégique et intégration d'IA",
-      benefit: "Solutions sur-mesure"
+      description: "Optimisation des relations et négociations fournisseurs",
+      benefit: "Économies de 15-30%"
     },
     { 
-      name: "Développement d'Agents", 
+      name: "CRM Clients Intelligent", 
       icon: Code, 
-      description: "Création d'agents IA spécialisés et workflows",
-      benefit: "ROI de 300% en moyenne"
+      description: "Suivi automatisé des clients et prédiction des besoins",
+      benefit: "Fidélisation +40%"
     }
   ];
 
@@ -87,11 +87,11 @@ const Index = () => {
             </div>
             
             <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-              Transformez votre entreprise avec <span className="bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text text-transparent">l'Intelligence Artificielle</span>
+              Agents IA pour <span className="bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text text-transparent">Facturation & Gestion Clients/Fournisseurs</span>
             </h1>
             <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-              Auto-entrepreneur expert en IA, je vous accompagne dans l'intégration d'agents intelligents et l'automatisation de vos processus métier. 
-              Gagnez en efficacité et en compétitivité.
+              Spécialiste des solutions IA pour automatiser votre facturation, optimiser la gestion de vos fournisseurs et améliorer vos relations clients. 
+              Réduisez vos coûts administratifs de 70%.
             </p>
             
             <div className="mb-8 flex flex-col sm:flex-row gap-4 justify-center">
@@ -117,15 +117,15 @@ const Index = () => {
             <div className="flex justify-center items-center space-x-8 text-sm text-gray-500">
               <div className="flex items-center space-x-2">
                 <CheckCircle className="w-4 h-4 text-green-600" />
-                <span>Expert certifié IA</span>
+                <span>Expert facturation IA</span>
               </div>
               <div className="flex items-center space-x-2">
                 <Users className="w-4 h-4 text-blue-600" />
-                <span>50+ projets réalisés</span>
+                <span>25+ entreprises accompagnées</span>
               </div>
               <div className="flex items-center space-x-2">
                 <TrendingUp className="w-4 h-4 text-violet-600" />
-                <span>ROI moyen de 300%</span>
+                <span>70% de coûts admin en moins</span>
               </div>
             </div>
           </div>
@@ -137,10 +137,10 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              Mes Services d'Intelligence Artificielle
+              Solutions IA Facturation & Gestion
             </h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
-              Des solutions IA personnalisées pour automatiser et optimiser votre activité
+              Agents intelligents spécialisés pour optimiser votre gestion administrative et financière
             </p>
           </div>
           
@@ -171,10 +171,10 @@ const Index = () => {
         <div className="container mx-auto px-4 text-center">
           <div className="max-w-3xl mx-auto text-white">
             <h2 className="text-3xl font-bold mb-4">
-              Prêt à intégrer l'IA dans votre entreprise ?
+              Automatisez votre gestion administrative aujourd'hui
             </h2>
             <p className="text-xl mb-8 text-blue-100">
-              Transformez vos processus avec des solutions d'IA sur-mesure et gagnez en compétitivité
+              Réduisez vos erreurs de facturation et optimisez vos relations clients/fournisseurs avec l'IA
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button 

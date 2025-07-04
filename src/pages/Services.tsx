@@ -31,56 +31,56 @@ const Services = () => {
 
   const services = [
     {
-      category: "Automatisation Intelligente",
+      category: "Agent IA Facturation",
       icon: Bot,
-      description: "Robots et assistants IA personnalisés pour votre métier",
+      description: "Automatisation complète de votre processus de facturation",
       features: [
-        "Chatbots intelligents et contextuels",
-        "Automatisation de processus métier (RPA)",
-        "Intégration avec vos outils existants",
-        "Formation et déploiement personnalisés"
+        "Génération automatique de factures",
+        "Relances clients intelligentes",
+        "Détection d'anomalies de paiement",
+        "Intégration avec votre comptabilité"
       ],
-      benefits: "Jusqu'à 80% de gain de temps",
-      priceRange: "À partir de 2 000€",
-      duration: "2-6 semaines"
+      benefits: "90% d'erreurs en moins",
+      priceRange: "À partir de 3 500€",
+      duration: "3-6 semaines"
     },
     {
-      category: "Consultation IA",
+      category: "Gestion Fournisseurs IA",
       icon: Lightbulb,
-      description: "Accompagnement stratégique et intégration d'IA",
+      description: "Optimisation des relations et négociations fournisseurs",
       features: [
-        "Audit de vos processus actuels",
-        "Stratégie d'implémentation IA",
-        "Formation de vos équipes",
-        "Suivi et optimisation continue"
+        "Suivi automatique des commandes",
+        "Négociation de prix intelligente",
+        "Évaluation performance fournisseurs",
+        "Prédiction des ruptures de stock"
       ],
-      benefits: "Solutions sur-mesure",
-      priceRange: "500€ - 1 500€/jour",
-      duration: "1-4 semaines"
+      benefits: "15-30% d'économies",
+      priceRange: "À partir de 4 000€",
+      duration: "4-8 semaines"
     },
     {
-      category: "Développement d'Agents",
+      category: "CRM Clients Intelligent",
       icon: Code,
-      description: "Création d'agents IA spécialisés et workflows",
+      description: "Gestion automatisée des relations clients",
       features: [
-        "Agents IA pour tâches spécifiques",
-        "Intégration API et bases de données",
-        "Interface utilisateur dédiée",
-        "Maintenance et évolutions"
+        "Segmentation client automatique",
+        "Prédiction des besoins clients",
+        "Gestion des réclamations IA",
+        "Suivi satisfaction en temps réel"
       ],
-      benefits: "ROI de 300% en moyenne",
-      priceRange: "À partir de 5 000€",
-      duration: "4-12 semaines"
+      benefits: "40% fidélisation en plus",
+      priceRange: "À partir de 3 000€",
+      duration: "3-7 semaines"
     }
   ];
 
   const industries = [
-    { name: "E-commerce", icon: Target, description: "Automatisation du support client et des ventes" },
-    { name: "Services", icon: Cog, description: "Optimisation des processus opérationnels" },
-    { name: "Santé", icon: Shield, description: "Assistance médicale et gestion administrative" },
-    { name: "Finance", icon: BarChart3, description: "Analyse de données et conformité" },
-    { name: "Éducation", icon: Brain, description: "Tuteurs IA et gestion pédagogique" },
-    { name: "Logistique", icon: Database, description: "Optimisation des chaînes d'approvisionnement" }
+    { name: "PME/TPE", icon: Target, description: "Gestion administrative simplifiée" },
+    { name: "E-commerce", icon: Cog, description: "Facturation et relation clients optimisées" },
+    { name: "Services B2B", icon: Shield, description: "Gestion fournisseurs et facturation complexe" },
+    { name: "Distribution", icon: BarChart3, description: "Optimisation des flux financiers" },
+    { name: "Consulting", icon: Brain, description: "Facturation projet et suivi client" },
+    { name: "Manufacturing", icon: Database, description: "Gestion des coûts et approvisionnements" }
   ];
 
   return (
@@ -120,10 +120,10 @@ const Services = () => {
         <div className="container mx-auto px-4 text-center">
           <div className="max-w-4xl mx-auto">
             <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-              Mes Services <span className="bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text text-transparent">Intelligence Artificielle</span>
+              Agents IA <span className="bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text text-transparent">Facturation & Gestion</span>
             </h1>
             <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-              Découvrez comment l'IA peut transformer votre entreprise avec des solutions personnalisées et performantes.
+              Solutions spécialisées pour automatiser votre facturation et optimiser vos relations clients/fournisseurs.
             </p>
           </div>
         </div>
@@ -134,10 +134,10 @@ const Services = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              Services Disponibles
+              Solutions Spécialisées
             </h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
-              Des solutions IA complètes adaptées à vos besoins spécifiques
+              Agents IA dédiés à la gestion financière et administrative de votre entreprise
             </p>
           </div>
           
@@ -190,10 +190,10 @@ const Services = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              Secteurs d'Activité
+              Types d'Entreprises
             </h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
-              Solutions adaptées à votre industrie
+              Nos solutions s'adaptent à tous les secteurs ayant des défis de gestion
             </p>
           </div>
           
