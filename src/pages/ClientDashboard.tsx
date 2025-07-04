@@ -16,6 +16,7 @@ import {
 import { supabase } from '@/integrations/supabase/client';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthProvider';
+import WhatsAppTest from '@/components/WhatsAppTest';
 
 interface ClientStats {
   myTickets: number;
@@ -314,6 +315,12 @@ const ClientDashboard = () => {
             )}
           </CardContent>
         </Card>
+      </div>
+
+      {/* WhatsApp Test Section */}
+      <div className="max-w-2xl mx-auto">
+        <h2 className="text-2xl font-bold text-center mb-6">Test WhatsApp Integration</h2>
+        <WhatsAppTest />
       </div>
     </div>
   );
