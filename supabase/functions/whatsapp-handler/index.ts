@@ -8,9 +8,15 @@ const corsHeaders = {
 
 const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
 const supabaseServiceRoleKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
-const twilioAccountSid = Deno.env.get('TWILIO_ACCOUNT_SID')!;
-const twilioAuthToken = Deno.env.get('TWILIO_AUTH_TOKEN')!;
-const twilioPhoneNumber = Deno.env.get('TWILIO_PHONE_NUMBER')!;
+const twilioAccountSid = Deno.env.get('TWILIO_ACCOUNT_SID');
+const twilioAuthToken = Deno.env.get('TWILIO_AUTH_TOKEN');
+const twilioPhoneNumber = Deno.env.get('TWILIO_PHONE_NUMBER');
+
+console.log('Twilio config:', {
+  accountSid: twilioAccountSid ? 'SET' : 'MISSING',
+  authToken: twilioAuthToken ? 'SET' : 'MISSING',
+  phoneNumber: twilioPhoneNumber ? 'SET' : 'MISSING'
+});
 
 const supabase = createClient(supabaseUrl, supabaseServiceRoleKey);
 
@@ -23,6 +29,16 @@ interface WhatsAppMessage {
 }
 
 const sendWhatsAppMessage = async (to: string, message: string) => {
+  // Vérifier que les variables Twilio sont définies
+  if (!twilioAccountSid || !twilioAuthToken || !twilioPhoneNumber) {
+    console.error('Variables Twilio manquantes:', {
+      accountSid: !!twilioAccountSid,
+      authToken: !!twilioAuthToken,
+      phoneNumber: !!twilioPhoneNumber
+    });
+    throw new Error('Configuration Twilio incomplète');
+  }
+
   const auth = btoa(`${twilioAccountSid}:${twilioAuthToken}`);
   
   const response = await fetch(
@@ -44,7 +60,7 @@ const sendWhatsAppMessage = async (to: string, message: string) => {
   if (!response.ok) {
     const error = await response.text();
     console.error('Erreur envoi WhatsApp:', error);
-    throw new Error(`Erreur Twilio: ${response.status}`);
+    throw new Error(`Erreur Twilio: ${response.status} - ${error}`);
   }
 
   return await response.json();
