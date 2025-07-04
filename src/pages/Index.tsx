@@ -23,20 +23,11 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useNavigate } from "react-router-dom";
-import { AIAssistant } from "@/components/AIAssistant";
 import { AIAssistantTrigger } from "@/components/AIAssistantTrigger";
-import { useAIAssistant } from "@/hooks/useAIAssistant";
 import heroImage from "@/assets/hero-supplier-management.jpg";
 
 const Index = () => {
   const navigate = useNavigate();
-  const { isOpen, triggerSource, openAssistant, closeAssistant } = useAIAssistant({
-    enableExitIntent: true,
-    enableTimer: true,
-    enableInactivity: true,
-    timerDelay: 15000,
-    inactivityDelay: 45000
-  });
 
   const aiServices = [
     { 
@@ -209,12 +200,7 @@ const Index = () => {
       </section>
 
       {/* AI Assistant */}
-      <AIAssistant 
-        isOpen={isOpen} 
-        onClose={closeAssistant} 
-        triggerSource={triggerSource} 
-      />
-      <AIAssistantTrigger onClick={openAssistant} />
+      <AIAssistantTrigger autoTriggerEnabled={true} timerDelay={25000} />
     </div>
   );
 };

@@ -1,21 +1,13 @@
 
 import { SidebarProvider, SidebarInset, SidebarTrigger } from '@/components/ui/sidebar';
 import { AppSidebar } from './AppSidebar';
-import { AIAssistant } from './AIAssistant';
 import { AIAssistantTrigger } from './AIAssistantTrigger';
-import { useAIAssistant } from '@/hooks/useAIAssistant';
 
 interface AuthenticatedLayoutProps {
   children: React.ReactNode;
 }
 
 const AuthenticatedLayout = ({ children }: AuthenticatedLayoutProps) => {
-  const { isOpen, triggerSource, openAssistant, closeAssistant } = useAIAssistant({
-    enableExitIntent: true,
-    enableTimer: false, // Disable timer in authenticated pages to be less intrusive
-    enableInactivity: true,
-    inactivityDelay: 120000 // 2 minutes of inactivity
-  });
 
   return (
     <SidebarProvider>
@@ -42,12 +34,7 @@ const AuthenticatedLayout = ({ children }: AuthenticatedLayoutProps) => {
       </div>
       
       {/* AI Assistant */}
-      <AIAssistant 
-        isOpen={isOpen} 
-        onClose={closeAssistant} 
-        triggerSource={triggerSource} 
-      />
-      <AIAssistantTrigger onClick={openAssistant} />
+      <AIAssistantTrigger autoTriggerEnabled={false} />
     </SidebarProvider>
   );
 };
