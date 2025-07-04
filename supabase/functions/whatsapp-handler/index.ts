@@ -8,15 +8,9 @@ const corsHeaders = {
 
 const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
 const supabaseServiceRoleKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
-const twilioAccountSid = Deno.env.get('TWILIO_ACCOUNT_SID');
-const twilioAuthToken = Deno.env.get('TWILIO_AUTH_TOKEN');
-const twilioPhoneNumber = Deno.env.get('TWILIO_PHONE_NUMBER');
-
-console.log('Twilio config:', {
-  accountSid: twilioAccountSid ? 'SET' : 'MISSING',
-  authToken: twilioAuthToken ? 'SET' : 'MISSING',
-  phoneNumber: twilioPhoneNumber ? 'SET' : 'MISSING'
-});
+const twilioAccountSid = Deno.env.get('TWILIO_ACCOUNT_SID')!;
+const twilioAuthToken = Deno.env.get('TWILIO_AUTH_TOKEN')!;
+const twilioPhoneNumber = Deno.env.get('TWILIO_PHONE_NUMBER')!;
 
 const supabase = createClient(supabaseUrl, supabaseServiceRoleKey);
 
@@ -29,16 +23,8 @@ interface WhatsAppMessage {
 }
 
 const sendWhatsAppMessage = async (to: string, message: string) => {
-  // Vérifier que les variables Twilio sont définies
-  if (!twilioAccountSid || !twilioAuthToken || !twilioPhoneNumber) {
-    console.error('Variables Twilio manquantes:', {
-      accountSid: !!twilioAccountSid,
-      authToken: !!twilioAuthToken,
-      phoneNumber: !!twilioPhoneNumber
-    });
-    throw new Error('Configuration Twilio incomplète');
-  }
-
+  console.log(`Envoi WhatsApp vers ${to}: ${message.substring(0, 50)}...`);
+  
   const auth = btoa(`${twilioAccountSid}:${twilioAuthToken}`);
   
   const response = await fetch(
@@ -57,13 +43,15 @@ const sendWhatsAppMessage = async (to: string, message: string) => {
     }
   );
 
+  const responseText = await response.text();
+  console.log(`Twilio response status: ${response.status}`);
+  console.log(`Twilio response: ${responseText}`);
+
   if (!response.ok) {
-    const error = await response.text();
-    console.error('Erreur envoi WhatsApp:', error);
-    throw new Error(`Erreur Twilio: ${response.status} - ${error}`);
+    throw new Error(`Erreur Twilio ${response.status}: ${responseText}`);
   }
 
-  return await response.json();
+  return JSON.parse(responseText);
 };
 
 const handleIncomingMessage = async (messageData: WhatsAppMessage) => {
@@ -91,20 +79,25 @@ const handleIncomingMessage = async (messageData: WhatsAppMessage) => {
     throw ticketError;
   }
 
+  console.log('Ticket créé:', ticket.id);
+
   // Envoyer une confirmation automatique
   const confirmationMessage = `Bonjour ${senderName} ! 👋\n\nNous avons bien reçu votre message concernant nos solutions IA d'automatisation.\n\nVotre demande a été enregistrée (Ticket #${ticket.id.slice(-8)}) et notre équipe vous répondra dans les plus brefs délais.\n\nPour plus d'informations sur nos services d'automatisation IA (facturation, gestion fournisseurs, CRM clients), visitez notre site.\n\nMerci de votre confiance ! 🤖✨`;
 
   try {
-    await sendWhatsAppMessage(phoneNumber, confirmationMessage);
-    console.log(`Confirmation envoyée à ${phoneNumber}`);
+    const result = await sendWhatsAppMessage(phoneNumber, confirmationMessage);
+    console.log(`Confirmation envoyée à ${phoneNumber}:`, result.sid);
   } catch (error) {
     console.error('Erreur envoi confirmation:', error);
+    // Ne pas faire échouer toute la fonction si la confirmation échoue
   }
 
   return ticket;
 };
 
 serve(async (req) => {
+  console.log(`${req.method} ${req.url}`);
+  
   // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
@@ -112,9 +105,10 @@ serve(async (req) => {
 
   try {
     if (req.method === 'POST') {
-      const contentType = req.headers.get('content-type');
+      const contentType = req.headers.get('content-type') || '';
+      console.log('Content-Type:', contentType);
       
-      if (contentType?.includes('application/x-www-form-urlencoded')) {
+      if (contentType.includes('application/x-www-form-urlencoded')) {
         // Message entrant depuis Twilio webhook
         const formData = await req.formData();
         const messageData: WhatsAppMessage = {
@@ -125,6 +119,7 @@ serve(async (req) => {
           ProfileName: formData.get('ProfileName') as string,
         };
 
+        console.log('Webhook Twilio reçu:', messageData);
         const ticket = await handleIncomingMessage(messageData);
         
         return new Response(
@@ -138,7 +133,10 @@ serve(async (req) => {
         );
       } else {
         // API pour envoyer des messages depuis l'app
-        const { to, message } = await req.json();
+        const requestBody = await req.json();
+        console.log('API call body:', requestBody);
+        
+        const { to, message } = requestBody;
         
         if (!to || !message) {
           return new Response(
@@ -150,9 +148,17 @@ serve(async (req) => {
           );
         }
 
-        const result = await sendWhatsAppMessage(to, message);
+        // Nettoyer le numéro de téléphone (enlever le +)
+        const cleanedTo = to.startsWith('+') ? to.substring(1) : to;
         
-        return new Response(JSON.stringify(result), {
+        const result = await sendWhatsAppMessage(cleanedTo, message);
+        
+        return new Response(JSON.stringify({ 
+          success: true, 
+          messageSid: result.sid,
+          to: cleanedTo,
+          message: message.substring(0, 50) + '...'
+        }), {
           headers: { 'Content-Type': 'application/json', ...corsHeaders },
         });
       }
@@ -166,7 +172,10 @@ serve(async (req) => {
   } catch (error) {
     console.error('Erreur dans whatsapp-handler:', error);
     return new Response(
-      JSON.stringify({ error: error.message }),
+      JSON.stringify({ 
+        error: error.message,
+        timestamp: new Date().toISOString()
+      }),
       {
         status: 500,
         headers: { 'Content-Type': 'application/json', ...corsHeaders },
