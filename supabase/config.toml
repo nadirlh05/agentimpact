@@ -31,3 +31,6 @@ verify_jwt = false
 
 [functions.whatsapp-handler]
 verify_jwt = false
+
+[functions.whatsapp-test]
+verify_jwt = false

@@ -13,40 +13,54 @@ const WhatsAppTest = () => {
   const { toast } = useToast();
 
   const testWhatsApp = async () => {
-    if (!to || !message) {
-      toast({
-        title: "Erreur",
-        description: "Veuillez remplir tous les champs",
-        variant: "destructive",
-      });
-      return;
-    }
-
     setIsLoading(true);
     try {
-      const { data, error } = await supabase.functions.invoke('whatsapp-handler', {
-        body: { to, message }
-      });
-
-      if (error) {
-        console.error('Erreur WhatsApp:', error);
+      // Test diagnostic d'abord
+      const { data: diagnosticData, error: diagnosticError } = await supabase.functions.invoke('whatsapp-test');
+      
+      console.log('Diagnostic WhatsApp:', diagnosticData, diagnosticError);
+      
+      if (diagnosticError) {
         toast({
-          title: "Erreur",
-          description: `Erreur: ${error.message}`,
+          title: "Erreur de diagnostic",
+          description: `Erreur: ${diagnosticError.message}`,
           variant: "destructive",
         });
-      } else {
-        console.log('Succès WhatsApp:', data);
+        return;
+      }
+      
+      if (diagnosticData) {
         toast({
-          title: "Succès",
-          description: "Message WhatsApp envoyé avec succès !",
+          title: "Diagnostic terminé",
+          description: `Vérifiez la console pour les détails. Status: ${diagnosticData.environment?.TWILIO_CONNECTION || 'Unknown'}`,
         });
+        
+        // Si le diagnostic est bon et qu'on a un numéro, tester l'envoi
+        if (to && message && diagnosticData.environment?.TWILIO_CONNECTION === 'SUCCESS') {
+          const { data: sendData, error: sendError } = await supabase.functions.invoke('whatsapp-handler', {
+            body: { to, message }
+          });
+          
+          if (sendError) {
+            console.error('Erreur envoi:', sendError);
+            toast({
+              title: "Erreur d'envoi",
+              description: `Erreur: ${sendError.message}`,
+              variant: "destructive",
+            });
+          } else {
+            toast({
+              title: "Message envoyé",
+              description: "Message WhatsApp envoyé avec succès !",
+            });
+          }
+        }
       }
     } catch (error) {
       console.error('Erreur:', error);
       toast({
         title: "Erreur",
-        description: "Erreur lors de l'envoi du message",
+        description: "Erreur lors du test",
         variant: "destructive",
       });
     } finally {
