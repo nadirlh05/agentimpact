@@ -150,7 +150,10 @@ const ClientDashboard = () => {
 
       {/* My Data Overview */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card>
+        <Card 
+          className="cursor-pointer hover:shadow-lg transition-shadow"
+          onClick={() => navigate('/support?tab=manage')}
+        >
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Mes Tickets</CardTitle>
             <TicketIcon className="h-4 w-4 text-blue-600" />
@@ -159,42 +162,51 @@ const ClientDashboard = () => {
             <div className="text-2xl font-bold">{stats.myTickets}</div>
             <div className="flex items-center space-x-2 mt-2">
               <Clock className="h-4 w-4 text-orange-500" />
-              <span className="text-sm text-orange-600">{stats.pendingTickets} en cours</span>
+              <span className="text-sm text-orange-600">{stats.pendingTickets} en attente</span>
             </div>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card 
+          className="cursor-pointer hover:shadow-lg transition-shadow"
+          onClick={() => navigate('/support?tab=manage')}
+        >
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Tickets Résolus</CardTitle>
+            <CardTitle className="text-sm font-medium">Leads/Prospects</CardTitle>
             <CheckCircle className="h-4 w-4 text-green-600" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{stats.resolvedTickets}</div>
+            <div className="text-2xl font-bold">0</div>
             <div className="flex items-center space-x-2 mt-2">
               <CheckCircle className="h-4 w-4 text-green-500" />
-              <span className="text-sm text-green-600">Terminés</span>
+              <span className="text-sm text-green-600">Pipeline actif</span>
             </div>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card 
+          className="cursor-pointer hover:shadow-lg transition-shadow"
+          onClick={() => navigate('/configurator')}
+        >
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Mes Offres</CardTitle>
+            <CardTitle className="text-sm font-medium">Opportunités</CardTitle>
             <Building className="h-4 w-4 text-purple-600" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{stats.myOpportunities}</div>
             <div className="flex items-center space-x-2 mt-2">
               <Eye className="h-4 w-4 text-purple-500" />
-              <span className="text-sm text-purple-600">Configurées</span>
+              <span className="text-sm text-purple-600">En négociation</span>
             </div>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card 
+          className="cursor-pointer hover:shadow-lg transition-shadow"
+          onClick={() => navigate('/projets')}
+        >
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Mes Projets</CardTitle>
+            <CardTitle className="text-sm font-medium">Projets</CardTitle>
             <Sparkles className="h-4 w-4 text-violet-600" />
           </CardHeader>
           <CardContent>
