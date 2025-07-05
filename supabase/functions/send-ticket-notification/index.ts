@@ -102,7 +102,7 @@ const handler = async (req: Request): Promise<Response> => {
           
           <p style="font-size: 14px; color: #64748b;">
             Cordialement,<br>
-            L'équipe Digital Future Agents<br>
+            L'équipe AgenceImpact.com<br>
             Experts en Automatisation IA pour la Gestion de Fournisseurs
           </p>
         </div>

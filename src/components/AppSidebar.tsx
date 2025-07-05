@@ -103,8 +103,8 @@ export function AppSidebar() {
             <Bot className="w-6 h-6 text-white" />
           </div>
           <div className="text-white">
-            <div className="font-bold text-lg">Digital Future</div>
-            <div className="text-sm text-white/80">Agents IA</div>
+            <div className="font-bold text-lg">AgenceImpact.com</div>
+            <div className="text-sm text-white/80">Solutions IA</div>
           </div>
         </div>
       </SidebarHeader>

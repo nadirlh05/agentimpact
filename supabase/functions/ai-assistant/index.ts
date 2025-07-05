@@ -169,7 +169,7 @@ function findRelevantKnowledge(message: string, knowledgeBase: KnowledgeItem[]):
 }
 
 function buildSystemPrompt(relevantKnowledge: KnowledgeItem[]): string {
-  let prompt = `Tu es l'assistant IA de Digital Future Agents, une plateforme spécialisée dans l'automatisation IA pour entreprises.
+  let prompt = `Tu es l'assistant IA d'AgenceImpact.com, une plateforme spécialisée dans l'automatisation IA pour entreprises.
 
 Ton rôle est d'aider les visiteurs du site en répondant à leurs questions sur nos services, tarifs, et processus.
 

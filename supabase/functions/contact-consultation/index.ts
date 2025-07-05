@@ -34,7 +34,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Email vers l'admin (vous)
     const adminEmailResponse = await resend.emails.send({
-      from: "Digital Future Agents <onboarding@resend.dev>",
+      from: "AgenceImpact.com <onboarding@resend.dev>",
       to: ["nadir.lahyani@outlook.fr"], // Votre email
       subject: `🚀 Nouvelle demande de consultation - ${formData.entreprise}`,
       html: `
@@ -73,7 +73,7 @@ const handler = async (req: Request): Promise<Response> => {
           </div>
 
           <div style="text-align: center; margin-top: 30px;">
-            <a href="mailto:${formData.email}?subject=Re: Consultation gratuite - Digital Future Agents" 
+            <a href="mailto:${formData.email}?subject=Re: Consultation gratuite - AgenceImpact.com" 
                style="background-color: #3B82F6; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; display: inline-block;">
               Répondre par Email
             </a>
@@ -84,7 +84,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Email de confirmation au client
     const clientEmailResponse = await resend.emails.send({
-      from: "Digital Future Agents <onboarding@resend.dev>",
+      from: "AgenceImpact.com <onboarding@resend.dev>",
       to: [formData.email],
       subject: "Confirmation de votre demande de consultation",
       html: `
@@ -117,10 +117,10 @@ const handler = async (req: Request): Promise<Response> => {
           <p>En attendant notre contact, n'hésitez pas à consulter nos <a href="https://votre-domaine.com/services" style="color: #3B82F6;">services</a> pour mieux comprendre nos solutions IA.</p>
           
           <p>À très bientôt !<br>
-          <strong>L'équipe Digital Future Agents</strong></p>
+          <strong>L'équipe AgenceImpact.com</strong></p>
 
           <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #E5E7EB; color: #6B7280; font-size: 12px;">
-            <p>Digital Future Agents - Expert en Intelligence Artificielle<br>
+            <p>AgenceImpact.com - Expert en Intelligence Artificielle<br>
             Email: nadir.lahyani@outlook.fr</p>
           </div>
         </div>
