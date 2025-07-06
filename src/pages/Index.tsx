@@ -23,11 +23,21 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 import { AIAssistantTrigger } from "@/components/AIAssistantTrigger";
 import heroImage from "@/assets/hero-supplier-management.jpg";
 
 const Index = () => {
   const navigate = useNavigate();
+
+  // Check if this is a password reset redirect
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash.includes('access_token') && hash.includes('type=recovery')) {
+      // Redirect to auth page with the hash intact
+      navigate('/auth' + hash);
+    }
+  }, [navigate]);
 
   const aiServices = [
     { 
