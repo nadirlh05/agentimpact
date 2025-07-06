@@ -63,33 +63,52 @@ const Auth = () => {
       return;
     }
     
-    // If we have tokens from Supabase auth redirect, set the session
-    if (accessToken && refreshToken && type === 'recovery') {
-      console.log('Setting session with recovery tokens');
-      supabase.auth.setSession({
-        access_token: accessToken,
-        refresh_token: refreshToken
-      }).then(({ error }) => {
-        if (error) {
-          console.error('Error setting session:', error);
-          toast({
-            title: "Erreur",
-            description: "Impossible de valider le lien de réinitialisation.",
-            variant: "destructive",
-          });
-        } else {
-          console.log('Session set successfully, showing new password tab');
-          setShowNewPasswordTab(true);
-          setDefaultTab('new-password');
-          // Clean up URL by removing hash parameters
-          window.history.replaceState({}, document.title, window.location.pathname + '?reset=true');
-        }
-      });
-    } else if (isReset === 'true') {
+    // Si on détecte des tokens de récupération ou le paramètre reset=true
+    if ((accessToken && refreshToken && type === 'recovery') || isReset === 'true') {
+      console.log('Recovery tokens detected, showing new password tab');
+      setShowNewPasswordTab(true);
+      setDefaultTab('new-password');
+      
+      // Si on a des tokens, on établit la session
+      if (accessToken && refreshToken && type === 'recovery') {
+        supabase.auth.setSession({
+          access_token: accessToken,
+          refresh_token: refreshToken
+        }).then(({ error }) => {
+          if (error) {
+            console.error('Error setting session:', error);
+            toast({
+              title: "Erreur",
+              description: "Impossible de valider le lien de réinitialisation.",
+              variant: "destructive",
+            });
+          } else {
+            console.log('Session set successfully for password recovery');
+            // Clean up URL by removing hash parameters
+            window.history.replaceState({}, document.title, window.location.pathname + '?reset=true');
+          }
+        });
+      }
+      
+      // Empêcher toute redirection automatique
+      const preventRedirect = setTimeout(() => {
+        console.log('Ensuring new password tab is shown');
+        setShowNewPasswordTab(true);
+        setDefaultTab('new-password');
+      }, 100);
+      
+      return () => clearTimeout(preventRedirect);
+    }
+  }, [location.search, location.hash, toast]);
+
+  // Effet supplémentaire pour s'assurer que l'onglet reste sur "nouveau mot de passe"
+  useEffect(() => {
+    const urlParams = new URLSearchParams(location.search);
+    if (urlParams.get('reset') === 'true') {
       setShowNewPasswordTab(true);
       setDefaultTab('new-password');
     }
-  }, [location.search, location.hash, toast]);
+  }, [location.search]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
