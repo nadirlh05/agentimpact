@@ -9,6 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Zap, Mail, Lock, User, ArrowLeft } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthProvider';
 import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -29,8 +30,18 @@ const Auth = () => {
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
     const isReset = urlParams.get('reset');
+    const accessToken = urlParams.get('access_token');
+    const refreshToken = urlParams.get('refresh_token');
     
-    if (isReset === 'true') {
+    // If we have tokens from Supabase auth redirect, set the session
+    if (accessToken && refreshToken) {
+      supabase.auth.setSession({
+        access_token: accessToken,
+        refresh_token: refreshToken
+      }).then(() => {
+        setDefaultTab('new-password');
+      });
+    } else if (isReset === 'true') {
       setDefaultTab('new-password');
     }
   }, [location.search]);
