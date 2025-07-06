@@ -23,6 +23,7 @@ const Auth = () => {
   const [resetEmail, setResetEmail] = useState('');
   const [newPasswordData, setNewPasswordData] = useState({ password: '', confirmPassword: '' });
   const [defaultTab, setDefaultTab] = useState('login');
+  const [showNewPasswordTab, setShowNewPasswordTab] = useState(false);
 
   const from = location.state?.from?.pathname || '/generator';
 
@@ -39,9 +40,11 @@ const Auth = () => {
         access_token: accessToken,
         refresh_token: refreshToken
       }).then(() => {
+        setShowNewPasswordTab(true);
         setDefaultTab('new-password');
       });
     } else if (isReset === 'true') {
+      setShowNewPasswordTab(true);
       setDefaultTab('new-password');
     }
   }, [location.search]);
@@ -260,11 +263,13 @@ const Auth = () => {
           </CardHeader>
           <CardContent>
             <Tabs value={defaultTab} onValueChange={setDefaultTab} className="space-y-4">
-              <TabsList className="grid w-full grid-cols-4">
+              <TabsList className={`grid w-full ${showNewPasswordTab ? 'grid-cols-4' : 'grid-cols-3'}`}>
                 <TabsTrigger value="login">Connexion</TabsTrigger>
                 <TabsTrigger value="signup">Inscription</TabsTrigger>
                 <TabsTrigger value="reset">Mot de passe</TabsTrigger>
-                <TabsTrigger value="new-password">Nouveau mot de passe</TabsTrigger>
+                {showNewPasswordTab && (
+                  <TabsTrigger value="new-password">Nouveau mot de passe</TabsTrigger>
+                )}
               </TabsList>
 
               {/* Login Tab */}
@@ -373,59 +378,61 @@ const Auth = () => {
                 </div>
               </TabsContent>
 
-              {/* New Password Tab */}
-              <TabsContent value="new-password">
-                <form onSubmit={handleUpdatePassword} className="space-y-4">
-                  <div className="text-center mb-4">
-                    <h3 className="text-lg font-medium">Nouveau mot de passe</h3>
-                    <p className="text-sm text-gray-600 mt-1">
-                      Entrez votre nouveau mot de passe
-                    </p>
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <Label htmlFor="new-password">Nouveau mot de passe</Label>
-                    <div className="relative">
-                      <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                      <Input
-                        id="new-password"
-                        type="password"
-                        placeholder="••••••••"
-                        value={newPasswordData.password}
-                        onChange={(e) => setNewPasswordData({ ...newPasswordData, password: e.target.value })}
-                        className="pl-10"
-                        required
-                        minLength={6}
-                      />
+              {/* New Password Tab - Only shown when coming from reset link */}
+              {showNewPasswordTab && (
+                <TabsContent value="new-password">
+                  <form onSubmit={handleUpdatePassword} className="space-y-4">
+                    <div className="text-center mb-4">
+                      <h3 className="text-lg font-medium">Nouveau mot de passe</h3>
+                      <p className="text-sm text-gray-600 mt-1">
+                        Entrez votre nouveau mot de passe
+                      </p>
                     </div>
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="confirm-new-password">Confirmer le nouveau mot de passe</Label>
-                    <div className="relative">
-                      <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                      <Input
-                        id="confirm-new-password"
-                        type="password"
-                        placeholder="••••••••"
-                        value={newPasswordData.confirmPassword}
-                        onChange={(e) => setNewPasswordData({ ...newPasswordData, confirmPassword: e.target.value })}
-                        className="pl-10"
-                        required
-                        minLength={6}
-                      />
+                    
+                    <div className="space-y-2">
+                      <Label htmlFor="new-password">Nouveau mot de passe</Label>
+                      <div className="relative">
+                        <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                        <Input
+                          id="new-password"
+                          type="password"
+                          placeholder="••••••••"
+                          value={newPasswordData.password}
+                          onChange={(e) => setNewPasswordData({ ...newPasswordData, password: e.target.value })}
+                          className="pl-10"
+                          required
+                          minLength={6}
+                        />
+                      </div>
                     </div>
-                  </div>
 
-                  <Button 
-                    type="submit" 
-                    className="w-full bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-700 hover:to-violet-700"
-                    disabled={isLoading}
-                  >
-                    {isLoading ? "Mise à jour..." : "Mettre à jour le mot de passe"}
-                  </Button>
-                </form>
-              </TabsContent>
+                    <div className="space-y-2">
+                      <Label htmlFor="confirm-new-password">Confirmer le nouveau mot de passe</Label>
+                      <div className="relative">
+                        <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                        <Input
+                          id="confirm-new-password"
+                          type="password"
+                          placeholder="••••••••"
+                          value={newPasswordData.confirmPassword}
+                          onChange={(e) => setNewPasswordData({ ...newPasswordData, confirmPassword: e.target.value })}
+                          className="pl-10"
+                          required
+                          minLength={6}
+                        />
+                      </div>
+                    </div>
+
+                    <Button 
+                      type="submit" 
+                      className="w-full bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-700 hover:to-violet-700"
+                      disabled={isLoading}
+                    >
+                      {isLoading ? "Mise à jour..." : "Mettre à jour le mot de passe"}
+                    </Button>
+                  </form>
+                </TabsContent>
+              )}
 
               {/* Signup Tab */}
               <TabsContent value="signup">
