@@ -15,7 +15,8 @@ import {
   Calendar,
   MessageSquare,
   Send,
-  Edit
+  Edit,
+  MessageCircle
 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { Tables } from '@/integrations/supabase/types';
@@ -148,6 +149,54 @@ const AdminTicketDetail = () => {
       setSendingResponse(false);
     }
   };
+
+  const sendWhatsAppResponse = async () => {
+    if (!ticket || !responseText.trim()) return;
+
+    setSendingResponse(true);
+    try {
+      // Extract phone number from WhatsApp email format
+      const phoneMatch = ticket.email_from.match(/whatsapp:(\+?\d+)/);
+      if (!phoneMatch) {
+        throw new Error('Numéro WhatsApp non trouvé dans le ticket');
+      }
+      
+      const phoneNumber = phoneMatch[1];
+      
+      // Send WhatsApp message
+      const { error } = await supabase.functions.invoke('whatsapp-handler', {
+        body: {
+          to: phoneNumber,
+          message: `Réponse à votre demande (Ticket #${ticket.id.slice(-8)}):\n\n${responseText}\n\n---\nÉquipe AgentImpact.fr 🤖✨`
+        }
+      });
+
+      if (error) throw error;
+
+      // Update ticket status to "En cours" if it was pending
+      if (ticket.statut === 'En attente') {
+        await updateTicketStatus('En cours');
+      }
+
+      setResponseText('');
+      toast({
+        title: "Réponse envoyée",
+        description: "Votre réponse a été envoyée par WhatsApp.",
+      });
+    } catch (error) {
+      console.error('Error sending WhatsApp response:', error);
+      toast({
+        title: "Erreur",
+        description: "Impossible d'envoyer la réponse par WhatsApp.",
+        variant: "destructive",
+      });
+    } finally {
+      setSendingResponse(false);
+    }
+  };
+
+  // Check if ticket is from WhatsApp
+  const isWhatsAppTicket = ticket?.email_from?.includes('whatsapp:') || ticket?.categorie === 'WhatsApp';
 
   const getStatusBadge = (status: string | null) => {
     switch (status) {
@@ -300,14 +349,25 @@ const AdminTicketDetail = () => {
               </div>
               
               <div className="flex space-x-2">
-                <Button 
-                  onClick={sendResponse}
-                  disabled={!responseText.trim() || sendingResponse}
-                  className="flex-1"
-                >
-                  <Mail className="w-4 h-4 mr-2" />
-                  {sendingResponse ? 'Envoi...' : 'Envoyer par email'}
-                </Button>
+                {isWhatsAppTicket ? (
+                  <Button 
+                    onClick={sendWhatsAppResponse}
+                    disabled={!responseText.trim() || sendingResponse}
+                    className="flex-1"
+                  >
+                    <MessageCircle className="w-4 h-4 mr-2" />
+                    {sendingResponse ? 'Envoi...' : 'Répondre par WhatsApp'}
+                  </Button>
+                ) : (
+                  <Button 
+                    onClick={sendResponse}
+                    disabled={!responseText.trim() || sendingResponse}
+                    className="flex-1"
+                  >
+                    <Mail className="w-4 h-4 mr-2" />
+                    {sendingResponse ? 'Envoi...' : 'Envoyer par email'}
+                  </Button>
+                )}
               </div>
             </CardContent>
           </Card>
