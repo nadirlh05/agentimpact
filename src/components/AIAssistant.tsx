@@ -41,7 +41,7 @@ export const AIAssistant = ({ isOpen, onClose, triggerSource = 'manual' }: AIAss
       case 'inactivity':
         return "👋 Besoin d'aide pour naviguer sur notre site ? Je suis là pour vous accompagner !";
       default:
-        return "👋 Bonjour ! Je suis l'assistant IA d'AgenceImpact.com. Comment puis-je vous aider aujourd'hui ?";
+        return "👋 Bonjour ! Je suis l'assistant IA d'AgentImpact.fr. Comment puis-je vous aider aujourd'hui ?";
     }
   };
 
