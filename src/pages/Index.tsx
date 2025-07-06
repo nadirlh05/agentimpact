@@ -60,7 +60,7 @@ const Index = () => {
               <Zap className="w-5 h-5 text-white" />
             </div>
             <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text text-transparent">
-              AgenceImpact.com
+              AgentImpact.fr
             </span>
           </div>
           <nav className="hidden md:flex items-center space-x-8">

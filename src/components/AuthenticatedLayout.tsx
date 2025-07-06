@@ -19,7 +19,7 @@ const AuthenticatedLayout = ({ children }: AuthenticatedLayoutProps) => {
             <div className="flex-1">
               <div className="flex items-center space-x-4">
                 <div>
-                  <h1 className="text-xl font-bold text-foreground">AgenceImpact.com</h1>
+                  <h1 className="text-xl font-bold text-foreground">AgentImpact.fr</h1>
                   <p className="text-sm text-muted-foreground">Plateforme d'automatisation IA</p>
                 </div>
               </div>
