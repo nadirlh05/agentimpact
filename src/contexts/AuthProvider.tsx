@@ -77,6 +77,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const signOut = async () => {
     const { error } = await supabase.auth.signOut();
+    if (!error) {
+      // Rediriger vers la page d'accueil après déconnexion
+      window.location.href = '/';
+    }
     return { error };
   };
 
