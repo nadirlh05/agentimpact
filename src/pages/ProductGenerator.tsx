@@ -9,10 +9,13 @@ import { useNavigate } from "react-router-dom";
 import UserProfile from "@/components/UserProfile";
 import { useToast } from "@/hooks/use-toast";
 import { ExampleGenerator } from "@/components/ExampleGenerator";
+import { useAuth } from "@/contexts/AuthProvider";
+import { supabase } from "@/integrations/supabase/client";
 
 const ProductGenerator = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { user } = useAuth();
   const [isLoading, setIsLoading] = useState<string | null>(null);
 
   const exemplesSolutions = [
@@ -86,13 +89,41 @@ const ProductGenerator = () => {
   const handleContactSolution = async (solution: string) => {
     setIsLoading(solution);
     
-    // Simuler une action de contact
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    toast({
-      title: "Demande envoyée !",
-      description: `Nous vous recontacterons sous 24h pour discuter de la solution ${solution}.`,
-    });
+    try {
+      // Récupérer les détails de la solution
+      const solutionDetails = exemplesSolutions.find(s => s.solution === solution);
+      
+      // Appeler la fonction Edge pour envoyer l'email et créer l'opportunité
+      const { data, error } = await supabase.functions.invoke('send-quote-request', {
+        body: {
+          solutionName: solution,
+          solutionPrice: solutionDetails?.prix || 'Prix sur demande',
+          userEmail: user?.email,
+          userId: user?.id
+        }
+      });
+
+      if (error) {
+        console.error("Erreur lors de l'envoi:", error);
+        toast({
+          title: "Erreur",
+          description: "Une erreur est survenue lors de l'envoi de votre demande.",
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Demande envoyée !",
+          description: `Nous avons bien reçu votre demande pour ${solution}. Nous vous recontacterons sous 24h.`,
+        });
+      }
+    } catch (error) {
+      console.error("Erreur:", error);
+      toast({
+        title: "Erreur",
+        description: "Une erreur est survenue lors de l'envoi de votre demande.",
+        variant: "destructive",
+      });
+    }
     
     setIsLoading(null);
   };
