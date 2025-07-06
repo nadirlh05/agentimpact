@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -13,15 +13,27 @@ import { useToast } from '@/hooks/use-toast';
 const Auth = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { signIn, signUp, resetPassword } = useAuth();
+  const { signIn, signUp, resetPassword, updatePassword } = useAuth();
   const { toast } = useToast();
   
   const [isLoading, setIsLoading] = useState(false);
   const [loginData, setLoginData] = useState({ email: '', password: '' });
   const [signupData, setSignupData] = useState({ email: '', password: '', fullName: '', confirmPassword: '' });
   const [resetEmail, setResetEmail] = useState('');
+  const [newPasswordData, setNewPasswordData] = useState({ password: '', confirmPassword: '' });
+  const [defaultTab, setDefaultTab] = useState('login');
 
   const from = location.state?.from?.pathname || '/generator';
+
+  // Check for password reset URL parameters
+  useEffect(() => {
+    const urlParams = new URLSearchParams(location.search);
+    const isReset = urlParams.get('reset');
+    
+    if (isReset === 'true') {
+      setDefaultTab('new-password');
+    }
+  }, [location.search]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -152,6 +164,56 @@ const Auth = () => {
     }
   };
 
+  const handleUpdatePassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (newPasswordData.password !== newPasswordData.confirmPassword) {
+      toast({
+        title: "Erreur",
+        description: "Les mots de passe ne correspondent pas.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (newPasswordData.password.length < 6) {
+      toast({
+        title: "Erreur", 
+        description: "Le mot de passe doit contenir au moins 6 caractères.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      const { error } = await updatePassword(newPasswordData.password);
+      
+      if (error) {
+        toast({
+          title: "Erreur",
+          description: error.message,
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Mot de passe mis à jour !",
+          description: "Votre mot de passe a été changé avec succès.",
+        });
+        navigate(from, { replace: true });
+      }
+    } catch (error) {
+      toast({
+        title: "Erreur",
+        description: "Une erreur est survenue lors de la mise à jour du mot de passe.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
@@ -186,11 +248,12 @@ const Auth = () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <Tabs defaultValue="login" className="space-y-4">
-              <TabsList className="grid w-full grid-cols-3">
+            <Tabs value={defaultTab} onValueChange={setDefaultTab} className="space-y-4">
+              <TabsList className="grid w-full grid-cols-4">
                 <TabsTrigger value="login">Connexion</TabsTrigger>
                 <TabsTrigger value="signup">Inscription</TabsTrigger>
                 <TabsTrigger value="reset">Mot de passe</TabsTrigger>
+                <TabsTrigger value="new-password">Nouveau mot de passe</TabsTrigger>
               </TabsList>
 
               {/* Login Tab */}
@@ -242,11 +305,8 @@ const Auth = () => {
                     variant="link" 
                     size="sm" 
                     onClick={() => {
-                      const tabsElement = document.querySelector('[data-state="active"]');
-                      if (tabsElement) {
-                        const resetTab = document.querySelector('[value="reset"]') as HTMLElement;
-                        resetTab?.click();
-                      }
+                      const resetTab = document.querySelector('[value="reset"]') as HTMLElement;
+                      resetTab?.click();
                     }}
                     className="text-sm text-gray-600 hover:text-gray-800"
                   >
@@ -294,15 +354,66 @@ const Auth = () => {
                   <Button 
                     variant="link" 
                     size="sm" 
-                    onClick={() => {
-                      const loginTab = document.querySelector('[value="login"]') as HTMLElement;
-                      loginTab?.click();
-                    }}
+                    onClick={() => setDefaultTab('login')}
                     className="text-sm text-gray-600 hover:text-gray-800"
                   >
                     Retour à la connexion
                   </Button>
                 </div>
+              </TabsContent>
+
+              {/* New Password Tab */}
+              <TabsContent value="new-password">
+                <form onSubmit={handleUpdatePassword} className="space-y-4">
+                  <div className="text-center mb-4">
+                    <h3 className="text-lg font-medium">Nouveau mot de passe</h3>
+                    <p className="text-sm text-gray-600 mt-1">
+                      Entrez votre nouveau mot de passe
+                    </p>
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <Label htmlFor="new-password">Nouveau mot de passe</Label>
+                    <div className="relative">
+                      <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                      <Input
+                        id="new-password"
+                        type="password"
+                        placeholder="••••••••"
+                        value={newPasswordData.password}
+                        onChange={(e) => setNewPasswordData({ ...newPasswordData, password: e.target.value })}
+                        className="pl-10"
+                        required
+                        minLength={6}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="confirm-new-password">Confirmer le nouveau mot de passe</Label>
+                    <div className="relative">
+                      <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                      <Input
+                        id="confirm-new-password"
+                        type="password"
+                        placeholder="••••••••"
+                        value={newPasswordData.confirmPassword}
+                        onChange={(e) => setNewPasswordData({ ...newPasswordData, confirmPassword: e.target.value })}
+                        className="pl-10"
+                        required
+                        minLength={6}
+                      />
+                    </div>
+                  </div>
+
+                  <Button 
+                    type="submit" 
+                    className="w-full bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-700 hover:to-violet-700"
+                    disabled={isLoading}
+                  >
+                    {isLoading ? "Mise à jour..." : "Mettre à jour le mot de passe"}
+                  </Button>
+                </form>
               </TabsContent>
 
               {/* Signup Tab */}
