@@ -36,6 +36,9 @@ const Index = () => {
     if (hash.includes('access_token') && hash.includes('type=recovery')) {
       // Redirect to auth page with the hash intact
       navigate('/auth' + hash);
+    } else if (hash.includes('error=access_denied') || hash.includes('error_code=otp_expired')) {
+      // Handle password reset errors
+      navigate('/auth?error=expired');
     }
   }, [navigate]);
 

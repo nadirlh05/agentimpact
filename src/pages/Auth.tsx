@@ -33,9 +33,23 @@ const Auth = () => {
     const hashParams = new URLSearchParams(location.hash.substring(1)); // Remove the # and parse
     
     const isReset = urlParams.get('reset');
+    const isError = urlParams.get('error');
     const accessToken = hashParams.get('access_token') || urlParams.get('access_token');
     const refreshToken = hashParams.get('refresh_token') || urlParams.get('refresh_token');
     const type = hashParams.get('type');
+    
+    // Handle expired or invalid reset links
+    if (isError === 'expired') {
+      toast({
+        title: "Lien expiré",
+        description: "Le lien de réinitialisation du mot de passe a expiré. Veuillez en demander un nouveau.",
+        variant: "destructive",
+      });
+      setDefaultTab('reset');
+      // Clean up URL
+      window.history.replaceState({}, document.title, window.location.pathname);
+      return;
+    }
     
     // If we have tokens from Supabase auth redirect, set the session
     if (accessToken && refreshToken && type === 'recovery') {
@@ -52,7 +66,7 @@ const Auth = () => {
       setShowNewPasswordTab(true);
       setDefaultTab('new-password');
     }
-  }, [location.search, location.hash]);
+  }, [location.search, location.hash, toast]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
