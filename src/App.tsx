@@ -9,6 +9,7 @@ import { useUserRole } from "@/hooks/useUserRole";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import AdminRoute from "@/components/AdminRoute";
 import AuthenticatedLayout from "@/components/AuthenticatedLayout";
+import CRMDashboard from "@/components/CRMDashboard";
 import Index from "./pages/Index";
 import ProductGenerator from "./pages/ProductGenerator";
 import OfferConfigurator from "./pages/OfferConfigurator";
@@ -82,6 +83,13 @@ const AppContent = () => {
             <AdminRoute>
               <AuthenticatedLayout>
                 <AdminUsers />
+              </AuthenticatedLayout>
+            </AdminRoute>
+          } />
+          <Route path="/admin/crm" element={
+            <AdminRoute>
+              <AuthenticatedLayout>
+                <CRMDashboard />
               </AuthenticatedLayout>
             </AdminRoute>
           } />
