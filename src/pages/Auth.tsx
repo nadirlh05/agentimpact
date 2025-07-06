@@ -44,11 +44,12 @@ const Auth = () => {
     
     const isReset = urlParams.get('reset');
     const isError = urlParams.get('error');
+    const typeParam = urlParams.get('type');
     const accessToken = hashParams.get('access_token') || urlParams.get('access_token');
     const refreshToken = hashParams.get('refresh_token') || urlParams.get('refresh_token');
     const type = hashParams.get('type');
     
-    console.log('Auth page - URL params:', { isReset, isError, accessToken: !!accessToken, refreshToken: !!refreshToken, type });
+    console.log('Auth page - URL params:', { isReset, isError, typeParam, accessToken: !!accessToken, refreshToken: !!refreshToken, type });
     
     // Handle expired or invalid reset links
     if (isError === 'expired') {
@@ -63,13 +64,15 @@ const Auth = () => {
       return;
     }
     
-    // Si on détecte des tokens de récupération ou le paramètre reset=true
-    if ((accessToken && refreshToken && type === 'recovery') || isReset === 'true') {
-      console.log('Recovery tokens detected, showing new password tab');
+    // Si on détecte le paramètre type=recovery ou des tokens de récupération
+    const isPasswordRecovery = typeParam === 'recovery' || (accessToken && refreshToken && type === 'recovery') || isReset === 'true';
+    
+    if (isPasswordRecovery) {
+      console.log('Password recovery flow detected, showing new password tab');
       setShowNewPasswordTab(true);
       setDefaultTab('new-password');
       
-      // Si on a des tokens, on établit la session
+      // Si on a des tokens, on établit la session silencieusement
       if (accessToken && refreshToken && type === 'recovery') {
         supabase.auth.setSession({
           access_token: accessToken,
@@ -84,27 +87,18 @@ const Auth = () => {
             });
           } else {
             console.log('Session set successfully for password recovery');
-            // Clean up URL by removing hash parameters
-            window.history.replaceState({}, document.title, window.location.pathname + '?reset=true');
+            // Clean up URL by removing hash parameters but keep type=recovery
+            window.history.replaceState({}, document.title, window.location.pathname + '?type=recovery');
           }
         });
       }
-      
-      // Empêcher toute redirection automatique
-      const preventRedirect = setTimeout(() => {
-        console.log('Ensuring new password tab is shown');
-        setShowNewPasswordTab(true);
-        setDefaultTab('new-password');
-      }, 100);
-      
-      return () => clearTimeout(preventRedirect);
     }
   }, [location.search, location.hash, toast]);
 
   // Effet supplémentaire pour s'assurer que l'onglet reste sur "nouveau mot de passe"
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
-    if (urlParams.get('reset') === 'true') {
+    if (urlParams.get('type') === 'recovery' || urlParams.get('reset') === 'true') {
       setShowNewPasswordTab(true);
       setDefaultTab('new-password');
     }

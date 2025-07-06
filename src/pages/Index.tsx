@@ -33,12 +33,17 @@ const Index = () => {
   // Check if this is a password reset redirect
   useEffect(() => {
     const hash = window.location.hash;
+    const search = window.location.search;
+    
     if (hash.includes('access_token') && hash.includes('type=recovery')) {
       // Redirect to auth page with the hash intact
       navigate('/auth' + hash);
     } else if (hash.includes('error=access_denied') || hash.includes('error_code=otp_expired')) {
       // Handle password reset errors
       navigate('/auth?error=expired');
+    } else if (search.includes('type=recovery')) {
+      // Direct recovery URL redirect
+      navigate('/auth?type=recovery');
     }
   }, [navigate]);
 
