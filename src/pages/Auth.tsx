@@ -13,12 +13,13 @@ import { useToast } from '@/hooks/use-toast';
 const Auth = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { signIn, signUp } = useAuth();
+  const { signIn, signUp, resetPassword } = useAuth();
   const { toast } = useToast();
   
   const [isLoading, setIsLoading] = useState(false);
   const [loginData, setLoginData] = useState({ email: '', password: '' });
   const [signupData, setSignupData] = useState({ email: '', password: '', fullName: '', confirmPassword: '' });
+  const [resetEmail, setResetEmail] = useState('');
 
   const from = location.state?.from?.pathname || '/generator';
 
@@ -120,6 +121,37 @@ const Auth = () => {
     }
   };
 
+  const handleResetPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    try {
+      const { error } = await resetPassword(resetEmail);
+      
+      if (error) {
+        toast({
+          title: "Erreur",
+          description: error.message,
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Email envoyé !",
+          description: "Vérifiez votre boîte email pour réinitialiser votre mot de passe.",
+        });
+        setResetEmail('');
+      }
+    } catch (error) {
+      toast({
+        title: "Erreur",
+        description: "Une erreur est survenue lors de l'envoi de l'email.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
@@ -155,9 +187,10 @@ const Auth = () => {
           </CardHeader>
           <CardContent>
             <Tabs defaultValue="login" className="space-y-4">
-              <TabsList className="grid w-full grid-cols-2">
+              <TabsList className="grid w-full grid-cols-3">
                 <TabsTrigger value="login">Connexion</TabsTrigger>
                 <TabsTrigger value="signup">Inscription</TabsTrigger>
+                <TabsTrigger value="reset">Mot de passe</TabsTrigger>
               </TabsList>
 
               {/* Login Tab */}
@@ -203,6 +236,73 @@ const Auth = () => {
                     {isLoading ? "Connexion..." : "Se connecter"}
                   </Button>
                 </form>
+                
+                <div className="text-center mt-4">
+                  <Button 
+                    variant="link" 
+                    size="sm" 
+                    onClick={() => {
+                      const tabsElement = document.querySelector('[data-state="active"]');
+                      if (tabsElement) {
+                        const resetTab = document.querySelector('[value="reset"]') as HTMLElement;
+                        resetTab?.click();
+                      }
+                    }}
+                    className="text-sm text-gray-600 hover:text-gray-800"
+                  >
+                    Mot de passe oublié ?
+                  </Button>
+                </div>
+              </TabsContent>
+
+              {/* Reset Password Tab */}
+              <TabsContent value="reset">
+                <form onSubmit={handleResetPassword} className="space-y-4">
+                  <div className="text-center mb-4">
+                    <h3 className="text-lg font-medium">Réinitialiser votre mot de passe</h3>
+                    <p className="text-sm text-gray-600 mt-1">
+                      Entrez votre email pour recevoir un lien de réinitialisation
+                    </p>
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <Label htmlFor="reset-email">Email</Label>
+                    <div className="relative">
+                      <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                      <Input
+                        id="reset-email"
+                        type="email"
+                        placeholder="votre.email@exemple.com"
+                        value={resetEmail}
+                        onChange={(e) => setResetEmail(e.target.value)}
+                        className="pl-10"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <Button 
+                    type="submit" 
+                    className="w-full bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-700 hover:to-violet-700"
+                    disabled={isLoading}
+                  >
+                    {isLoading ? "Envoi en cours..." : "Envoyer le lien"}
+                  </Button>
+                </form>
+                
+                <div className="text-center mt-4">
+                  <Button 
+                    variant="link" 
+                    size="sm" 
+                    onClick={() => {
+                      const loginTab = document.querySelector('[value="login"]') as HTMLElement;
+                      loginTab?.click();
+                    }}
+                    className="text-sm text-gray-600 hover:text-gray-800"
+                  >
+                    Retour à la connexion
+                  </Button>
+                </div>
               </TabsContent>
 
               {/* Signup Tab */}
