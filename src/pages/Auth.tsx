@@ -30,24 +30,29 @@ const Auth = () => {
   // Check for password reset URL parameters
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
+    const hashParams = new URLSearchParams(location.hash.substring(1)); // Remove the # and parse
+    
     const isReset = urlParams.get('reset');
-    const accessToken = urlParams.get('access_token');
-    const refreshToken = urlParams.get('refresh_token');
+    const accessToken = hashParams.get('access_token') || urlParams.get('access_token');
+    const refreshToken = hashParams.get('refresh_token') || urlParams.get('refresh_token');
+    const type = hashParams.get('type');
     
     // If we have tokens from Supabase auth redirect, set the session
-    if (accessToken && refreshToken) {
+    if (accessToken && refreshToken && type === 'recovery') {
       supabase.auth.setSession({
         access_token: accessToken,
         refresh_token: refreshToken
       }).then(() => {
         setShowNewPasswordTab(true);
         setDefaultTab('new-password');
+        // Clean up URL by removing hash parameters
+        window.history.replaceState({}, document.title, window.location.pathname + '?reset=true');
       });
     } else if (isReset === 'true') {
       setShowNewPasswordTab(true);
       setDefaultTab('new-password');
     }
-  }, [location.search]);
+  }, [location.search, location.hash]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
