@@ -67,10 +67,10 @@ const getEmailTemplate = (type: string, data: TicketEmailRequest) => {
             </ul>
 
             <p>Nous vous contacterons dès que nous aurons des nouvelles concernant votre demande.</p>
-             <p>Cordialement,<br><strong>L'équipe AgenceImpact.com</strong></p>
+             <p>Cordialement,<br><strong>L'équipe AgentImpact.fr</strong></p>
           </div>
           <div class="footer">
-             <p>AgenceImpact.com - Spécialistes en Intelligence Artificielle</p>
+             <p>AgentImpact.fr - Solutions IA</p>
           </div>
         </div>
       `;
@@ -102,10 +102,10 @@ const getEmailTemplate = (type: string, data: TicketEmailRequest) => {
               <p>Notre équipe travaille activement sur votre demande. Nous vous tiendrons informé de l'avancement.</p>
             `}
 
-             <p>Cordialement,<br><strong>L'équipe AgenceImpact.com</strong></p>
+             <p>Cordialement,<br><strong>L'équipe AgentImpact.fr</strong></p>
           </div>
           <div class="footer">
-             <p>AgenceImpact.com - Spécialistes en Intelligence Artificielle</p>
+             <p>AgentImpact.fr - Solutions IA</p>
           </div>
         </div>
       `;
@@ -133,10 +133,10 @@ const getEmailTemplate = (type: string, data: TicketEmailRequest) => {
             </div>
 
             <p>Si vous avez besoin de plus d'informations, n'hésitez pas à répondre à ce message ou à créer un nouveau ticket.</p>
-            <p>Cordialement,<br><strong>L'équipe AgenceImpact.com</strong></p>
+            <p>Cordialement,<br><strong>L'équipe AgentImpact.fr</strong></p>
           </div>
           <div class="footer">
-            <p>AgenceImpact.com - Spécialistes en Intelligence Artificielle</p>
+            <p>AgentImpact.fr - Solutions IA</p>
           </div>
         </div>
       `;
@@ -159,7 +159,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Send email to client
     const clientEmailResponse = await resend.emails.send({
-       from: "AgenceImpact.com <support@resend.dev>",
+      from: "AgentImpact.fr <onboarding@resend.dev>",
       to: [emailData.clientEmail],
       subject: emailData.type === 'new_ticket' 
         ? `✅ Ticket créé #${emailData.ticketId.slice(-8)} - ${emailData.subject}`
@@ -172,7 +172,7 @@ const handler = async (req: Request): Promise<Response> => {
     // Send notification to admin if it's a new ticket
     if (emailData.type === 'new_ticket') {
       const adminEmailResponse = await resend.emails.send({
-        from: "AgenceImpact.com <support@resend.dev>",
+        from: "AgentImpact.fr <onboarding@resend.dev>",
         to: ["nadir.lahyani@outlook.fr"],
         subject: `🚨 Nouveau ticket de support - Priorité ${emailData.priority.toUpperCase()}`,
         html: `
@@ -186,7 +186,7 @@ const handler = async (req: Request): Promise<Response> => {
           </div>
           <p><strong>ID du ticket :</strong> ${emailData.ticketId}</p>
           <hr>
-          <p><a href="https://digital-future-agents.lovable.app/admin/tickets" style="background: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Gérer les tickets</a></p>
+          <p><a href="${Deno.env.get('SUPABASE_URL')?.replace('supabase.co', 'lovable.app') || 'https://digital-future-agents.lovable.app'}/admin/tickets" style="background: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Gérer les tickets</a></p>
         `,
       });
       console.log("Admin notification sent:", adminEmailResponse);
