@@ -33,44 +33,30 @@ const Services = () => {
     {
       category: "Agent IA Facturation",
       icon: Bot,
-      description: "Automatisation complète de votre processus de facturation",
+      description: "Automatise vos factures et relances clients",
       features: [
-        "Génération automatique de factures",
-        "Relances clients intelligentes",
-        "Détection d'anomalies de paiement",
-        "Intégration avec votre comptabilité"
+        "Création automatique des factures",
+        "Relances clients par email",
+        "Suivi des paiements",
+        "Rapports simples"
       ],
-      benefits: "90% d'erreurs en moins",
-      priceRange: "À partir de 3 500€",
-      duration: "3-6 semaines"
+      benefits: "Gain de temps : 80%",
+      priceRange: "À partir de 497€",
+      duration: "2-3 semaines"
     },
     {
-      category: "Gestion Fournisseurs IA",
+      category: "Agent IA Fournisseurs", 
       icon: Lightbulb,
-      description: "Optimisation des relations et négociations fournisseurs",
+      description: "Optimise la gestion de vos fournisseurs",
       features: [
-        "Suivi automatique des commandes",
-        "Négociation de prix intelligente",
-        "Évaluation performance fournisseurs",
-        "Prédiction des ruptures de stock"
+        "Suivi des commandes",
+        "Comparaison des prix",
+        "Alertes de livraison",
+        "Évaluation fournisseurs"
       ],
-      benefits: "15-30% d'économies",
-      priceRange: "À partir de 4 000€",
-      duration: "4-8 semaines"
-    },
-    {
-      category: "CRM Clients Intelligent",
-      icon: Code,
-      description: "Gestion automatisée des relations clients",
-      features: [
-        "Segmentation client automatique",
-        "Prédiction des besoins clients",
-        "Gestion des réclamations IA",
-        "Suivi satisfaction en temps réel"
-      ],
-      benefits: "40% fidélisation en plus",
-      priceRange: "À partir de 3 000€",
-      duration: "3-7 semaines"
+      benefits: "Économies : 15-25%",
+      priceRange: "À partir de 597€",
+      duration: "2-4 semaines"
     }
   ];
 
