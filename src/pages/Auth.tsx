@@ -48,6 +48,8 @@ const Auth = () => {
     const refreshToken = hashParams.get('refresh_token') || urlParams.get('refresh_token');
     const type = hashParams.get('type');
     
+    console.log('Auth page - URL params:', { isReset, isError, accessToken: !!accessToken, refreshToken: !!refreshToken, type });
+    
     // Handle expired or invalid reset links
     if (isError === 'expired') {
       toast({
@@ -63,14 +65,25 @@ const Auth = () => {
     
     // If we have tokens from Supabase auth redirect, set the session
     if (accessToken && refreshToken && type === 'recovery') {
+      console.log('Setting session with recovery tokens');
       supabase.auth.setSession({
         access_token: accessToken,
         refresh_token: refreshToken
-      }).then(() => {
-        setShowNewPasswordTab(true);
-        setDefaultTab('new-password');
-        // Clean up URL by removing hash parameters
-        window.history.replaceState({}, document.title, window.location.pathname + '?reset=true');
+      }).then(({ error }) => {
+        if (error) {
+          console.error('Error setting session:', error);
+          toast({
+            title: "Erreur",
+            description: "Impossible de valider le lien de réinitialisation.",
+            variant: "destructive",
+          });
+        } else {
+          console.log('Session set successfully, showing new password tab');
+          setShowNewPasswordTab(true);
+          setDefaultTab('new-password');
+          // Clean up URL by removing hash parameters
+          window.history.replaceState({}, document.title, window.location.pathname + '?reset=true');
+        }
       });
     } else if (isReset === 'true') {
       setShowNewPasswordTab(true);
