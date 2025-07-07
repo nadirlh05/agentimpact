@@ -135,15 +135,15 @@ const Index = () => {
             <div className="flex justify-center items-center space-x-8 text-sm text-gray-500">
               <div className="flex items-center space-x-2">
                 <CheckCircle className="w-4 h-4 text-green-600" />
-                <span>Expert facturation IA</span>
+                <span>Solutions personnalisées</span>
               </div>
               <div className="flex items-center space-x-2">
                 <Users className="w-4 h-4 text-blue-600" />
-                <span>25+ entreprises accompagnées</span>
+                <span>Accompagnement dédié</span>
               </div>
               <div className="flex items-center space-x-2">
                 <TrendingUp className="w-4 h-4 text-violet-600" />
-                <span>70% de coûts admin en moins</span>
+                <span>Optimisation des processus</span>
               </div>
             </div>
           </div>
