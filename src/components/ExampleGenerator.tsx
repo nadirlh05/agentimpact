@@ -10,7 +10,6 @@ import { Badge } from "@/components/ui/badge";
 import { Lightbulb, Wand2, CheckCircle, ArrowRight, DollarSign } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { OpenRouterService } from "@/services/openRouterService";
-import { ApiKeyInput } from "./ApiKeyInput";
 
 interface GeneratedExample {
   solution: string;
@@ -20,7 +19,6 @@ interface GeneratedExample {
 }
 
 export const ExampleGenerator = () => {
-  const [apiKey, setApiKey] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [generatedExample, setGeneratedExample] = useState<GeneratedExample | null>(null);
   const { toast } = useToast();
@@ -53,15 +51,6 @@ export const ExampleGenerator = () => {
   ];
 
   const handleGenerate = async () => {
-    if (!apiKey.trim()) {
-      toast({
-        title: "Clé API manquante",
-        description: "Veuillez configurer votre clé API OpenRouter.",
-        variant: "destructive"
-      });
-      return;
-    }
-
     if (!formData.businessType || !formData.challenge.trim()) {
       toast({
         title: "Informations manquantes",
@@ -73,7 +62,7 @@ export const ExampleGenerator = () => {
 
     setIsLoading(true);
     try {
-      const service = new OpenRouterService(apiKey);
+      const service = new OpenRouterService();
       const example = await service.generateExample(formData);
       setGeneratedExample(example);
       
@@ -104,11 +93,6 @@ export const ExampleGenerator = () => {
 
   return (
     <div className="space-y-6">
-      {/* Configuration API */}
-      <ApiKeyInput 
-        onApiKeyChange={setApiKey}
-        hasValidKey={!!apiKey}
-      />
 
       {/* Formulaire de génération */}
       <Card>
@@ -166,7 +150,7 @@ export const ExampleGenerator = () => {
           <div className="flex space-x-2">
             <Button
               onClick={handleGenerate}
-              disabled={isLoading || !apiKey}
+              disabled={isLoading}
               className="bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-700 hover:to-violet-700"
             >
               {isLoading ? (
