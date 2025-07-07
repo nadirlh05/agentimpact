@@ -125,7 +125,7 @@ const Index = () => {
                 onClick={() => navigate('/contact')}
                 size="lg"
                 variant="outline"
-                className="border-violet-600 text-violet-600 hover:bg-violet-50 text-lg px-8 py-4"
+                className="border-2 border-violet-600 text-violet-600 hover:bg-violet-600 hover:text-white text-lg px-8 py-4 bg-white"
               >
                 <MessageSquare className="w-5 h-5 mr-2" />
                 Consultation Gratuite
