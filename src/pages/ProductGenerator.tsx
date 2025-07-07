@@ -30,8 +30,7 @@ const ProductGenerator = () => {
         "Détection d'anomalies de paiement",
         "Intégration comptabilité automatique"
       ],
-      solution: "Agent Facturation Pro",
-      prix: "À partir de 3 500€"
+      solution: "Agent Facturation Pro"
     },
     {
       titre: "Gestionnaire IA Fournisseurs",
@@ -44,8 +43,7 @@ const ProductGenerator = () => {
         "Évaluation performance fournisseurs",
         "Prédiction des ruptures de stock"
       ],
-      solution: "Gestionnaire Fournisseurs IA",
-      prix: "À partir de 4 000€"
+      solution: "Gestionnaire Fournisseurs IA"
     },
     {
       titre: "CRM Client Intelligence",
@@ -58,8 +56,7 @@ const ProductGenerator = () => {
         "Gestion des réclamations IA",
         "Suivi satisfaction temps réel"
       ],
-      solution: "CRM IA Enterprise",
-      prix: "À partir de 3 000€"
+      solution: "CRM IA Enterprise"
     }
   ];
 
@@ -97,7 +94,7 @@ const ProductGenerator = () => {
       const { data, error } = await supabase.functions.invoke('send-quote-request', {
         body: {
           solutionName: solution,
-          solutionPrice: solutionDetails?.prix || 'Prix sur demande',
+          solutionPrice: 'Prix sur demande',
           userEmail: user?.email,
           userId: user?.id
         }
@@ -208,7 +205,6 @@ const ProductGenerator = () => {
                         <Badge variant="outline" className="text-blue-600 border-blue-600">
                           {solution.solution}
                         </Badge>
-                        <span className="font-bold text-lg text-gray-900">{solution.prix}</span>
                       </div>
                       
                       <Button 

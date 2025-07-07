@@ -41,7 +41,6 @@ const Services = () => {
         "Rapports simples"
       ],
       benefits: "Gain de temps : 80%",
-      priceRange: "À partir de 497€",
       duration: "2-3 semaines"
     },
     {
@@ -55,7 +54,6 @@ const Services = () => {
         "Évaluation fournisseurs"
       ],
       benefits: "Économies : 15-25%",
-      priceRange: "À partir de 597€",
       duration: "2-4 semaines"
     }
   ];
@@ -154,9 +152,6 @@ const Services = () => {
                     <div className="flex flex-wrap gap-2">
                       <Badge className="bg-green-100 text-green-700 font-medium">
                         {service.benefits}
-                      </Badge>
-                      <Badge variant="outline" className="text-blue-600 border-blue-600">
-                        {service.priceRange}
                       </Badge>
                       <Badge variant="outline" className="text-violet-600 border-violet-600">
                         <Clock className="w-3 h-3 mr-1" />

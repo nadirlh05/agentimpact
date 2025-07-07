@@ -300,9 +300,7 @@ const OfferConfigurator = () => {
 
         <div className="flex justify-between items-center pt-2 border-t">
           <div className="text-sm">
-            <span className="text-muted-foreground">À partir de </span>
-            <span className="font-bold text-lg">{solution.price_min}€</span>
-            <span className="text-muted-foreground">/{solution.pricing_model}</span>
+            <span className="text-muted-foreground">Prix sur demande</span>
           </div>
           <Button 
             variant={isSelected ? "default" : "outline"}
