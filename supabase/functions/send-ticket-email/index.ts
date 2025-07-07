@@ -192,7 +192,7 @@ const handler = async (req: Request): Promise<Response> => {
           </div>
           <p><strong>ID du ticket :</strong> ${emailData.ticketId}</p>
           <hr>
-          <p><a href="${Deno.env.get('SUPABASE_URL')?.replace('supabase.co', 'lovable.app') || 'https://digital-future-agents.lovable.app'}/admin/tickets" style="background: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Gérer les tickets</a></p>
+          <p><a href="https://digital-future-agents.lovable.app/admin/tickets" style="background: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Gérer les tickets</a></p>
         `,
       });
       console.log("Admin notification sent:", adminEmailResponse);
