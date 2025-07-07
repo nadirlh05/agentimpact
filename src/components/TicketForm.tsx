@@ -118,7 +118,17 @@ const TicketForm = () => {
 
       // Send email notifications
       try {
-        const { error: emailError } = await supabase.functions.invoke('send-ticket-email', {
+        console.log('Invoking send-ticket-email function with data:', {
+          type: 'new_ticket',
+          ticketId: ticket.id,
+          clientName: formData.clientName,
+          clientEmail: formData.clientEmail,
+          subject: formData.subject,
+          message: formData.description,
+          priority: formData.priority.toLowerCase()
+        });
+
+        const { data: emailData, error: emailError } = await supabase.functions.invoke('send-ticket-email', {
           body: {
             type: 'new_ticket',
             ticketId: ticket.id,
@@ -131,11 +141,22 @@ const TicketForm = () => {
         });
 
         if (emailError) {
-          // Email error handled
-          // Don't fail the whole process if email fails
+          console.error('Error from send-ticket-email function:', emailError);
+          toast({
+            title: "⚠️ Erreur d'envoi d'email",
+            description: `Le ticket a été créé mais l'email n'a pas pu être envoyé: ${emailError.message}`,
+            variant: "destructive",
+          });
+        } else {
+          console.log('Email function response:', emailData);
         }
       } catch (emailError) {
-        // Email function error handled
+        console.error('Exception calling send-ticket-email function:', emailError);
+        toast({
+          title: "⚠️ Erreur d'envoi d'email",
+          description: "Le ticket a été créé mais l'email n'a pas pu être envoyé.",
+          variant: "destructive",
+        });
       }
 
       toast({
