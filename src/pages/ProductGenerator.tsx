@@ -203,35 +203,21 @@ const ProductGenerator = () => {
                       <p className="text-gray-600">{solution.description}</p>
                     </CardHeader>
                     
-                    <CardContent className="space-y-6">
-                      <div>
-                        <h4 className="font-semibold text-gray-900 mb-3">Ce que nous mettons en place :</h4>
-                        <ul className="space-y-2">
-                          {solution.exemples.map((exemple, idx) => (
-                            <li key={idx} className="flex items-start space-x-2">
-                              <CheckCircle className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
-                              <span className="text-sm text-gray-700">{exemple}</span>
-                            </li>
-                          ))}
-                        </ul>
+                    <CardContent className="space-y-4">
+                      <div className="flex items-center justify-between">
+                        <Badge variant="outline" className="text-blue-600 border-blue-600">
+                          {solution.solution}
+                        </Badge>
+                        <span className="font-bold text-lg text-gray-900">{solution.prix}</span>
                       </div>
-
-                      <div className="border-t pt-4">
-                        <div className="flex items-center justify-between mb-3">
-                          <Badge variant="outline" className="text-blue-600 border-blue-600">
-                            {solution.solution}
-                          </Badge>
-                          <span className="font-bold text-lg text-gray-900">{solution.prix}</span>
-                        </div>
-                        
-                        <Button 
-                          className="w-full"
-                          onClick={() => handleContactSolution(solution.solution)}
-                          disabled={isLoading === solution.solution}
-                        >
-                          {isLoading === solution.solution ? 'En cours...' : 'Demander un devis'}
-                        </Button>
-                      </div>
+                      
+                      <Button 
+                        className="w-full"
+                        onClick={() => handleContactSolution(solution.solution)}
+                        disabled={isLoading === solution.solution}
+                      >
+                        {isLoading === solution.solution ? 'En cours...' : 'Demander un devis'}
+                      </Button>
                     </CardContent>
                   </Card>
                 ))}
