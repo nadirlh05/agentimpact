@@ -165,7 +165,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Send email to client
     const clientEmailResponse = await resend.emails.send({
-      from: "Support AgentImpact <nadir.lahyani@outlook.fr>",
+      from: "Support AgentImpact <onboarding@resend.dev>",
       to: [emailData.clientEmail],
       subject: emailData.type === 'new_ticket' 
         ? `✅ Ticket créé #${emailData.ticketId.slice(-8)} - ${emailData.subject}`
@@ -178,7 +178,7 @@ const handler = async (req: Request): Promise<Response> => {
     // Send notification to admin if it's a new ticket
     if (emailData.type === 'new_ticket') {
       const adminEmailResponse = await resend.emails.send({
-        from: "Support AgentImpact <nadir.lahyani@outlook.fr>",
+        from: "Support AgentImpact <onboarding@resend.dev>",
         to: ["nadir.lahyani@outlook.fr"],
         subject: `🚨 Nouveau ticket de support - Priorité ${emailData.priority.toUpperCase()}`,
         html: `
