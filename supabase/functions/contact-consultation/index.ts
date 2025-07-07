@@ -28,15 +28,29 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
+    // Vérifier que la clé API Resend est disponible
+    const resendApiKey = Deno.env.get("RESEND_API_KEY");
+    if (!resendApiKey) {
+      console.error("RESEND_API_KEY n'est pas configurée");
+      throw new Error("Configuration email manquante");
+    }
+    
+    console.log("Clé API Resend disponible:", resendApiKey ? "✓" : "✗");
+    
     const formData: ConsultationRequest = await req.json();
     
-    console.log("Nouvelle demande de consultation reçue:", formData);
+    console.log("Nouvelle demande de consultation reçue:", {
+      prenom: formData.prenom,
+      nom: formData.nom,
+      email: formData.email,
+      entreprise: formData.entreprise
+    });
 
     // Email vers l'admin (vous)
     const adminEmailResponse = await resend.emails.send({
-      from: "AgenceImpact.com <onboarding@resend.dev>",
+      from: "AgentImpact <onboarding@resend.dev>",
       to: ["nadir.lahyani@outlook.fr"], // Votre email
-      subject: `🚀 Nouvelle demande de consultation - ${formData.entreprise}`,
+      subject: `🚀 Nouvelle demande de consultation - ${formData.entreprise || 'Entreprise'}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h1 style="color: #3B82F6; border-bottom: 2px solid #3B82F6; padding-bottom: 10px;">
@@ -84,7 +98,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Email de confirmation au client
     const clientEmailResponse = await resend.emails.send({
-      from: "AgenceImpact.com <onboarding@resend.dev>",
+      from: "AgentImpact <onboarding@resend.dev>",
       to: [formData.email],
       subject: "Confirmation de votre demande de consultation",
       html: `
