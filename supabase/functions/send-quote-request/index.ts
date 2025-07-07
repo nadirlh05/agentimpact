@@ -72,7 +72,7 @@ const handler = async (req: Request): Promise<Response> => {
         <h3>Action requise</h3>
         <p>Veuillez contacter ce prospect dans les 24h pour discuter de ses besoins.</p>
         
-        <p><a href="https://cxcdfurwseflhxucjnnz.supabase.co/dashboard/project/16cef3ce-8556-4997-bd6a-33bb6433bff9">Voir dans le CRM Supabase</a></p>
+        <p><a href="https://digital-future-agents.lovable.app/admin" style="background: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Voir dans le CRM</a></p>
       `,
     });
 
