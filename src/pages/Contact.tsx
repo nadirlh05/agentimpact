@@ -1,14 +1,8 @@
-import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ContactHeader } from "@/components/contact/ContactHeader";
 import { TallyForm } from "@/components/contact/TallyForm";
 import { ContactInfo } from "@/components/contact/ContactInfo";
 
 const Contact = () => {
-  const [tallyUrl, setTallyUrl] = useState<string>(() => {
-    // Charger l'URL depuis localStorage au démarrage
-    return localStorage.getItem("tally-form-url") || "";
-  });
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
@@ -31,10 +25,7 @@ const Contact = () => {
       <div className="container mx-auto px-4 pb-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
           {/* Formulaire Tally */}
-          <TallyForm 
-            tallyUrl={tallyUrl}
-            onUrlChange={setTallyUrl}
-          />
+          <TallyForm />
 
           {/* Informations et avantages */}
           <ContactInfo />
