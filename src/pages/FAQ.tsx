@@ -2,9 +2,12 @@
 import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { Button } from '@/components/ui/button';
 import { ChevronDown, HelpCircle } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const FAQ = () => {
+  const navigate = useNavigate();
   const [openItems, setOpenItems] = useState<string[]>([]);
 
   const faqItems = [
@@ -114,12 +117,12 @@ const FAQ = () => {
           <p className="text-muted-foreground mb-6">
             Notre équipe d'experts en IA est là pour vous accompagner
           </p>
-          <a 
-            href="/support" 
+          <Button 
+            onClick={() => navigate('/support')}
             className="inline-flex items-center px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:opacity-90 transition-opacity font-medium shadow-medium"
           >
             Contacter le support
-          </a>
+          </Button>
         </CardContent>
       </Card>
     </div>

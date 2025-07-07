@@ -235,7 +235,7 @@ export const ExampleGenerator = () => {
             <div className="border-t pt-4">
               <Button 
                 className="w-full bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700"
-                onClick={() => navigate('/contact')}
+                onClick={() => navigate('/support')}
               >
                 <ArrowRight className="w-4 h-4 mr-2" />
                 Discuter de cette solution
