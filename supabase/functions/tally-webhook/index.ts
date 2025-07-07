@@ -6,6 +6,14 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
+// Validation des données Tally Webhook
+interface TallyField {
+  key: string;
+  label: string;
+  type: string;
+  value: any;
+}
+
 interface TallyWebhookData {
   eventId: string;
   eventType: string;
@@ -17,14 +25,21 @@ interface TallyWebhookData {
     formId: string;
     formName: string;
     createdAt: string;
-    fields: Array<{
-      key: string;
-      label: string;
-      type: string;
-      value: any;
-    }>;
+    fields: TallyField[];
   };
 }
+
+// Validation simple des données requises
+const validateTallyData = (data: any): data is TallyWebhookData => {
+  return (
+    data &&
+    typeof data.eventId === 'string' &&
+    typeof data.eventType === 'string' &&
+    data.data &&
+    Array.isArray(data.data.fields) &&
+    data.data.fields.length > 0
+  );
+};
 
 const handler = async (req: Request): Promise<Response> => {
   // Handle CORS preflight requests
@@ -33,15 +48,33 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
-    // Initialiser le client Supabase
-    const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
-    const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
-    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+    // Validation de la requête
+    if (!req.body) {
+      return new Response(JSON.stringify({ error: "Corps de requête manquant" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json", ...corsHeaders },
+      });
+    }
 
-    console.log("Webhook Tally reçu");
+    // Initialiser le client Supabase
+    const supabaseUrl = Deno.env.get("SUPABASE_URL");
+    const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
     
-    const webhookData: TallyWebhookData = await req.json();
-    console.log("Données reçues:", JSON.stringify(webhookData, null, 2));
+    if (!supabaseUrl || !supabaseServiceKey) {
+      throw new Error("Configuration Supabase manquante");
+    }
+    
+    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+    
+    const webhookData: unknown = await req.json();
+    
+    // Validation des données webhook
+    if (!validateTallyData(webhookData)) {
+      return new Response(JSON.stringify({ error: "Format de données invalide" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json", ...corsHeaders },
+      });
+    }
 
     // Extraire les informations du formulaire
     const fields = webhookData.data.fields;
@@ -62,12 +95,13 @@ const handler = async (req: Request): Promise<Response> => {
     const budget = extractFieldValue('budget') || '';
     const message = extractFieldValue('message') || extractFieldValue('description') || extractFieldValue('besoins') || '';
 
-    console.log("Données extraites:", {
-      prenom, nom, email, telephone, entreprise, secteur, typeConsultation, budget
-    });
-
+    
+    // Validation des données essentielles
     if (!email || (!prenom && !nom)) {
-      throw new Error("Email et nom requis");
+      return new Response(JSON.stringify({ error: "Email et nom requis" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json", ...corsHeaders },
+      });
     }
 
     // 1. Créer ou récupérer l'entreprise
@@ -93,7 +127,7 @@ const handler = async (req: Request): Promise<Response> => {
           .single();
 
         if (companyError) {
-          console.error('Erreur création entreprise:', companyError);
+          // Log error mais continue le processus
         } else {
           companyId = newCompany?.id;
         }
@@ -119,11 +153,14 @@ const handler = async (req: Request): Promise<Response> => {
       .single();
 
     if (leadError) {
-      console.error('Erreur création lead:', leadError);
-      throw leadError;
+      return new Response(JSON.stringify({ 
+        error: "Erreur lors de la création du lead", 
+        details: leadError.message 
+      }), {
+        status: 500,
+        headers: { "Content-Type": "application/json", ...corsHeaders },
+      });
     }
-
-    console.log("Lead créé:", lead?.id);
 
     // 3. Créer l'opportunité
     const { data: opportunity, error: opportunityError } = await supabase
@@ -143,9 +180,7 @@ const handler = async (req: Request): Promise<Response> => {
       .single();
 
     if (opportunityError) {
-      console.error('Erreur création opportunité:', opportunityError);
-    } else {
-      console.log("Opportunité créée:", opportunity?.id);
+      // Log error mais ne fait pas échouer la requête car le lead est créé
     }
 
     return new Response(JSON.stringify({ 
@@ -162,8 +197,7 @@ const handler = async (req: Request): Promise<Response> => {
       },
     });
 
-  } catch (error: any) {
-    console.error("Erreur dans tally-webhook function:", error);
+  } catch (error) {
     return new Response(
       JSON.stringify({ 
         error: "Erreur lors du traitement", 

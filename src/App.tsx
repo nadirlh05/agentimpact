@@ -10,23 +10,36 @@ import ProtectedRoute from "@/components/ProtectedRoute";
 import AdminRoute from "@/components/AdminRoute";
 import AuthenticatedLayout from "@/components/AuthenticatedLayout";
 import CRMDashboard from "@/components/CRMDashboard";
-import Index from "./pages/Index";
-import ProductGenerator from "./pages/ProductGenerator";
-import OfferConfigurator from "./pages/OfferConfigurator";
-import Auth from "./pages/Auth";
-import NotFound from "./pages/NotFound";
-import AdminDashboard from "./pages/AdminDashboard";
-import ClientDashboard from "./pages/ClientDashboard";
-import AdminTickets from "./pages/AdminTickets";
-import AdminTicketDetail from "./pages/AdminTicketDetail";
-import AdminUsers from "./pages/AdminUsers";
-import Credits from "./pages/Credits";
-import FAQ from "./pages/FAQ";
-import Support from "./pages/Support";
-import Services from "./pages/Services";
-import Contact from "./pages/Contact";
+import { lazy, Suspense } from "react";
+
+// Lazy loading des pages pour améliorer les performances
+const Index = lazy(() => import("./pages/Index"));
+const ProductGenerator = lazy(() => import("./pages/ProductGenerator"));
+const OfferConfigurator = lazy(() => import("./pages/OfferConfigurator"));
+const Auth = lazy(() => import("./pages/Auth"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
+const ClientDashboard = lazy(() => import("./pages/ClientDashboard"));
+const AdminTickets = lazy(() => import("./pages/AdminTickets"));
+const AdminTicketDetail = lazy(() => import("./pages/AdminTicketDetail"));
+const AdminUsers = lazy(() => import("./pages/AdminUsers"));
+const Credits = lazy(() => import("./pages/Credits"));
+const FAQ = lazy(() => import("./pages/FAQ"));
+const Support = lazy(() => import("./pages/Support"));
+const Services = lazy(() => import("./pages/Services"));
+const Contact = lazy(() => import("./pages/Contact"));
 
 const queryClient = new QueryClient();
+
+// Composant de chargement pour le Suspense
+const LoadingFallback = () => (
+  <div className="min-h-screen flex items-center justify-center bg-background">
+    <div className="text-center space-y-4">
+      <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto"></div>
+      <p className="text-muted-foreground">Chargement...</p>
+    </div>
+  </div>
+);
 
 const AppContent = () => {
   const { user } = useAuth();
@@ -142,7 +155,9 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <AuthProvider>
-          <AppContent />
+          <Suspense fallback={<LoadingFallback />}>
+            <AppContent />
+          </Suspense>
         </AuthProvider>
       </BrowserRouter>
     </TooltipProvider>
