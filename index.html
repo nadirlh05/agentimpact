@@ -2,7 +2,15 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
+    
+    <!-- Preload des ressources critiques -->
+    <link rel="preload" href="/src/main.tsx" as="script" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    
+    <!-- DNS prefetch pour les domaines externes -->
+    <link rel="dns-prefetch" href="https://cxcdfurwsefllhxucjnz.supabase.co" />
     <title>AgentImpact.fr - Solutions d'IA pour votre entreprise</title>
     <meta name="description" content="Découvrez et implémentez des solutions d'intelligence artificielle personnalisées pour votre entreprise. Consultation gratuite et accompagnement expert." />
     <meta name="author" content="AgentImpact.fr" />
