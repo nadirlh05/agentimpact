@@ -1,7 +1,13 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { Resend } from "npm:resend@2.0.0";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
+
+const supabase = createClient(
+  Deno.env.get('SUPABASE_URL') ?? '',
+  Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
+);
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -193,6 +199,36 @@ const handler = async (req: Request): Promise<Response> => {
     }
 
     console.log("Email sent successfully:", clientEmailResponse);
+
+    // Log the email in database if it was sent successfully
+    if (clientEmailResponse.data?.id) {
+      try {
+        const emailLogData = {
+          email_id: clientEmailResponse.data.id,
+          ticket_id: emailData.ticketId,
+          email_type: emailData.type,
+          recipient_email: emailData.clientEmail,
+          subject: emailData.type === 'new_ticket' 
+            ? `✅ Ticket créé #${emailData.ticketId.slice(-8)} - ${emailData.subject}`
+            : emailData.type === 'status_update'
+            ? `📈 Mise à jour ticket #${emailData.ticketId.slice(-8)} - ${emailData.status}`
+            : `💬 Réponse à votre ticket #${emailData.ticketId.slice(-8)}`,
+          status: 'sent'
+        };
+
+        const { error: logError } = await supabase
+          .from('email_logs')
+          .insert(emailLogData);
+
+        if (logError) {
+          console.error("Error logging email:", logError);
+        } else {
+          console.log("Email logged successfully:", emailLogData.email_id);
+        }
+      } catch (logError) {
+        console.error("Error logging email:", logError);
+      }
+    }
 
     return new Response(JSON.stringify({ success: true, emailId: clientEmailResponse.data?.id }), {
       status: 200,

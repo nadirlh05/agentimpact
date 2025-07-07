@@ -274,6 +274,65 @@ export type Database = {
         }
         Relationships: []
       }
+      email_logs: {
+        Row: {
+          bounced_at: string | null
+          created_at: string
+          delivered_at: string | null
+          email_id: string
+          email_type: string
+          error_message: string | null
+          id: string
+          opened_at: string | null
+          recipient_email: string
+          status: string | null
+          subject: string
+          ticket_id: string | null
+          updated_at: string
+          webhook_data: Json | null
+        }
+        Insert: {
+          bounced_at?: string | null
+          created_at?: string
+          delivered_at?: string | null
+          email_id: string
+          email_type: string
+          error_message?: string | null
+          id?: string
+          opened_at?: string | null
+          recipient_email: string
+          status?: string | null
+          subject: string
+          ticket_id?: string | null
+          updated_at?: string
+          webhook_data?: Json | null
+        }
+        Update: {
+          bounced_at?: string | null
+          created_at?: string
+          delivered_at?: string | null
+          email_id?: string
+          email_type?: string
+          error_message?: string | null
+          id?: string
+          opened_at?: string | null
+          recipient_email?: string
+          status?: string | null
+          subject?: string
+          ticket_id?: string | null
+          updated_at?: string
+          webhook_data?: Json | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "email_logs_ticket_id_fkey"
+            columns: ["ticket_id"]
+            isOneToOne: false
+            referencedRelation: "support_tickets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       generated_descriptions: {
         Row: {
           bold_words: string[] | null
