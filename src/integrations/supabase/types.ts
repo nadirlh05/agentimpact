@@ -80,6 +80,42 @@ export type Database = {
         }
         Relationships: []
       }
+      analytics_events: {
+        Row: {
+          created_at: string
+          event: string
+          id: string
+          page_url: string
+          properties: Json | null
+          session_id: string
+          timestamp: number
+          user_agent: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          event: string
+          id?: string
+          page_url: string
+          properties?: Json | null
+          session_id: string
+          timestamp: number
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          event?: string
+          id?: string
+          page_url?: string
+          properties?: Json | null
+          session_id?: string
+          timestamp?: number
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       client_ai_solutions: {
         Row: {
           benefits: string[] | null
@@ -526,6 +562,18 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      get_analytics_stats: {
+        Args: { start_date: string }
+        Returns: {
+          total_page_views: number
+          unique_visitors: number
+          total_sessions: number
+          top_pages: Json
+          events_by_day: Json
+          user_actions: Json
+          performance_metrics: Json
+        }[]
+      }
       get_current_user_role: {
         Args: Record<PropertyKey, never>
         Returns: Database["public"]["Enums"]["app_role"]

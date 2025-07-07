@@ -1,5 +1,7 @@
 
-import { Home, Plus, CreditCard, HelpCircle, MessageSquare, Bot, BarChart3, Settings, Sliders, Users, TicketIcon, Crown, Shield } from 'lucide-react';
+import React from "react";
+import { useAnalytics } from "@/lib/analytics";
+import { Home, Plus, CreditCard, HelpCircle, MessageSquare, Bot, BarChart3, Settings, Sliders, Users, TicketIcon, Crown, Shield, TrendingUp } from 'lucide-react';
 import {
   Sidebar,
   SidebarContent,
@@ -62,6 +64,12 @@ const adminMenuItems = [
     icon: BarChart3,
     description: "Leads et opportunités"
   },
+  {
+    title: "Analytics",
+    url: "/admin/analytics", 
+    icon: TrendingUp,
+    description: "Statistiques et monitoring"
+  },
 ];
 
 const businessMenuItems = [
@@ -94,6 +102,7 @@ export function AppSidebar() {
   const navigate = useNavigate();
   const location = useLocation();
   const { isAdmin, isClient } = useUserRole();
+  const { trackUserAction } = useAnalytics();
 
   return (
     <Sidebar side="left" className="border-r bg-card">
@@ -121,7 +130,10 @@ export function AppSidebar() {
                 {adminMenuItems.map((item) => (
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton 
-                      onClick={() => navigate(item.url)}
+                      onClick={() => {
+                        navigate(item.url);
+                        trackUserAction('navigation', { page: item.title, type: 'admin' });
+                      }}
                       isActive={location.pathname === item.url}
                       className="w-full justify-start h-12 rounded-lg transition-all duration-200 hover:shadow-soft group"
                     >

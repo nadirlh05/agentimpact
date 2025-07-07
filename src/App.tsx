@@ -29,6 +29,7 @@ const FAQ = lazy(() => import("./pages/FAQ"));
 const Support = lazy(() => import("./pages/Support"));
 const Services = lazy(() => import("./pages/Services"));
 const Contact = lazy(() => import("./pages/Contact"));
+const AdminAnalytics = lazy(() => import("./pages/AdminAnalytics"));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -117,6 +118,13 @@ const AppContent = () => {
             <AdminRoute>
               <AuthenticatedLayout>
                 <CRMDashboard />
+              </AuthenticatedLayout>
+            </AdminRoute>
+          } />
+          <Route path="/admin/analytics" element={
+            <AdminRoute>
+              <AuthenticatedLayout>
+                <AdminAnalytics />
               </AuthenticatedLayout>
             </AdminRoute>
           } />
