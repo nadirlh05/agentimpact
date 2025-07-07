@@ -11,6 +11,7 @@ import AdminRoute from "@/components/AdminRoute";
 import AuthenticatedLayout from "@/components/AuthenticatedLayout";
 import CRMDashboard from "@/components/CRMDashboard";
 import { lazy, Suspense } from "react";
+import { PWAStatusBar } from "@/components/PWAStatusBar";
 
 // Lazy loading des pages pour améliorer les performances
 const Index = lazy(() => import("./pages/Index"));
@@ -169,6 +170,7 @@ const App = () => (
         <AuthProvider>
           <Suspense fallback={<LoadingFallback />}>
             <AppContent />
+            <PWAStatusBar />
           </Suspense>
         </AuthProvider>
       </BrowserRouter>
