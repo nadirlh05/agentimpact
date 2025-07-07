@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { Lightbulb, Wand2, CheckCircle, ArrowRight, DollarSign } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { OpenRouterService } from "@/services/openRouterService";
+import { useNavigate } from "react-router-dom";
 
 interface GeneratedExample {
   solution: string;
@@ -22,6 +23,7 @@ export const ExampleGenerator = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [generatedExample, setGeneratedExample] = useState<GeneratedExample | null>(null);
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     businessType: "",
@@ -231,7 +233,10 @@ export const ExampleGenerator = () => {
 
             {/* CTA */}
             <div className="border-t pt-4">
-              <Button className="w-full bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700">
+              <Button 
+                className="w-full bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700"
+                onClick={() => navigate('/contact')}
+              >
                 <ArrowRight className="w-4 h-4 mr-2" />
                 Discuter de cette solution
               </Button>
