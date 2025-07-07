@@ -205,7 +205,6 @@ const Index = () => {
                       </Badge>
                     </div>
                     <div className="flex items-center space-x-2 text-xs text-gray-500">
-                      <span>À partir de 450€</span>
                       <Clock className="w-3 h-3" />
                       <span>2-3 semaines</span>
                     </div>
@@ -253,7 +252,6 @@ const Index = () => {
                       </Badge>
                     </div>
                     <div className="flex items-center space-x-2 text-xs text-gray-500">
-                      <span>À partir de 590€</span>
                       <Clock className="w-3 h-3" />
                       <span>2-4 semaines</span>
                     </div>
