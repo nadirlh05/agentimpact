@@ -16,14 +16,14 @@ export const ContactInfo = () => {
             <Mail className="w-5 h-5 text-blue-600" />
             <div>
               <p className="font-medium">Email</p>
-              <p className="text-gray-600">contact@digitalfutureagents.fr</p>
+              <p className="text-gray-600">nadir.lahyani@outlook.fr</p>
             </div>
           </div>
           <div className="flex items-center space-x-3">
             <MessageCircle className="w-5 h-5 text-green-600" />
             <div>
               <p className="font-medium">WhatsApp</p>
-              <p className="text-gray-600">+33 6 XX XX XX XX</p>
+              <p className="text-gray-600">+33768474681</p>
             </div>
           </div>
         </CardContent>

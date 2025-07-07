@@ -43,3 +43,6 @@ verify_jwt = false
 
 [functions.contact-consultation]
 verify_jwt = false
+
+[functions.tally-webhook]
+verify_jwt = false
