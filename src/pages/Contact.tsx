@@ -1,9 +1,14 @@
+import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ContactHeader } from "@/components/contact/ContactHeader";
-import { ContactForm } from "@/components/contact/ContactForm";
+import { TallyForm } from "@/components/contact/TallyForm";
 import { ContactInfo } from "@/components/contact/ContactInfo";
 
 const Contact = () => {
+  const [tallyUrl, setTallyUrl] = useState<string>(() => {
+    // Charger l'URL depuis localStorage au démarrage
+    return localStorage.getItem("tally-form-url") || "";
+  });
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
@@ -25,20 +30,11 @@ const Contact = () => {
 
       <div className="container mx-auto px-4 pb-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
-          {/* Formulaire de contact */}
-          <Card className="w-full">
-            <CardHeader>
-              <CardTitle className="text-2xl font-bold text-gray-900">
-                Planifier ma consultation
-              </CardTitle>
-              <p className="text-gray-600">
-                Remplissez ce formulaire et nous vous contacterons sous 24h
-              </p>
-            </CardHeader>
-            <CardContent>
-              <ContactForm />
-            </CardContent>
-          </Card>
+          {/* Formulaire Tally */}
+          <TallyForm 
+            tallyUrl={tallyUrl}
+            onUrlChange={setTallyUrl}
+          />
 
           {/* Informations et avantages */}
           <ContactInfo />
