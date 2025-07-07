@@ -150,36 +150,117 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Services Section */}
+      {/* Solutions Spécialisées Section */}
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              Solutions IA Facturation & Gestion
+              Solutions Spécialisées
             </h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
-              Agents intelligents spécialisés pour optimiser votre gestion administrative et financière
+              Agents IA dédiés à la gestion financière et administrative de votre entreprise
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {aiServices.map((service, index) => {
-              const IconComponent = service.icon;
-              return (
-                <Card key={index} className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-2 hover:border-blue-200">
-                  <CardContent className="p-8 text-center">
-                    <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-violet-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                      <IconComponent className="w-8 h-8 text-white" />
+          {/* Centered grid with only 2 cards */}
+          <div className="flex justify-center">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-4xl">
+              {/* Agent IA Facturation */}
+              <Card className="border border-gray-200 hover:shadow-lg transition-all duration-300">
+                <CardContent className="p-8">
+                  <div className="flex flex-col items-center text-center mb-6">
+                    <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mb-4">
+                      <DollarSign className="w-8 h-8 text-white" />
                     </div>
-                    <h3 className="font-bold text-xl text-gray-900 mb-4">{service.name}</h3>
-                    <p className="text-gray-600 mb-4">{service.description}</p>
-                    <Badge className="bg-green-100 text-green-700 font-medium">
-                      {service.benefit}
-                    </Badge>
-                  </CardContent>
-                </Card>
-              );
-            })}
+                    <h3 className="text-xl font-semibold text-gray-900 mb-2">Agent IA Facturation</h3>
+                    <p className="text-gray-600 text-sm">Automatise vos factures et relances clients</p>
+                  </div>
+                  
+                  <div className="space-y-3 mb-6">
+                    <h4 className="font-medium text-gray-900 text-sm">Fonctionnalités :</h4>
+                    <div className="space-y-2">
+                      <div className="flex items-center space-x-2">
+                        <CheckCircle className="w-4 h-4 text-green-500" />
+                        <span className="text-sm text-gray-700">Création automatique des factures</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <CheckCircle className="w-4 h-4 text-green-500" />
+                        <span className="text-sm text-gray-700">Relances clients par email</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <CheckCircle className="w-4 h-4 text-green-500" />
+                        <span className="text-sm text-gray-700">Suivi des paiements</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <CheckCircle className="w-4 h-4 text-green-500" />
+                        <span className="text-sm text-gray-700">Rapports simplifiés</span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-2">
+                      <Badge variant="outline" className="text-green-600 border-green-600 text-xs">
+                        Gain de temps : 80%
+                      </Badge>
+                    </div>
+                    <div className="flex items-center space-x-2 text-xs text-gray-500">
+                      <span>À partir de 450€</span>
+                      <Clock className="w-3 h-3" />
+                      <span>2-3 semaines</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Agent IA Fournisseurs */}
+              <Card className="border border-gray-200 hover:shadow-lg transition-all duration-300">
+                <CardContent className="p-8">
+                  <div className="flex flex-col items-center text-center mb-6">
+                    <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mb-4">
+                      <Lightbulb className="w-8 h-8 text-white" />
+                    </div>
+                    <h3 className="text-xl font-semibold text-gray-900 mb-2">Agent IA Fournisseurs</h3>
+                    <p className="text-gray-600 text-sm">Optimise la gestion de vos fournisseurs</p>
+                  </div>
+                  
+                  <div className="space-y-3 mb-6">
+                    <h4 className="font-medium text-gray-900 text-sm">Fonctionnalités :</h4>
+                    <div className="space-y-2">
+                      <div className="flex items-center space-x-2">
+                        <CheckCircle className="w-4 h-4 text-green-500" />
+                        <span className="text-sm text-gray-700">Suivi des commandes</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <CheckCircle className="w-4 h-4 text-green-500" />
+                        <span className="text-sm text-gray-700">Comparaison des prix</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <CheckCircle className="w-4 h-4 text-green-500" />
+                        <span className="text-sm text-gray-700">Alertes de livraison</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <CheckCircle className="w-4 h-4 text-green-500" />
+                        <span className="text-sm text-gray-700">Évaluation fournisseurs</span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-2">
+                      <Badge variant="outline" className="text-blue-600 border-blue-600 text-xs">
+                        Économies : 15-25%
+                      </Badge>
+                    </div>
+                    <div className="flex items-center space-x-2 text-xs text-gray-500">
+                      <span>À partir de 590€</span>
+                      <Clock className="w-3 h-3" />
+                      <span>2-4 semaines</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
           </div>
         </div>
       </section>
