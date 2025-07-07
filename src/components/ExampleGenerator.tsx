@@ -82,7 +82,7 @@ export const ExampleGenerator = () => {
         description: "Votre exemple d'accompagnement IA a été créé avec succès.",
       });
     } catch (error) {
-      console.error('Erreur lors de la génération:', error);
+      // Error handled by user feedback
       toast({
         title: "Erreur de génération",
         description: error instanceof Error ? error.message : "Une erreur est survenue",

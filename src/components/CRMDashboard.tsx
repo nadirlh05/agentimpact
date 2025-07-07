@@ -86,7 +86,7 @@ const CRMDashboard = () => {
       setOpportunities(opportunitiesResult.data || []);
       setCoachingProjects(projectsResult.data || []);
     } catch (error) {
-      console.error('Error fetching CRM data:', error);
+      // Error is handled by user feedback
       toast({
         title: "Erreur",
         description: "Impossible de charger les données CRM.",

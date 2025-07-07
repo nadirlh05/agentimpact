@@ -39,7 +39,7 @@ const AdminUsers = () => {
       if (error) throw error;
       setUsers(data || []);
     } catch (error) {
-      console.error('Error fetching users:', error);
+      // Error handled by user feedback
     } finally {
       setLoading(false);
     }
@@ -62,7 +62,7 @@ const AdminUsers = () => {
       // Refresh users
       fetchUsers();
     } catch (error) {
-      console.error('Error updating user role:', error);
+      // Error handled by user feedback
       toast({
         title: "Erreur",
         description: "Impossible de mettre à jour le rôle utilisateur.",

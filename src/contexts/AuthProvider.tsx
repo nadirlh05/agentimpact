@@ -34,11 +34,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     // Set up auth state listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, session) => {
-        console.log('Auth state changed:', event, session?.user?.email);
-        
         // Si c'est une récupération de mot de passe, ne pas rediriger automatiquement
         if (event === 'PASSWORD_RECOVERY' || event === 'TOKEN_REFRESHED') {
-          console.log('Password recovery detected, not redirecting');
           setSession(session);
           setUser(session?.user ?? null);
           setLoading(false);
@@ -53,7 +50,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     // Check for existing session
     supabase.auth.getSession().then(({ data: { session } }) => {
-      console.log('Initial session check:', session?.user?.email);
+      // Initial session check
       setSession(session);
       setUser(session?.user ?? null);
       setLoading(false);

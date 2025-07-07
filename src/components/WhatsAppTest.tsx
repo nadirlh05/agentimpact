@@ -18,7 +18,7 @@ const WhatsAppTest = () => {
       // Test diagnostic d'abord
       const { data: diagnosticData, error: diagnosticError } = await supabase.functions.invoke('whatsapp-test');
       
-      console.log('Diagnostic WhatsApp:', diagnosticData, diagnosticError);
+      // Diagnostic WhatsApp completed
       
       if (diagnosticError) {
         toast({
@@ -42,7 +42,7 @@ const WhatsAppTest = () => {
           });
           
           if (sendError) {
-            console.error('Erreur envoi:', sendError);
+            // Error handled
             toast({
               title: "Erreur d'envoi",
               description: `Erreur: ${sendError.message}`,

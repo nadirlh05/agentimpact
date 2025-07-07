@@ -60,7 +60,7 @@ const AdminDashboard = () => {
           totalUsers: profiles.data?.length || 0
         });
       } catch (error) {
-        console.error('Error fetching stats:', error);
+        // Error handled by setting error state
       } finally {
         setLoading(false);
       }

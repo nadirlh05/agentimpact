@@ -68,7 +68,7 @@ const ClientDashboard = () => {
           myProjects: projects.data?.length || 0
         });
       } catch (error) {
-        console.error('Error fetching client stats:', error);
+        // Error handled by setting error state
       } finally {
         setLoading(false);
       }

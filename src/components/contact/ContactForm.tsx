@@ -44,18 +44,18 @@ export const ContactForm = ({ onSubmitSuccess }: ContactFormProps) => {
     setIsSubmitting(true);
 
     try {
-      console.log("Envoi de la demande de consultation:", formData);
+      // Sending consultation request
       
       const { data, error } = await supabase.functions.invoke('contact-consultation', {
         body: formData
       });
 
       if (error) {
-        console.error("Erreur Supabase:", error);
+        // Supabase error handled
         throw new Error(error.message || "Erreur lors de l'envoi");
       }
 
-      console.log("Réponse de la fonction:", data);
+      // Function response received
       
       toast({
         title: "Demande envoyée !",
@@ -78,7 +78,7 @@ export const ContactForm = ({ onSubmitSuccess }: ContactFormProps) => {
       onSubmitSuccess?.();
       
     } catch (error: any) {
-      console.error("Erreur complète:", error);
+      // Complete error handled
       toast({
         title: "Erreur",
         description: "Une erreur est survenue lors de l'envoi. Veuillez réessayer ou nous contacter directement.",

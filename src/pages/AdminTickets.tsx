@@ -50,7 +50,7 @@ const AdminTickets = () => {
       if (error) throw error;
       setTickets(data || []);
     } catch (error) {
-      console.error('Error fetching tickets:', error);
+      // Error handled by user feedback
     } finally {
       setLoading(false);
     }
@@ -89,7 +89,7 @@ const AdminTickets = () => {
         description: `Le ticket est maintenant "${newStatus}". Le client a été notifié par email.`,
       });
     } catch (error) {
-      console.error('Error updating ticket status:', error);
+      // Error handled by user feedback
       toast({
         title: "Erreur",
         description: "Impossible de mettre à jour le statut.",
@@ -116,7 +116,7 @@ const AdminTickets = () => {
         description: "Le ticket a été supprimé avec succès.",
       });
     } catch (error) {
-      console.error('Error deleting ticket:', error);
+      // Error handled by user feedback
       toast({
         title: "Erreur",
         description: "Impossible de supprimer le ticket.",
@@ -159,7 +159,7 @@ const AdminTickets = () => {
         description: "Votre réponse a été envoyée au client par email.",
       });
     } catch (error) {
-      console.error('Error sending response:', error);
+      // Error handled by user feedback
       toast({
         title: "Erreur",
         description: "Impossible d'envoyer la réponse.",

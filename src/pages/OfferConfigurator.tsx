@@ -111,7 +111,7 @@ const OfferConfigurator = () => {
       if (error) throw error;
       setSolutions(data || []);
     } catch (error) {
-      console.error('Error loading solutions:', error);
+      // Error handled by user feedback
       toast({
         title: "Erreur de chargement",
         description: "Impossible de charger les solutions IA.",
@@ -241,7 +241,7 @@ const OfferConfigurator = () => {
       }
 
     } catch (error) {
-      console.error('Error generating offer:', error);
+      // Error handled by user feedback
       toast({
         title: "Erreur de génération",
         description: "Impossible de générer l'offre personnalisée.",

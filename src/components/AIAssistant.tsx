@@ -112,7 +112,7 @@ export const AIAssistant = ({ isOpen, onClose, triggerSource = 'manual' }: AIAss
       }
 
     } catch (error) {
-      console.error('Error sending message:', error);
+      // Error is handled by user feedback
       const errorMessage: Message = {
         id: crypto.randomUUID(),
         text: "Je rencontre des difficultés techniques. Veuillez réessayer ou contacter notre support directement.",

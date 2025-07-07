@@ -49,7 +49,7 @@ const Auth = () => {
     const refreshToken = hashParams.get('refresh_token') || urlParams.get('refresh_token');
     const type = hashParams.get('type');
     
-    console.log('Auth page - URL params:', { isReset, isError, typeParam, accessToken: !!accessToken, refreshToken: !!refreshToken, type });
+    // URL params checked
     
     // Handle expired or invalid reset links
     if (isError === 'expired') {
@@ -68,7 +68,7 @@ const Auth = () => {
     const isPasswordRecovery = typeParam === 'recovery' || (accessToken && refreshToken && type === 'recovery') || isReset === 'true';
     
     if (isPasswordRecovery) {
-      console.log('Password recovery flow detected, showing new password tab');
+      // Password recovery flow detected
       setShowNewPasswordTab(true);
       setDefaultTab('new-password');
       
@@ -79,14 +79,14 @@ const Auth = () => {
           refresh_token: refreshToken
         }).then(({ error }) => {
           if (error) {
-            console.error('Error setting session:', error);
+            // Error setting session
             toast({
               title: "Erreur",
               description: "Impossible de valider le lien de réinitialisation.",
               variant: "destructive",
             });
           } else {
-            console.log('Session set successfully for password recovery');
+            // Session set successfully
             // Clean up URL by removing hash parameters but keep type=recovery
             window.history.replaceState({}, document.title, window.location.pathname + '?type=recovery');
           }

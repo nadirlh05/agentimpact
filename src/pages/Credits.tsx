@@ -136,7 +136,7 @@ const Credits = () => {
         window.open(data.url, '_blank');
       }
     } catch (error) {
-      console.error('Payment error:', error);
+      // Error handled by user feedback
       toast({
         title: "Erreur de paiement",
         description: "Une erreur s'est produite lors du traitement du paiement. Veuillez réessayer.",

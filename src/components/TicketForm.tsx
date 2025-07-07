@@ -65,7 +65,7 @@ const TicketForm = () => {
 
       return publicUrl;
     } catch (error) {
-      console.error('Error uploading file:', error);
+      // Error is handled by user feedback
       return null;
     }
   };
@@ -110,11 +110,11 @@ const TicketForm = () => {
         .single();
 
       if (dbError) {
-        console.error('Database error details:', dbError);
+        // Database error handled by user feedback
         throw new Error(`Erreur base de données: ${dbError.message}`);
       }
 
-      console.log('Ticket created successfully:', ticket);
+      // Ticket created successfully
 
       // Send email notifications
       try {
@@ -131,11 +131,11 @@ const TicketForm = () => {
         });
 
         if (emailError) {
-          console.error('Email error:', emailError);
+          // Email error handled
           // Don't fail the whole process if email fails
         }
       } catch (emailError) {
-        console.error('Email function error:', emailError);
+        // Email function error handled
       }
 
       toast({
@@ -155,7 +155,7 @@ const TicketForm = () => {
       });
 
     } catch (error) {
-      console.error('Full error details:', error);
+      // Error handled by user feedback
       toast({
         title: "Erreur lors de la création",
         description: error.message || 'Une erreur est survenue',

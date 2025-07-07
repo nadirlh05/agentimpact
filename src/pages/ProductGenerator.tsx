@@ -104,7 +104,7 @@ const ProductGenerator = () => {
       });
 
       if (error) {
-        console.error("Erreur lors de l'envoi:", error);
+        // Error handled by user feedback
         toast({
           title: "Erreur",
           description: "Une erreur est survenue lors de l'envoi de votre demande.",
@@ -117,7 +117,7 @@ const ProductGenerator = () => {
         });
       }
     } catch (error) {
-      console.error("Erreur:", error);
+      // Error handled by user feedback
       toast({
         title: "Erreur",
         description: "Une erreur est survenue lors de l'envoi de votre demande.",

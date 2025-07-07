@@ -54,7 +54,7 @@ const TicketManagement = () => {
       if (error) throw error;
       setTickets(data || []);
     } catch (error) {
-      console.error('Error fetching tickets:', error);
+      // Error handled by user feedback
       toast({
         title: "Erreur",
         description: "Impossible de charger les tickets.",

@@ -52,7 +52,6 @@ const AdminTicketDetail = () => {
       if (error) throw error;
       setTicket(data);
     } catch (error) {
-      console.error('Error fetching ticket:', error);
       toast({
         title: "Erreur",
         description: "Impossible de charger le ticket.",
@@ -95,7 +94,6 @@ const AdminTicketDetail = () => {
         description: `Le ticket est maintenant "${newStatus}". Le client a été notifié par email.`,
       });
     } catch (error) {
-      console.error('Error updating status:', error);
       toast({
         title: "Erreur",
         description: "Impossible de mettre à jour le statut.",
@@ -139,7 +137,6 @@ const AdminTicketDetail = () => {
         description: "Votre réponse a été envoyée au client par email.",
       });
     } catch (error) {
-      console.error('Error sending response:', error);
       toast({
         title: "Erreur",
         description: "Impossible d'envoyer la réponse.",
@@ -184,7 +181,6 @@ const AdminTicketDetail = () => {
         description: "Votre réponse a été envoyée par WhatsApp.",
       });
     } catch (error) {
-      console.error('Error sending WhatsApp response:', error);
       toast({
         title: "Erreur",
         description: "Impossible d'envoyer la réponse par WhatsApp.",
