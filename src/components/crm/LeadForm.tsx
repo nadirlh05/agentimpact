@@ -78,9 +78,22 @@ export const LeadForm = ({ onLeadCreated, companies = [] }: LeadFormProps) => {
 
       if (error) throw error;
 
+      // Envoyer la notification par email
+      try {
+        await supabase.functions.invoke('send-lead-notification', {
+          body: {
+            leadData: data,
+            userEmail: user.email || 'admin@example.com'
+          }
+        });
+      } catch (emailError) {
+        console.error('Erreur lors de l\'envoi de l\'email:', emailError);
+        // Ne pas bloquer la création du prospect si l'email échoue
+      }
+
       toast({
         title: 'Succès',
-        description: 'Prospect créé avec succès',
+        description: 'Prospect créé avec succès et notification envoyée',
       });
 
       form.reset();
