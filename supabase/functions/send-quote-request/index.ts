@@ -58,8 +58,12 @@ const handler = async (req: Request): Promise<Response> => {
       }
     }
 
-    // Définir l'URL du CRM
-    const crmUrl = "https://agentimpact.lovable.app/admin/crm";
+    // Obtenir l'URL de base depuis l'en-tête de la requête
+    const origin = req.headers.get('origin') || req.headers.get('referer') || 'https://16cef3ce-8556-4997-bd6a-33bb6433bff9.lovableproject.com';
+    const baseUrl = origin.replace(/\/$/, ''); // Supprimer le slash final s'il existe
+    const crmUrl = `${baseUrl}/admin/crm`;
+    
+    console.log("URL de base détectée:", baseUrl);
     console.log("URL du CRM utilisée:", crmUrl);
 
     // Send email notification to admin
