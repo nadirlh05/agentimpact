@@ -256,7 +256,6 @@ export const OpportunityForm = ({ onOpportunityCreated, leads = [], companies = 
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="">Aucun prospect</SelectItem>
                         {leads.map((lead) => (
                           <SelectItem key={lead.id} value={lead.id}>
                             {lead.first_name} {lead.last_name}
@@ -281,7 +280,6 @@ export const OpportunityForm = ({ onOpportunityCreated, leads = [], companies = 
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="">Aucune entreprise</SelectItem>
                         {companies.map((company) => (
                           <SelectItem key={company.id} value={company.id}>
                             {company.name}

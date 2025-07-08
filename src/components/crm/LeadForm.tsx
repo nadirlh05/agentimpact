@@ -197,7 +197,6 @@ export const LeadForm = ({ onLeadCreated, companies = [] }: LeadFormProps) => {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="">Aucune entreprise</SelectItem>
                         {companies.map((company) => (
                           <SelectItem key={company.id} value={company.id}>
                             {company.name}

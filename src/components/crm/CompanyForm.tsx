@@ -132,7 +132,6 @@ export const CompanyForm = ({ onCompanyCreated }: CompanyFormProps) => {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="">Non spécifié</SelectItem>
                         <SelectItem value="startup">Startup (1-10 employés)</SelectItem>
                         <SelectItem value="pme">PME (11-250 employés)</SelectItem>
                         <SelectItem value="entreprise">Entreprise (251-5000 employés)</SelectItem>
