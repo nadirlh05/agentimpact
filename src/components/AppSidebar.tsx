@@ -1,7 +1,7 @@
 
 import React from "react";
 import { useAnalytics } from "@/lib/analytics";
-import { Home, Plus, CreditCard, HelpCircle, MessageSquare, Bot, BarChart3, Settings, Sliders, Users, TicketIcon, Crown, Shield, TrendingUp } from 'lucide-react';
+import { Home, Plus, CreditCard, HelpCircle, MessageSquare, Bot, BarChart3, Settings, Sliders, Users, TicketIcon, Crown, Shield, TrendingUp, Calendar } from 'lucide-react';
 import {
   Sidebar,
   SidebarContent,
@@ -69,6 +69,12 @@ const adminMenuItems = [
     url: "/admin/analytics", 
     icon: TrendingUp,
     description: "Statistiques et monitoring"
+  },
+  {
+    title: "Calendly",
+    url: "/admin/calendly",
+    icon: Calendar,
+    description: "Gestion des consultations"
   },
 ];
 

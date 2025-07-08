@@ -33,6 +33,7 @@ const Support = lazy(() => import("./pages/Support"));
 const Services = lazy(() => import("./pages/Services"));
 const Contact = lazy(() => import("./pages/Contact"));
 const AdminAnalytics = lazy(() => import("./pages/AdminAnalytics"));
+const AdminCalendly = lazy(() => import("./pages/AdminCalendly"));
 
 // Optimized QueryClient configuration
 const queryClient = new QueryClient({
@@ -146,6 +147,13 @@ const AppContent = () => {
             <AdminRoute>
               <AuthenticatedLayout>
                 <AdminAnalytics />
+              </AuthenticatedLayout>
+            </AdminRoute>
+          } />
+          <Route path="/admin/calendly" element={
+            <AdminRoute>
+              <AuthenticatedLayout>
+                <AdminCalendly />
               </AuthenticatedLayout>
             </AdminRoute>
           } />
