@@ -37,14 +37,26 @@ export const CalendlyWidget: React.FC<CalendlyWidgetProps> = ({
   useEffect(() => {
     // Charger le script Calendly si pas déjà chargé
     if (!window.Calendly) {
+      console.log('Chargement du script Calendly...');
       const script = document.createElement('script');
       script.src = 'https://assets.calendly.com/assets/external/widget.js';
       script.async = true;
+      script.onload = () => {
+        console.log('Script Calendly chargé avec succès');
+      };
+      script.onerror = (error) => {
+        console.error('Erreur lors du chargement du script Calendly:', error);
+      };
       document.head.appendChild(script);
+    } else {
+      console.log('Script Calendly déjà chargé');
     }
   }, []);
 
   const handleCalendlyClick = () => {
+    console.log('Clic sur le bouton Calendly...');
+    console.log('window.Calendly existe:', !!window.Calendly);
+    
     if (window.Calendly) {
       const prefillData = {
         name: prefill?.name || user?.user_metadata?.full_name || '',
@@ -53,15 +65,25 @@ export const CalendlyWidget: React.FC<CalendlyWidgetProps> = ({
         ...prefill
       };
 
-      window.Calendly.initPopupWidget({
-        url: url,
-        prefill: prefillData,
-        utm: {
-          utmCampaign: 'AgentImpact Website',
-          utmSource: 'website',
-          utmMedium: 'widget'
-        }
-      });
+      console.log('Ouverture du popup Calendly avec les données:', prefillData);
+      
+      try {
+        window.Calendly.initPopupWidget({
+          url: url,
+          prefill: prefillData,
+          utm: {
+            utmCampaign: 'AgentImpact Website',
+            utmSource: 'website',
+            utmMedium: 'widget'
+          }
+        });
+      } catch (error) {
+        console.error('Erreur lors de l\'ouverture du popup Calendly:', error);
+      }
+    } else {
+      console.error('window.Calendly n\'est pas disponible');
+      // Fallback: ouvrir dans un nouvel onglet
+      window.open(url, '_blank');
     }
   };
 
