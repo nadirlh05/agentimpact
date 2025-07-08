@@ -19,7 +19,7 @@ const leadFormSchema = z.object({
   email: z.string().email('Email invalide'),
   phone: z.string().optional(),
   position: z.string().optional(),
-  company_id: z.string().optional(),
+  company_name: z.string().optional(),
   lead_source: z.string().default('website'),
   status: z.string().default('nouveau'),
   priority: z.string().default('normale'),
@@ -47,7 +47,7 @@ export const LeadForm = ({ onLeadCreated, companies = [] }: LeadFormProps) => {
       email: '',
       phone: '',
       position: '',
-      company_id: '',
+      company_name: '',
       lead_source: 'website',
       status: 'nouveau',
       priority: 'normale',
@@ -69,7 +69,7 @@ export const LeadForm = ({ onLeadCreated, companies = [] }: LeadFormProps) => {
           phone: data.phone || null,
           position: data.position || null,
           user_id: user.id,
-          company_id: data.company_id || null,
+          company_name: data.company_name || null,
           lead_source: data.lead_source,
           status: data.status,
           priority: data.priority,
@@ -199,7 +199,7 @@ export const LeadForm = ({ onLeadCreated, companies = [] }: LeadFormProps) => {
               />
               <FormField
                 control={form.control}
-                name="company_id"
+                name="company_name"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Entreprise</FormLabel>

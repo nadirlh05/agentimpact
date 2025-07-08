@@ -386,6 +386,7 @@ export type Database = {
       leads_prospects_ia: {
         Row: {
           company_id: string | null
+          company_name: string | null
           created_at: string
           email: string
           first_name: string
@@ -402,6 +403,7 @@ export type Database = {
         }
         Insert: {
           company_id?: string | null
+          company_name?: string | null
           created_at?: string
           email: string
           first_name: string
@@ -418,6 +420,7 @@ export type Database = {
         }
         Update: {
           company_id?: string | null
+          company_name?: string | null
           created_at?: string
           email?: string
           first_name?: string
