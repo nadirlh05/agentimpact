@@ -190,20 +190,13 @@ export const LeadForm = ({ onLeadCreated, companies = [] }: LeadFormProps) => {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Entreprise</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {companies.map((company) => (
-                          <SelectItem key={company.id} value={company.id}>
-                            {company.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                    <FormControl>
+                      <Input 
+                        placeholder="Nom de l'entreprise" 
+                        {...field} 
+                        value={field.value || ''}
+                      />
+                    </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
