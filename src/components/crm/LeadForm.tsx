@@ -193,7 +193,7 @@ export const LeadForm = ({ onLeadCreated, companies = [] }: LeadFormProps) => {
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder="Sélectionner une entreprise" />
+                          <SelectValue placeholder="" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
