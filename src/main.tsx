@@ -25,8 +25,8 @@ if (typeof window !== 'undefined') {
         const navigation = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
         if (navigation) {
           optimizedAnalytics.track('initial_load', {
-            page_load_time: navigation.loadEventEnd - navigation.navigationStart,
-            dom_ready_time: navigation.domContentLoadedEventEnd - navigation.navigationStart,
+            page_load_time: navigation.loadEventEnd - navigation.fetchStart,
+            dom_ready_time: navigation.domContentLoadedEventEnd - navigation.fetchStart,
             first_byte_time: navigation.responseStart - navigation.requestStart
           });
         }

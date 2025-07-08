@@ -11,11 +11,11 @@ export const PerformanceMonitor: React.FC<PerformanceMonitorProps> = ({
 }) => {
   const { track } = useOptimizedAnalytics();
   const metricsRef = useRef<{
-    navigationStart: number;
+    startTime: number;
     domLoaded: boolean;
     resourcesLoaded: boolean;
   }>({
-    navigationStart: performance.now(),
+    startTime: performance.now(),
     domLoaded: false,
     resourcesLoaded: false
   });
@@ -34,9 +34,9 @@ export const PerformanceMonitor: React.FC<PerformanceMonitorProps> = ({
         tcp_connect: navigation.connectEnd - navigation.connectStart,
         ssl_negotiation: navigation.connectEnd - navigation.secureConnectionStart,
         time_to_first_byte: navigation.responseStart - navigation.requestStart,
-        dom_interactive: navigation.domInteractive - navigation.navigationStart,
-        dom_complete: navigation.domComplete - navigation.navigationStart,
-        load_complete: navigation.loadEventEnd - navigation.navigationStart,
+        dom_interactive: navigation.domInteractive - navigation.fetchStart,
+        dom_complete: navigation.domComplete - navigation.fetchStart,
+        load_complete: navigation.loadEventEnd - navigation.fetchStart,
         page_load_time: navigation.loadEventEnd - navigation.loadEventStart,
         redirect_time: navigation.redirectEnd - navigation.redirectStart,
         unload_time: navigation.unloadEventEnd - navigation.unloadEventStart
@@ -105,7 +105,7 @@ export const PerformanceMonitor: React.FC<PerformanceMonitorProps> = ({
     const handleDOMContentLoaded = () => {
       metricsRef.current.domLoaded = true;
       track('dom_ready', {
-        time_to_dom_ready: performance.now() - metricsRef.current.navigationStart
+        time_to_dom_ready: performance.now() - metricsRef.current.startTime
       });
     };
 

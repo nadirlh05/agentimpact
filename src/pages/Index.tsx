@@ -26,6 +26,10 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { AIAssistantTrigger } from "@/components/AIAssistantTrigger";
 import { useAnalytics } from "@/lib/analytics";
+import ConversionOptimizer from "@/components/conversion/ConversionOptimizer";
+import LeadMagnet from "@/components/marketing/LeadMagnet";
+import SocialProof from "@/components/marketing/SocialProof";
+import FloatingActionButton from "@/components/ui/floating-action-button";
 import heroImage from "@/assets/hero-supplier-management.jpg";
 
 const Index = () => {
@@ -56,27 +60,6 @@ const Index = () => {
       navigate('/auth?type=recovery');
     }
   }, [navigate]);
-
-  const aiServices = [
-    { 
-      name: "Agents IA Facturation", 
-      icon: Bot, 
-      description: "Automatisation complète de la facturation et des relances",
-      benefit: "Réduction de 90% des erreurs"
-    },
-    { 
-      name: "Gestion Fournisseurs IA", 
-      icon: Lightbulb, 
-      description: "Optimisation des relations et négociations fournisseurs",
-      benefit: "Économies de 15-30%"
-    },
-    { 
-      name: "CRM Clients Intelligent", 
-      icon: Code, 
-      description: "Suivi automatisé des clients et prédiction des besoins",
-      benefit: "Fidélisation +40%"
-    }
-  ];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
@@ -285,6 +268,44 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Preuve Sociale Section */}
+      <section className="py-16 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <SocialProof variant="detailed" />
+        </div>
+      </section>
+
+      {/* Lead Magnet Section */}
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              Ressources Gratuites
+            </h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              Téléchargez nos guides pratiques pour commencer votre transformation IA
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            <LeadMagnet type="checklist" />
+            <LeadMagnet type="guide" />
+            <LeadMagnet type="template" />
+          </div>
+        </div>
+      </section>
+
+      {/* Conversion Optimizer Section */}
+      <section className="py-16 bg-gradient-to-br from-blue-50 to-violet-50">
+        <div className="container mx-auto px-4">
+          <ConversionOptimizer 
+            variant="primary"
+            showTestimonials={true}
+            showTrustSignals={true}
+          />
+        </div>
+      </section>
+
       {/* CTA Section */}
       <section className="py-16 bg-gradient-to-r from-blue-600 via-violet-600 to-blue-700">
         <div className="container mx-auto px-4 text-center">
@@ -317,6 +338,9 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      {/* Floating Action Button */}
+      <FloatingActionButton />
 
       {/* AI Assistant */}
       <AIAssistantTrigger autoTriggerEnabled={true} timerDelay={25000} />
