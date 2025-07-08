@@ -58,31 +58,59 @@ const handler = async (req: Request): Promise<Response> => {
       }
     }
 
+    // Définir l'URL du CRM
+    const crmUrl = "https://agentimpact.lovable.app/admin/crm";
+    console.log("URL du CRM utilisée:", crmUrl);
+
     // Send email notification to admin
     const emailResponse = await resend.emails.send({
       from: "AgentImpact <onboarding@resend.dev>",
       to: ["nadir.lahyani@outlook.fr"], // Email admin
       subject: `Nouvelle demande de devis - ${solutionName}`,
       html: `
-        <h2>Nouvelle demande de devis</h2>
-        <p><strong>Solution demandée:</strong> ${solutionName}</p>
-        <p><strong>Prix:</strong> ${solutionPrice}</p>
-        <p><strong>Email client:</strong> ${userEmail || 'Non connecté'}</p>
-        <p><strong>Date:</strong> ${new Date().toLocaleString('fr-FR')}</p>
-        
-        <h3>Action requise</h3>
-        <p>Veuillez contacter ce prospect dans les 24h pour discuter de ses besoins.</p>
-        
-        <p><a href="https://agentimpact.lovable.app/admin/crm" style="background: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Voir dans le CRM</a></p>
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta charset="utf-8">
+          <title>Nouvelle demande de devis</title>
+        </head>
+        <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+          <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
+            <h2 style="color: #007bff;">Nouvelle demande de devis</h2>
+            <p><strong>Solution demandée:</strong> ${solutionName}</p>
+            <p><strong>Prix:</strong> ${solutionPrice}</p>
+            <p><strong>Email client:</strong> ${userEmail || 'Non connecté'}</p>
+            <p><strong>Date:</strong> ${new Date().toLocaleString('fr-FR')}</p>
+            
+            <h3 style="color: #007bff;">Action requise</h3>
+            <p>Veuillez contacter ce prospect dans les 24h pour discuter de ses besoins.</p>
+            
+            <div style="margin: 20px 0;">
+              <a href="${crmUrl}" 
+                 style="background: #007bff; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; display: inline-block; font-weight: bold;"
+                 target="_blank">
+                Voir dans le CRM
+              </a>
+            </div>
+            
+            <p style="font-size: 12px; color: #666; margin-top: 30px;">
+              Si le bouton ne fonctionne pas, copiez ce lien dans votre navigateur:<br>
+              <a href="${crmUrl}" target="_blank">${crmUrl}</a>
+            </p>
+          </div>
+        </body>
+        </html>
       `,
     });
 
-    console.log("Email envoyé:", emailResponse);
+    console.log("Email envoyé avec succès:", emailResponse);
+    console.log("ID de l'email:", emailResponse.data?.id);
 
     return new Response(JSON.stringify({ 
       success: true, 
       message: "Demande de devis envoyée avec succès",
-      emailId: emailResponse.data?.id 
+      emailId: emailResponse.data?.id,
+      crmUrl: crmUrl
     }), {
       status: 200,
       headers: {
