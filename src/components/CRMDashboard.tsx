@@ -18,6 +18,9 @@ import { useAuth } from '@/contexts/AuthProvider';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { useNavigate } from 'react-router-dom';
+import { LeadForm } from '@/components/crm/LeadForm';
+import { OpportunityForm } from '@/components/crm/OpportunityForm';
+import { CompanyForm } from '@/components/crm/CompanyForm';
 
 interface Lead {
   id: string;
@@ -47,6 +50,11 @@ interface CoachingProject {
   budget?: number;
 }
 
+interface Company {
+  id: string;
+  name: string;
+}
+
 const CRMDashboard = () => {
   const { user } = useAuth();
   const { toast } = useToast();
@@ -55,12 +63,13 @@ const CRMDashboard = () => {
   const [leads, setLeads] = useState<Lead[]>([]);
   const [opportunities, setOpportunities] = useState<Opportunity[]>([]);
   const [coachingProjects, setCoachingProjects] = useState<CoachingProject[]>([]);
+  const [companies, setCompanies] = useState<Company[]>([]);
 
   const fetchCRMData = async () => {
     if (!user) return;
 
     try {
-      const [leadsResult, opportunitiesResult, projectsResult] = await Promise.all([
+      const [leadsResult, opportunitiesResult, projectsResult, companiesResult] = await Promise.all([
         supabase
           .from('leads_prospects_ia')
           .select('*')
@@ -75,16 +84,22 @@ const CRMDashboard = () => {
           .from('coaching_projects_ia')
           .select('*')
           .order('created_at', { ascending: false })
-          .limit(5)
+          .limit(5),
+        supabase
+          .from('companies')
+          .select('id, name')
+          .order('name')
       ]);
 
       if (leadsResult.error) throw leadsResult.error;
       if (opportunitiesResult.error) throw opportunitiesResult.error;
       if (projectsResult.error) throw projectsResult.error;
+      if (companiesResult.error) throw companiesResult.error;
 
       setLeads(leadsResult.data || []);
       setOpportunities(opportunitiesResult.data || []);
       setCoachingProjects(projectsResult.data || []);
+      setCompanies(companiesResult.data || []);
     } catch (error) {
       // Error is handled by user feedback
       toast({
@@ -161,11 +176,14 @@ const CRMDashboard = () => {
           <h1 className="text-3xl font-bold text-foreground">Tableau de bord CRM</h1>
           <p className="text-muted-foreground mt-2">Vue d'ensemble de vos prospects, opportunités et projets</p>
         </div>
-        <div className="flex gap-2">
-          <Button onClick={() => navigate('/configurator')} variant="outline">
-            <Plus className="w-4 h-4 mr-2" />
-            Nouvelle opportunité
-          </Button>
+        <div className="flex flex-wrap gap-2">
+          <LeadForm onLeadCreated={fetchCRMData} companies={companies} />
+          <OpportunityForm 
+            onOpportunityCreated={fetchCRMData} 
+            leads={leads} 
+            companies={companies} 
+          />
+          <CompanyForm onCompanyCreated={fetchCRMData} />
           <Button onClick={() => navigate('/generator')} className="bg-gradient-primary text-primary-foreground">
             <Plus className="w-4 h-4 mr-2" />
             Nouveau projet
