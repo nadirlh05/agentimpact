@@ -1,3 +1,4 @@
+
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { Resend } from "npm:resend@2.0.0";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.50.0';
@@ -72,7 +73,7 @@ const handler = async (req: Request): Promise<Response> => {
         <h3>Action requise</h3>
         <p>Veuillez contacter ce prospect dans les 24h pour discuter de ses besoins.</p>
         
-        <p><a href="https://digital-future-agents.lovable.app/admin" style="background: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Voir dans le CRM</a></p>
+        <p><a href="https://digital-future-agents.lovable.app/admin/crm" style="background: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Voir dans le CRM</a></p>
       `,
     });
 
