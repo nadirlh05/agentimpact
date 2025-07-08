@@ -1,4 +1,3 @@
-
 import { createContext, useContext, useEffect, useState } from 'react';
 import { User, Session } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
@@ -59,7 +58,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             user_id: session.user.id,
             email: session.user.email,
             provider: session.user.app_metadata?.provider || 'email',
-            is_new_user: event === 'SIGNED_UP'
+            is_new_user: false
           });
         } else if (event === 'SIGNED_OUT') {
           optimizedAnalytics.track('user_signout', {
