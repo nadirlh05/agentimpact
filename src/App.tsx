@@ -12,6 +12,7 @@ import AuthenticatedLayout from "@/components/AuthenticatedLayout";
 import CRMDashboard from "@/components/CRMDashboard";
 import { lazy, Suspense } from "react";
 import { PWAStatusBar } from "@/components/PWAStatusBar";
+import SEOPerformanceMonitor from "@/components/SEOPerformanceMonitor";
 
 // Lazy loading des pages pour améliorer les performances
 const Index = lazy(() => import("./pages/Index"));
@@ -184,6 +185,7 @@ const App = () => (
           <Suspense fallback={<LoadingFallback />}>
             <AppContent />
             <PWAStatusBar />
+            <SEOPerformanceMonitor />
           </Suspense>
         </AuthProvider>
       </BrowserRouter>

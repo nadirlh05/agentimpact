@@ -1,8 +1,12 @@
 User-agent: Googlebot
 Allow: /
+Disallow: /admin/
+Disallow: /client/
 
 User-agent: Bingbot
 Allow: /
+Disallow: /admin/
+Disallow: /client/
 
 User-agent: Twitterbot
 Allow: /
@@ -12,3 +16,19 @@ Allow: /
 
 User-agent: *
 Allow: /
+Disallow: /admin/
+Disallow: /client/
+Disallow: /auth/
+
+# Important pages for SEO
+Allow: /services
+Allow: /contact
+Allow: /faq
+Allow: /credits
+Allow: /projets
+
+# Sitemap location
+Sitemap: https://agentimpact.fr/sitemap.xml
+
+# Crawl-delay for better server performance
+Crawl-delay: 1

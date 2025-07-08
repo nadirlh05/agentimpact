@@ -196,11 +196,12 @@ class AnalyticsService {
         return;
       }
 
-      // Envoyer à votre endpoint analytics
-      const response = await fetch('/api/analytics', {
+      // Envoyer à l'endpoint Supabase analytics
+      const response = await fetch('https://cxcdfurwsefllhxucjnz.supabase.co/functions/v1/analytics', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN4Y2RmdXJ3c2VmbGxoeHVjam56Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDk4MzE1NTAsImV4cCI6MjA2NTQwNzU1MH0.7N280pwCrxSuWY1_fJhicTLKVGgYnnRWp9T14edhyJM`,
         },
         body: JSON.stringify({ events: eventsToSend }),
       });

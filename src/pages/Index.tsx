@@ -25,10 +25,20 @@ import { Badge } from "@/components/ui/badge";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { AIAssistantTrigger } from "@/components/AIAssistantTrigger";
+import { useAnalytics } from "@/lib/analytics";
 import heroImage from "@/assets/hero-supplier-management.jpg";
 
 const Index = () => {
   const navigate = useNavigate();
+  const { trackUserAction } = useAnalytics();
+
+  // Track page view
+  useEffect(() => {
+    trackUserAction('homepage_view', {
+      page: 'index',
+      timestamp: Date.now()
+    });
+  }, [trackUserAction]);
 
   // Check if this is a password reset redirect
   useEffect(() => {
@@ -114,7 +124,13 @@ const Index = () => {
             
             <div className="mb-8 flex flex-col sm:flex-row gap-4 justify-center">
               <Button
-                onClick={() => navigate('/services')}
+                onClick={() => {
+                  trackUserAction('cta_services_click', {
+                    location: 'hero_section',
+                    button_text: 'Découvrir mes Services'
+                  });
+                  navigate('/services');
+                }}
                 size="lg"
                 className="bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-lg px-8 py-4"
               >
@@ -122,7 +138,13 @@ const Index = () => {
                 Découvrir mes Services
               </Button>
               <Button
-                onClick={() => navigate('/contact')}
+                onClick={() => {
+                  trackUserAction('cta_consultation_click', {
+                    location: 'hero_section',
+                    button_text: 'Consultation Gratuite'
+                  });
+                  navigate('/contact');
+                }}
                 size="lg"
                 variant="outline"
                 className="border-2 border-violet-600 text-violet-600 hover:bg-violet-600 hover:text-white text-lg px-8 py-4 bg-white"
