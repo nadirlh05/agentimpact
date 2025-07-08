@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { useOptimizedAnalytics } from '@/lib/analytics-optimized';
 import { cn } from '@/lib/utils';
+import { CalendlyWidget } from '@/components/calendly/CalendlyWidget';
 
 interface FloatingActionButtonProps {
   className?: string;
@@ -41,9 +42,9 @@ export const FloatingActionButton: React.FC<FloatingActionButtonProps> = ({ clas
     },
     {
       icon: MessageSquare,
-      label: 'Chat',
-      action: 'chat',
-      href: '#',
+      label: 'Consultation',
+      action: 'consultation',
+      href: '#calendly',
       color: 'bg-violet-600 hover:bg-violet-700'
     }
   ];
@@ -71,8 +72,15 @@ export const FloatingActionButton: React.FC<FloatingActionButtonProps> = ({ clas
                 className={cn("w-12 h-12 rounded-full shadow-lg", action.color)}
                 onClick={() => {
                   handleActionClick(action.action);
-                  if (action.href.startsWith('#')) {
-                    // Handle internal actions
+                  if (action.href === '#calendly') {
+                    // Ouvrir Calendly
+                    if (window.Calendly) {
+                      window.Calendly.initPopupWidget({
+                        url: 'https://calendly.com/agentimpact/consultation-gratuite'
+                      });
+                    }
+                  } else if (action.href.startsWith('#')) {
+                    // Handle other internal actions
                   } else {
                     window.location.href = action.href;
                   }

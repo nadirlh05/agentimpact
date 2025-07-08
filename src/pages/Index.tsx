@@ -31,6 +31,7 @@ import LeadMagnet from "@/components/marketing/LeadMagnet";
 import SocialProof from "@/components/marketing/SocialProof";
 import FloatingActionButton from "@/components/ui/floating-action-button";
 import heroImage from "@/assets/hero-supplier-management.jpg";
+import { CalendlyWidget } from "@/components/calendly/CalendlyWidget";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -120,21 +121,14 @@ const Index = () => {
                 <Sparkles className="w-5 h-5 mr-2" />
                 Découvrir mes Services
               </Button>
-              <Button
-                onClick={() => {
-                  trackUserAction('cta_consultation_click', {
-                    location: 'hero_section',
-                    button_text: 'Consultation Gratuite'
-                  });
-                  navigate('/contact');
-                }}
+              <CalendlyWidget
+                type="button"
+                buttonText="Consultation Gratuite"
+                buttonVariant="outline"
                 size="lg"
-                variant="outline"
                 className="border-2 border-violet-600 text-violet-600 hover:bg-violet-600 hover:text-white text-lg px-8 py-4 bg-white"
-              >
-                <MessageSquare className="w-5 h-5 mr-2" />
-                Consultation Gratuite
-              </Button>
+                url="https://calendly.com/agentimpact/consultation-gratuite"
+              />
             </div>
 
             <div className="flex justify-center items-center space-x-8 text-sm text-gray-500">

@@ -25,6 +25,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useNavigate } from "react-router-dom";
+import { CalendlyWidget } from "@/components/calendly/CalendlyWidget";
 
 const Services = () => {
   const navigate = useNavigate();
@@ -252,15 +253,14 @@ const Services = () => {
                 <Sparkles className="w-5 h-5 mr-2" />
                 Créer mon compte
               </Button>
-              <Button 
-                size="lg" 
-                variant="outline" 
+              <CalendlyWidget
+                type="button"
+                buttonText="Consultation gratuite"
+                buttonVariant="outline"
+                size="lg"
                 className="border-white text-white hover:bg-white hover:text-blue-600"
-                onClick={() => navigate('/contact')}
-              >
-                <MessageSquare className="w-5 h-5 mr-2" />
-                Consultation gratuite
-              </Button>
+                url="https://calendly.com/agentimpact/consultation-gratuite"
+              />
             </div>
           </div>
         </div>

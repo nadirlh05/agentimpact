@@ -11,6 +11,7 @@ import { useToast } from "@/hooks/use-toast";
 import { ExampleGenerator } from "@/components/ExampleGenerator";
 import { useAuth } from "@/contexts/AuthProvider";
 import { supabase } from "@/integrations/supabase/client";
+import { CalendlyWidget } from "@/components/calendly/CalendlyWidget";
 
 const ProductGenerator = () => {
   const navigate = useNavigate();
@@ -276,15 +277,14 @@ const ProductGenerator = () => {
               d'intelligence artificielle parfaitement adaptée à votre activité.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button 
-                size="lg" 
-                variant="secondary"
-                onClick={() => navigate('/contact')}
+              <CalendlyWidget
+                type="button"
+                buttonText="Consultation gratuite"
+                buttonVariant="secondary"
+                size="lg"
                 className="bg-white text-blue-600 hover:bg-gray-100"
-              >
-                <MessageSquare className="w-5 h-5 mr-2" />
-                Consultation gratuite
-              </Button>
+                url="https://calendly.com/agentimpact/consultation-gratuite"
+              />
               <Button 
                 size="lg" 
                 variant="outline"
