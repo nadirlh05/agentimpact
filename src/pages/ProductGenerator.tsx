@@ -87,10 +87,14 @@ const ProductGenerator = () => {
     setIsLoading(solution);
     
     try {
+      console.log("Début de handleContactSolution pour:", solution);
+      console.log("User:", user);
+      
       // Récupérer les détails de la solution
       const solutionDetails = exemplesSolutions.find(s => s.solution === solution);
       
       // Appeler la fonction Edge pour envoyer l'email et créer l'opportunité
+      console.log("Appel de la fonction send-quote-request...");
       const { data, error } = await supabase.functions.invoke('send-quote-request', {
         body: {
           solutionName: solution,
@@ -99,6 +103,8 @@ const ProductGenerator = () => {
           userId: user?.id
         }
       });
+      
+      console.log("Réponse de la fonction:", { data, error });
 
       if (error) {
         // Error handled by user feedback

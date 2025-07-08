@@ -58,12 +58,11 @@ const handler = async (req: Request): Promise<Response> => {
       }
     }
 
-    // Obtenir l'URL de base depuis l'en-tête de la requête
-    const origin = req.headers.get('origin') || req.headers.get('referer') || 'https://16cef3ce-8556-4997-bd6a-33bb6433bff9.lovableproject.com';
-    const baseUrl = origin.replace(/\/$/, ''); // Supprimer le slash final s'il existe
+    // Utiliser l'URL correcte de l'application
+    const baseUrl = 'https://16cef3ce-8556-4997-bd6a-33bb6433bff9.lovableproject.com';
     const crmUrl = `${baseUrl}/admin/crm`;
     
-    console.log("URL de base détectée:", baseUrl);
+    console.log("URL de base utilisée:", baseUrl);
     console.log("URL du CRM utilisée:", crmUrl);
 
     // Send email notification to admin
