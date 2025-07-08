@@ -12,7 +12,9 @@ import AuthenticatedLayout from "@/components/AuthenticatedLayout";
 import CRMDashboard from "@/components/CRMDashboard";
 import { lazy, Suspense } from "react";
 import { PWAStatusBar } from "@/components/PWAStatusBar";
-import SEOPerformanceMonitor from "@/components/SEOPerformanceMonitor";
+import ErrorBoundary from "@/components/ErrorBoundary";
+import PerformanceMonitor from "@/components/PerformanceMonitor";
+import { usePageTracking } from "@/hooks/usePageTracking";
 
 // Lazy loading des pages pour améliorer les performances
 const Index = lazy(() => import("./pages/Index"));
@@ -32,13 +34,24 @@ const Services = lazy(() => import("./pages/Services"));
 const Contact = lazy(() => import("./pages/Contact"));
 const AdminAnalytics = lazy(() => import("./pages/AdminAnalytics"));
 
+// Optimized QueryClient configuration
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       staleTime: 5 * 60 * 1000, // 5 minutes
-      gcTime: 10 * 60 * 1000, // 10 minutes (remplace cacheTime)
-      retry: 1,
+      gcTime: 10 * 60 * 1000, // 10 minutes
+      retry: (failureCount, error) => {
+        // Don't retry on 4xx errors except 408, 429
+        if (error instanceof Error && 'status' in error) {
+          const status = (error as any).status;
+          if (status >= 400 && status < 500 && status !== 408 && status !== 429) {
+            return false;
+          }
+        }
+        return failureCount < 3;
+      },
       refetchOnWindowFocus: false,
+      refetchOnReconnect: true,
     },
     mutations: {
       retry: 1,
@@ -46,12 +59,12 @@ const queryClient = new QueryClient({
   },
 });
 
-// Composant de chargement pour le Suspense
+// Improved loading fallback
 const LoadingFallback = () => (
   <div className="min-h-screen flex items-center justify-center bg-background">
     <div className="text-center space-y-4">
       <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto"></div>
-      <p className="text-muted-foreground">Chargement...</p>
+      <p className="text-muted-foreground">Chargement de la page...</p>
     </div>
   </div>
 );
@@ -59,6 +72,13 @@ const LoadingFallback = () => (
 const AppContent = () => {
   const { user } = useAuth();
   const { isAdmin, loading } = useUserRole();
+  
+  // Use page tracking hook
+  usePageTracking();
+
+  if (loading) {
+    return <LoadingFallback />;
+  }
 
   return (
     <Routes>
@@ -176,21 +196,23 @@ const AppContent = () => {
 };
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <AuthProvider>
-          <Suspense fallback={<LoadingFallback />}>
-            <AppContent />
-            <PWAStatusBar />
-            <SEOPerformanceMonitor />
-          </Suspense>
-        </AuthProvider>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
+  <ErrorBoundary>
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <AuthProvider>
+            <Suspense fallback={<LoadingFallback />}>
+              <AppContent />
+              <PWAStatusBar />
+              <PerformanceMonitor />
+            </Suspense>
+          </AuthProvider>
+        </BrowserRouter>
+      </TooltipProvider>
+    </QueryClientProvider>
+  </ErrorBoundary>
 );
 
 export default App;

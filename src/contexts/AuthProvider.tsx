@@ -2,7 +2,7 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { User, Session } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
-import { analytics } from '@/lib/analytics';
+import { optimizedAnalytics } from '@/lib/analytics-optimized';
 
 interface AuthContextType {
   user: User | null;
@@ -32,9 +32,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let mounted = true;
+
     // Set up auth state listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, session) => {
+      async (event, session) => {
+        if (!mounted) return;
+
         // Si c'est une récupération de mot de passe, ne pas rediriger automatiquement
         if (event === 'PASSWORD_RECOVERY' || event === 'TOKEN_REFRESHED') {
           setSession(session);
@@ -47,95 +51,216 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setUser(session?.user ?? null);
         setLoading(false);
         
-        // Track auth events for analytics
+        // Enhanced auth tracking with optimized analytics
         if (session?.user) {
-          analytics.setUserId(session.user.id);
-          analytics.track('user_signin', {
+          optimizedAnalytics.setUserId(session.user.id);
+          optimizedAnalytics.track('user_signin', {
             method: event === 'SIGNED_IN' ? 'email' : 'oauth',
             user_id: session.user.id,
-            email: session.user.email
+            email: session.user.email,
+            provider: session.user.app_metadata?.provider || 'email',
+            is_new_user: event === 'SIGNED_UP'
           });
         } else if (event === 'SIGNED_OUT') {
-          analytics.track('user_signout');
-          analytics.clearUserId();
+          optimizedAnalytics.track('user_signout', {
+            session_duration: Date.now() - (session?.expires_at ? new Date(session.expires_at).getTime() : Date.now())
+          });
+          optimizedAnalytics.clearUserId();
         }
       }
     );
 
-    // Check for existing session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      // Initial session check
-      setSession(session);
-      setUser(session?.user ?? null);
-      setLoading(false);
-    });
+    // Check for existing session with error handling
+    const getSession = async () => {
+      try {
+        const { data: { session }, error } = await supabase.auth.getSession();
+        if (error) {
+          console.warn('Error getting session:', error);
+          optimizedAnalytics.trackError(new Error(error.message), {
+            context: 'auth_session_retrieval'
+          });
+        }
+        
+        if (mounted) {
+          setSession(session);
+          setUser(session?.user ?? null);
+          setLoading(false);
+        }
+      } catch (error) {
+        console.error('Failed to get session:', error);
+        if (mounted) {
+          setLoading(false);
+        }
+      }
+    };
 
-    return () => subscription.unsubscribe();
+    getSession();
+
+    return () => {
+      mounted = false;
+      subscription.unsubscribe();
+    };
   }, []);
 
   const signUp = async (email: string, password: string, fullName?: string) => {
+    const startTime = Date.now();
     const redirectUrl = `${window.location.origin}/`;
     
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        emailRedirectTo: redirectUrl,
-        data: {
-          full_name: fullName || email
+    try {
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          emailRedirectTo: redirectUrl,
+          data: {
+            full_name: fullName || email
+          }
         }
-      }
-    });
-    
-    return { error };
+      });
+      
+      // Track signup attempt
+      optimizedAnalytics.track('signup_attempt', {
+        success: !error,
+        duration: Date.now() - startTime,
+        error_message: error?.message
+      });
+      
+      return { error };
+    } catch (error) {
+      optimizedAnalytics.trackError(error as Error, {
+        context: 'signup',
+        duration: Date.now() - startTime
+      });
+      return { error };
+    }
   };
 
   const signIn = async (email: string, password: string) => {
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password
-    });
+    const startTime = Date.now();
     
-    return { error };
+    try {
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password
+      });
+      
+      // Track signin attempt
+      optimizedAnalytics.track('signin_attempt', {
+        success: !error,
+        duration: Date.now() - startTime,
+        method: 'email',
+        error_message: error?.message
+      });
+      
+      return { error };
+    } catch (error) {
+      optimizedAnalytics.trackError(error as Error, {
+        context: 'signin',
+        duration: Date.now() - startTime
+      });
+      return { error };
+    }
   };
 
   const signInWithGoogle = async () => {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-        redirectTo: `${window.location.origin}/`
-      }
-    });
+    const startTime = Date.now();
     
-    return { error };
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.origin}/`
+        }
+      });
+      
+      optimizedAnalytics.track('signin_attempt', {
+        success: !error,
+        duration: Date.now() - startTime,
+        method: 'google',
+        error_message: error?.message
+      });
+      
+      return { error };
+    } catch (error) {
+      optimizedAnalytics.trackError(error as Error, {
+        context: 'google_signin',
+        duration: Date.now() - startTime
+      });
+      return { error };
+    }
   };
 
   const signOut = async () => {
-    const { error } = await supabase.auth.signOut();
-    if (!error) {
-      // Rediriger vers la page d'accueil après déconnexion
-      window.location.href = '/';
+    const startTime = Date.now();
+    
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (!error) {
+        window.location.href = '/';
+      }
+      
+      optimizedAnalytics.track('signout_attempt', {
+        success: !error,
+        duration: Date.now() - startTime
+      });
+      
+      return { error };
+    } catch (error) {
+      optimizedAnalytics.trackError(error as Error, {
+        context: 'signout',
+        duration: Date.now() - startTime
+      });
+      return { error };
     }
-    return { error };
   };
 
   const resetPassword = async (email: string) => {
-    // Use a specific redirect URL for password reset that will force the password change flow
+    const startTime = Date.now();
     const redirectUrl = `${window.location.origin}/auth?type=recovery`;
     
-    const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: redirectUrl
-    });
-    
-    return { error };
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: redirectUrl
+      });
+      
+      optimizedAnalytics.track('password_reset_request', {
+        success: !error,
+        duration: Date.now() - startTime,
+        error_message: error?.message
+      });
+      
+      return { error };
+    } catch (error) {
+      optimizedAnalytics.trackError(error as Error, {
+        context: 'password_reset',
+        duration: Date.now() - startTime
+      });
+      return { error };
+    }
   };
 
   const updatePassword = async (newPassword: string) => {
-    const { error } = await supabase.auth.updateUser({
-      password: newPassword
-    });
+    const startTime = Date.now();
     
-    return { error };
+    try {
+      const { error } = await supabase.auth.updateUser({
+        password: newPassword
+      });
+      
+      optimizedAnalytics.track('password_update', {
+        success: !error,
+        duration: Date.now() - startTime,
+        error_message: error?.message
+      });
+      
+      return { error };
+    } catch (error) {
+      optimizedAnalytics.trackError(error as Error, {
+        context: 'password_update',
+        duration: Date.now() - startTime
+      });
+      return { error };
+    }
   };
 
   const value = {
