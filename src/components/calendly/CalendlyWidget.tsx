@@ -25,7 +25,7 @@ declare global {
 
 export const CalendlyWidget: React.FC<CalendlyWidgetProps> = ({
   type = 'button',
-  url = 'https://calendly.com/agentimpact/consultation-gratuite',
+  url = 'https://calendly.com/d/demo',
   prefill,
   className = '',
   buttonText = 'Planifier une consultation',
@@ -55,36 +55,13 @@ export const CalendlyWidget: React.FC<CalendlyWidgetProps> = ({
 
   const handleCalendlyClick = () => {
     console.log('Clic sur le bouton Calendly...');
-    console.log('window.Calendly existe:', !!window.Calendly);
     
-    if (window.Calendly) {
-      const prefillData = {
-        name: prefill?.name || user?.user_metadata?.full_name || '',
-        email: prefill?.email || user?.email || '',
-        phone: prefill?.phone || '',
-        ...prefill
-      };
-
-      console.log('Ouverture du popup Calendly avec les données:', prefillData);
-      
-      try {
-        window.Calendly.initPopupWidget({
-          url: url,
-          prefill: prefillData,
-          utm: {
-            utmCampaign: 'AgentImpact Website',
-            utmSource: 'website',
-            utmMedium: 'widget'
-          }
-        });
-      } catch (error) {
-        console.error('Erreur lors de l\'ouverture du popup Calendly:', error);
-      }
-    } else {
-      console.error('window.Calendly n\'est pas disponible');
-      // Fallback: ouvrir dans un nouvel onglet
-      window.open(url, '_blank');
-    }
+    // Pour l'instant, on ouvre directement dans un nouvel onglet
+    // C'est plus fiable que le popup Calendly
+    const calendlyUrl = url || 'https://calendly.com';
+    console.log('Ouverture de Calendly dans un nouvel onglet:', calendlyUrl);
+    
+    window.open(calendlyUrl, '_blank', 'noopener,noreferrer');
   };
 
   const renderInlineWidget = () => (
@@ -122,7 +99,7 @@ export const ConsultationButton: React.FC<{
 }> = ({ className, size = 'default', variant = 'default' }) => (
   <CalendlyWidget
     type="button"
-    url="https://calendly.com/agentimpact/consultation-gratuite"
+    url="https://calendly.com/d/demo"
     buttonText="Consultation gratuite"
     buttonVariant={variant}
     size={size}
@@ -137,7 +114,7 @@ export const SuiviButton: React.FC<{
 }> = ({ className, size = 'default' }) => (
   <CalendlyWidget
     type="button"
-    url="https://calendly.com/agentimpact/suivi-projet"
+    url="https://calendly.com/d/demo"
     buttonText="Planifier un suivi"
     buttonVariant="outline"
     size={size}
@@ -152,7 +129,7 @@ export const DemoButton: React.FC<{
 }> = ({ className, size = 'default' }) => (
   <CalendlyWidget
     type="button"
-    url="https://calendly.com/agentimpact/demo-solution"
+    url="https://calendly.com/d/demo"
     buttonText="Demander une démo"
     buttonVariant="secondary"
     size={size}
