@@ -55,13 +55,7 @@ export const CalendlyWidget: React.FC<CalendlyWidgetProps> = ({
   }, []);
 
   const handleCalendlyClick = () => {
-    console.log('Clic sur le bouton Calendly...');
-    
-    // Pour l'instant, on ouvre directement dans un nouvel onglet
-    // C'est plus fiable que le popup Calendly
     const calendlyUrl = url || 'https://calendly.com/nadir-lahyani11/30min';
-    console.log('Ouverture de Calendly dans un nouvel onglet:', calendlyUrl);
-    
     window.open(calendlyUrl, '_blank', 'noopener,noreferrer');
   };
 
