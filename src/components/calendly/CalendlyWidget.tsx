@@ -25,7 +25,7 @@ declare global {
 
 export const CalendlyWidget: React.FC<CalendlyWidgetProps> = ({
   type = 'button',
-  url = 'https://calendly.com/d/demo',
+  url = 'https://calendly.com/agentimpact/consultation-gratuite',
   prefill,
   className = '',
   buttonText = 'Planifier une consultation',
@@ -99,7 +99,7 @@ export const ConsultationButton: React.FC<{
 }> = ({ className, size = 'default', variant = 'default' }) => (
   <CalendlyWidget
     type="button"
-    url="https://calendly.com/d/demo"
+    url="https://calendly.com/agentimpact/consultation-gratuite"
     buttonText="Consultation gratuite"
     buttonVariant={variant}
     size={size}
@@ -114,7 +114,7 @@ export const SuiviButton: React.FC<{
 }> = ({ className, size = 'default' }) => (
   <CalendlyWidget
     type="button"
-    url="https://calendly.com/d/demo"
+    url="https://calendly.com/agentimpact/suivi-projet"
     buttonText="Planifier un suivi"
     buttonVariant="outline"
     size={size}
@@ -129,7 +129,7 @@ export const DemoButton: React.FC<{
 }> = ({ className, size = 'default' }) => (
   <CalendlyWidget
     type="button"
-    url="https://calendly.com/d/demo"
+    url="https://calendly.com/agentimpact/demo-solution"
     buttonText="Demander une démo"
     buttonVariant="secondary"
     size={size}
