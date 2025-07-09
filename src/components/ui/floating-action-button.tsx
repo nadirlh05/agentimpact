@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { MessageSquare, X, Phone, Mail } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -76,7 +75,7 @@ export const FloatingActionButton: React.FC<FloatingActionButtonProps> = ({ clas
                     // Ouvrir Calendly
                     if (window.Calendly) {
                       window.Calendly.initPopupWidget({
-                        url: 'https://calendly.com/agentimpact/consultation-gratuite'
+                        url: 'https://calendly.com/nadir-lahyani11/30min'
                       });
                     }
                   } else if (action.href.startsWith('#')) {

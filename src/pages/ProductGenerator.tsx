@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { ArrowLeft, Bot, Users, Zap, CheckCircle, Star, MessageSquare, CreditCard } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -282,8 +281,8 @@ const ProductGenerator = () => {
                 buttonText="Consultation gratuite"
                 buttonVariant="secondary"
                 size="lg"
-                className="bg-white text-blue-600 hover:bg-gray-100"
-                url="https://calendly.com/agentimpact/consultation-gratuite"
+                className="bg-white text-primary hover:bg-gray-100"
+                url="https://calendly.com/nadir-lahyani11/30min"
               />
               <Button 
                 size="lg" 

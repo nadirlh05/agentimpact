@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CalendlyWidget } from "@/components/calendly/CalendlyWidget";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -30,7 +31,7 @@ export const TallyForm = () => {
               </p>
               <CalendlyWidget
                 type="inline"
-                url="https://calendly.com/agentimpact/consultation-gratuite"
+                url="https://calendly.com/nadir-lahyani11/30min"
                 className="w-full"
               />
             </div>
