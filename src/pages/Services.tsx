@@ -1,3 +1,4 @@
+
 import { 
   Brain, 
   Sparkles, 
@@ -259,7 +260,7 @@ const Services = () => {
                 buttonVariant="outline"
                 size="lg"
                 className="border-white text-white hover:bg-white hover:text-blue-600"
-                url="https://calendly.com/agentimpact/consultation-gratuite"
+                url="https://calendly.com/nadir-lahyani11/30min"
               />
             </div>
           </div>
