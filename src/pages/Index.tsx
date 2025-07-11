@@ -167,9 +167,9 @@ const Index = () => {
             </p>
           </div>
           
-          {/* Centered grid with only 2 cards */}
+          {/* Grid with 3 services */}
           <div className="flex justify-center">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-4xl">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-6xl">
               {/* Agent IA Facturation */}
               <Card className="border border-gray-200 hover:shadow-lg transition-all duration-300">
                 <CardContent className="p-8">
@@ -259,6 +259,53 @@ const Index = () => {
                     <div className="flex items-center space-x-2 text-xs text-gray-500">
                       <Clock className="w-3 h-3" />
                       <span>2-4 semaines</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Agent IA Création Site internet */}
+              <Card className="border border-gray-200 hover:shadow-lg transition-all duration-300">
+                <CardContent className="p-8">
+                  <div className="flex flex-col items-center text-center mb-6">
+                    <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mb-4">
+                      <Code className="w-8 h-8 text-white" />
+                    </div>
+                    <h3 className="text-xl font-semibold text-gray-900 mb-2">Agent IA Création Site internet</h3>
+                    <p className="text-gray-600 text-sm">Crée votre site web professionnel automatiquement</p>
+                  </div>
+                  
+                  <div className="space-y-3 mb-6">
+                    <h4 className="font-medium text-gray-900 text-sm">Fonctionnalités :</h4>
+                    <div className="space-y-2">
+                      <div className="flex items-center space-x-2">
+                        <CheckCircle className="w-4 h-4 text-green-500" />
+                        <span className="text-sm text-gray-700">Design responsive automatique</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <CheckCircle className="w-4 h-4 text-green-500" />
+                        <span className="text-sm text-gray-700">Génération de contenu IA</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <CheckCircle className="w-4 h-4 text-green-500" />
+                        <span className="text-sm text-gray-700">Optimisation SEO intégrée</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <CheckCircle className="w-4 h-4 text-green-500" />
+                        <span className="text-sm text-gray-700">Hébergement inclus</span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-2">
+                      <Badge variant="outline" className="text-violet-600 border-violet-600 text-xs">
+                        ROI : +200%
+                      </Badge>
+                    </div>
+                    <div className="flex items-center space-x-2 text-xs text-gray-500">
+                      <Clock className="w-3 h-3" />
+                      <span>1-2 semaines</span>
                     </div>
                   </div>
                 </CardContent>
