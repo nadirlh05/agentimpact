@@ -59,13 +59,47 @@ export const CalendlyWidget: React.FC<CalendlyWidgetProps> = ({
     window.open(calendlyUrl, '_blank', 'noopener,noreferrer');
   };
 
-  const renderInlineWidget = () => (
-    <div 
-      className={`calendly-inline-widget ${className}`}
-      data-url={url}
-      style={{ minWidth: '320px', height: '630px' }}
-    />
-  );
+  const renderInlineWidget = () => {
+    useEffect(() => {
+      // Initialiser le widget inline une fois que Calendly est chargé
+      const initializeWidget = () => {
+        if (window.Calendly) {
+          const container = document.querySelector('.calendly-inline-widget');
+          if (container) {
+            container.innerHTML = ''; // Clear any existing content
+            window.Calendly.initInlineWidget({
+              url: url,
+              parentElement: container,
+              prefill: prefill || {},
+              utm: {}
+            });
+          }
+        }
+      };
+
+      // Si Calendly est déjà chargé, initialiser immédiatement
+      if (window.Calendly) {
+        initializeWidget();
+      } else {
+        // Sinon, attendre que le script soit chargé
+        const checkCalendly = setInterval(() => {
+          if (window.Calendly) {
+            clearInterval(checkCalendly);
+            initializeWidget();
+          }
+        }, 100);
+
+        return () => clearInterval(checkCalendly);
+      }
+    }, [url, prefill]);
+
+    return (
+      <div 
+        className={`calendly-inline-widget ${className}`}
+        style={{ minWidth: '320px', height: '630px' }}
+      />
+    );
+  };
 
   const renderButton = () => (
     <Button
