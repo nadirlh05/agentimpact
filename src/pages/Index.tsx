@@ -28,8 +28,9 @@ import { AIAssistantTrigger } from "@/components/AIAssistantTrigger";
 import { useAnalytics } from "@/lib/analytics";
 import ConversionOptimizer from "@/components/conversion/ConversionOptimizer";
 import LeadMagnet from "@/components/marketing/LeadMagnet";
-import SocialProof from "@/components/marketing/SocialProof";
 import FloatingActionButton from "@/components/ui/floating-action-button";
+import SEOHead from "@/components/SEOHead";
+import SocialProof from "@/components/marketing/SocialProof";
 import heroImage from "@/assets/hero-supplier-management.jpg";
 import { CalendlyWidget } from "@/components/calendly/CalendlyWidget";
 
@@ -63,7 +64,14 @@ const Index = () => {
   }, [navigate]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+    <>
+      <SEOHead 
+        title="AgentImpact.fr - Solutions IA sur mesure | Automatisation & Agents Intelligents"
+        description="🚀 Transformez votre entreprise avec nos solutions IA personnalisées : facturation automatique, CRM intelligent, gestion fournisseurs. Consultation gratuite ✅ ROI garanti 📈"
+        canonical="https://agentimpact.fr"
+      />
+      
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
       {/* Header */}
       <header className="border-b bg-white/80 backdrop-blur-md sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
@@ -389,9 +397,10 @@ const Index = () => {
       {/* Floating Action Button */}
       <FloatingActionButton />
 
-      {/* AI Assistant */}
-      <AIAssistantTrigger autoTriggerEnabled={true} timerDelay={25000} />
-    </div>
+        {/* AI Assistant */}
+        <AIAssistantTrigger autoTriggerEnabled={true} timerDelay={25000} />
+      </div>
+    </>
   );
 };
 

@@ -14,6 +14,9 @@ import { lazy, Suspense } from "react";
 import { PWAStatusBar } from "@/components/PWAStatusBar";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import PerformanceMonitor from "@/components/PerformanceMonitor";
+import PWAInstallPrompt from "@/components/PWAInstallPrompt";
+import AccessibilityFeatures from "@/components/AccessibilityFeatures";
+import PerformanceOptimizer from "@/components/PerformanceOptimizer";
 import { usePageTracking } from "@/hooks/usePageTracking";
 
 // Lazy loading des pages pour améliorer les performances
@@ -212,9 +215,20 @@ const App = () => (
         <BrowserRouter>
           <AuthProvider>
             <Suspense fallback={<LoadingFallback />}>
-              <AppContent />
+              {/* Skip to content link for accessibility */}
+              <a href="#main-content" className="skip-link focus-visible:focus-visible">
+                Aller au contenu principal
+              </a>
+              
+              <main id="main-content">
+                <AppContent />
+              </main>
+              
               <PWAStatusBar />
               <PerformanceMonitor />
+              <PerformanceOptimizer />
+              <PWAInstallPrompt />
+              <AccessibilityFeatures />
             </Suspense>
           </AuthProvider>
         </BrowserRouter>
