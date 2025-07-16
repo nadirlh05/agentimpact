@@ -56,22 +56,6 @@ export const ConversionOptimizer: React.FC<ConversionOptimizerProps> = ({
 
   return (
     <div className="space-y-8">
-      {/* Urgence et scarcité */}
-      <div className="bg-gradient-to-r from-orange-50 to-red-50 border border-orange-200 rounded-lg p-4">
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="text-sm font-medium text-orange-800">
-              🔥 Offre limitée - Consultation gratuite
-            </p>
-            <p className="text-xs text-orange-600 mt-1">
-              Plus que 3 créneaux disponibles cette semaine
-            </p>
-          </div>
-          <Badge variant="destructive" className="animate-pulse">
-            Limitée
-          </Badge>
-        </div>
-      </div>
 
       {/* CTA principal optimisé */}
       <Card className="border-2 border-blue-200 shadow-lg">
