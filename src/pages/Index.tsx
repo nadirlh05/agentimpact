@@ -330,25 +330,6 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Lead Magnet Section */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              Ressources gratuites
-            </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              Téléchargez nos guides pratiques pour commencer votre transformation IA
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            <LeadMagnet type="checklist" />
-            <LeadMagnet type="guide" />
-            <LeadMagnet type="template" />
-          </div>
-        </div>
-      </section>
 
       {/* Conversion Optimizer Section */}
       <section className="py-16 bg-gradient-to-br from-blue-50 to-violet-50">
