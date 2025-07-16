@@ -86,46 +86,6 @@ export const ConversionOptimizer: React.FC<ConversionOptimizerProps> = ({
         </CardContent>
       </Card>
 
-      {/* Signaux de confiance */}
-      {showTrustSignals && (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {trustSignals.map((signal, index) => (
-            <Card key={index} className="text-center">
-              <CardContent className="p-4">
-                <signal.icon className={`w-8 h-8 mx-auto mb-2 ${signal.color}`} />
-                <p className="font-medium text-gray-900">{signal.text}</p>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      )}
-
-      {/* Témoignages sociaux */}
-      {showTestimonials && (
-        <div className="space-y-4">
-          <h4 className="text-lg font-semibold text-center text-gray-900">
-            Ce que disent nos clients
-          </h4>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {testimonials.map((testimonial, index) => (
-              <Card key={index} className="border border-gray-200">
-                <CardContent className="p-4">
-                  <div className="flex items-center mb-2">
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 text-yellow-400 fill-current" />
-                    ))}
-                  </div>
-                  <p className="text-sm text-gray-600 mb-2">"{testimonial.text}"</p>
-                  <div className="text-xs">
-                    <span className="font-medium">{testimonial.name}</span>
-                    <span className="text-gray-500"> - {testimonial.company}</span>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      )}
 
       {/* CTA secondaire */}
       <div className="bg-gray-50 rounded-lg p-6 text-center">
