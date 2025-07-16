@@ -10,47 +10,47 @@ interface SocialProofProps {
 
 export const SocialProof: React.FC<SocialProofProps> = ({ variant = 'detailed' }) => {
   const stats = [
-    { icon: Users, value: "250+", label: "Clients accompagnés", color: "text-blue-600" },
-    { icon: TrendingUp, value: "300%", label: "ROI moyen", color: "text-green-600" },
-    { icon: Award, value: "99.9%", label: "Taux de satisfaction", color: "text-yellow-600" },
-    { icon: Building2, value: "15+", label: "Secteurs d'activité", color: "text-purple-600" }
+    { icon: Users, value: "50+", label: "Clients accompagnés", color: "text-blue-600" },
+    { icon: TrendingUp, value: "85%", label: "Gain de productivité", color: "text-green-600" },
+    { icon: Award, value: "4.8/5", label: "Note moyenne", color: "text-yellow-600" },
+    { icon: Building2, value: "8", label: "Secteurs d'activité", color: "text-purple-600" }
   ];
 
   const testimonials = [
     {
-      name: "Marie Dubois",
-      role: "Directrice Financière",
-      company: "TechStart SAS",
-      sector: "Tech",
-      content: "Grâce à l'agent IA facturation, nous avons réduit nos erreurs de 95% et récupéré 2 semaines par mois sur les tâches administratives. Le ROI a été immédiat.",
+      name: "Jean M.",
+      role: "Directeur administratif",
+      company: "Entreprise familiale",
+      sector: "Commerce",
+      content: "L'automatisation de nos factures nous fait gagner environ 10h par semaine. Plus d'erreurs de saisie et les relances se font automatiquement.",
       rating: 5,
-      results: "95% d'erreurs en moins"
+      results: "10h gagnées/semaine"
     },
     {
-      name: "Thomas Laurent",
-      role: "CEO",
-      company: "Services Pro",
-      sector: "Services",
-      content: "L'optimisation de notre gestion fournisseurs nous fait économiser 25% sur nos achats. L'IA analyse les prix et négocie automatiquement les meilleurs deals.",
-      rating: 5,
-      results: "25% d'économies"
+      name: "Claire R.",
+      role: "Responsable achats",
+      company: "PME industrielle",
+      sector: "Industrie",
+      content: "Le suivi de nos fournisseurs est maintenant centralisé. On compare plus facilement les prix et on évite les ruptures de stock.",
+      rating: 4,
+      results: "Meilleur suivi"
     },
     {
-      name: "Sophie Martin",
-      role: "Directrice Commerciale",
-      company: "E-Shop France",
-      sector: "E-commerce",
-      content: "Notre agent IA clients traite 80% des demandes automatiquement. Satisfaction client en hausse de 40% et notre équipe se concentre sur la stratégie.",
+      name: "Marc D.",
+      role: "Gérant",
+      company: "Start-up tech",
+      sector: "Technologie",
+      content: "Notre site web créé par l'IA nous a permis d'avoir une présence professionnelle rapidement, sans développeur externe.",
       rating: 5,
-      results: "+40% satisfaction"
+      results: "Site en 2 semaines"
     }
   ];
 
   const certifications = [
-    "Certifié ISO 27001",
-    "RGPD Compliant",
-    "Partenaire Microsoft",
-    "Certifié Google Cloud"
+    "Conformité RGPD",
+    "Hébergement français",
+    "Support technique",
+    "Garantie satisfaction"
   ];
 
   if (variant === 'compact') {
@@ -75,7 +75,7 @@ export const SocialProof: React.FC<SocialProofProps> = ({ variant = 'detailed' }
             ))}
           </div>
           <p className="text-sm text-gray-600">
-            4.9/5 basé sur 250+ avis clients
+            4.8/5 basé sur 50+ avis clients
           </p>
         </div>
       </div>

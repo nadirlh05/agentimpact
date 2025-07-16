@@ -107,7 +107,7 @@ const Index = () => {
             </div>
             
             <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-              Agents IA pour <span className="bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text text-transparent">Facturation & Gestion Clients/Fournisseurs</span>
+              Agents IA pour <span className="bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text text-transparent">facturation & gestion clients/fournisseurs</span>
             </h1>
             <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
               Spécialiste des solutions IA pour automatiser votre facturation, optimiser la gestion de vos fournisseurs et améliorer vos relations clients. 
@@ -127,7 +127,7 @@ const Index = () => {
                 className="bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-lg px-8 py-4"
               >
                 <Sparkles className="w-5 h-5 mr-2" />
-                Découvrir mes Services
+                Découvrir mes services
               </Button>
               <Button
                 onClick={() => {
@@ -141,7 +141,7 @@ const Index = () => {
                 variant="outline"
                 className="border-2 border-violet-600 text-violet-600 hover:bg-violet-600 hover:text-white text-lg px-8 py-4 bg-white"
               >
-                Consultation Gratuite
+                Consultation gratuite
               </Button>
             </div>
 
@@ -168,7 +168,7 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              Solutions Spécialisées
+              Solutions spécialisées
             </h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
               Agents IA dédiés à la gestion financière et administrative de votre entreprise
@@ -185,7 +185,7 @@ const Index = () => {
                     <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mb-4">
                       <DollarSign className="w-8 h-8 text-white" />
                     </div>
-                    <h3 className="text-xl font-semibold text-gray-900 mb-2">Agent IA Facturation</h3>
+                    <h3 className="text-xl font-semibold text-gray-900 mb-2">Agent IA facturation</h3>
                     <p className="text-gray-600 text-sm">Automatise vos factures et relances clients</p>
                   </div>
                   
@@ -232,7 +232,7 @@ const Index = () => {
                     <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mb-4">
                       <Lightbulb className="w-8 h-8 text-white" />
                     </div>
-                    <h3 className="text-xl font-semibold text-gray-900 mb-2">Agent IA Fournisseurs</h3>
+                    <h3 className="text-xl font-semibold text-gray-900 mb-2">Agent IA fournisseurs</h3>
                     <p className="text-gray-600 text-sm">Optimise la gestion de vos fournisseurs</p>
                   </div>
                   
@@ -279,7 +279,7 @@ const Index = () => {
                     <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mb-4">
                       <Code className="w-8 h-8 text-white" />
                     </div>
-                    <h3 className="text-xl font-semibold text-gray-900 mb-2">Agent IA Création Site internet</h3>
+                    <h3 className="text-xl font-semibold text-gray-900 mb-2">Agent IA création site internet</h3>
                     <p className="text-gray-600 text-sm">Crée votre site web professionnel automatiquement</p>
                   </div>
                   
@@ -335,7 +335,7 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              Ressources Gratuites
+              Ressources gratuites
             </h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
               Téléchargez nos guides pratiques pour commencer votre transformation IA
