@@ -10,39 +10,27 @@ interface SocialProofProps {
 
 export const SocialProof: React.FC<SocialProofProps> = ({ variant = 'detailed' }) => {
   const stats = [
-    { icon: Users, value: "50+", label: "Clients accompagnés", color: "text-blue-600" },
-    { icon: TrendingUp, value: "85%", label: "Gain de productivité", color: "text-green-600" },
-    { icon: Award, value: "4.8/5", label: "Note moyenne", color: "text-yellow-600" },
-    { icon: Building2, value: "8", label: "Secteurs d'activité", color: "text-purple-600" }
+    { icon: Users, value: "100%", label: "Satisfaction garantie", color: "text-blue-600" },
+    { icon: TrendingUp, value: "85%", label: "Gain de productivité possible", color: "text-green-600" },
+    { icon: Award, value: "24h", label: "Support réactif", color: "text-yellow-600" },
+    { icon: Building2, value: "8+", label: "Secteurs d'activité", color: "text-purple-600" }
   ];
 
-  const testimonials = [
+  const benefits = [
     {
-      name: "Jean M.",
-      role: "Directeur administratif",
-      company: "Entreprise familiale",
-      sector: "Commerce",
-      content: "L'automatisation de nos factures nous fait gagner environ 10h par semaine. Plus d'erreurs de saisie et les relances se font automatiquement.",
-      rating: 5,
-      results: "10h gagnées/semaine"
+      title: "Automatisation des processus",
+      description: "Gagnez du temps sur vos tâches répétitives",
+      impact: "Jusqu'à 10h/semaine"
     },
     {
-      name: "Claire R.",
-      role: "Responsable achats",
-      company: "PME industrielle",
-      sector: "Industrie",
-      content: "Le suivi de nos fournisseurs est maintenant centralisé. On compare plus facilement les prix et on évite les ruptures de stock.",
-      rating: 4,
-      results: "Meilleur suivi"
+      title: "Centralisation des données",
+      description: "Tous vos outils connectés en un seul endroit",
+      impact: "Vision globale"
     },
     {
-      name: "Marc D.",
-      role: "Gérant",
-      company: "Start-up tech",
-      sector: "Technologie",
-      content: "Notre site web créé par l'IA nous a permis d'avoir une présence professionnelle rapidement, sans développeur externe.",
-      rating: 5,
-      results: "Site en 2 semaines"
+      title: "Solutions sur mesure",
+      description: "Adaptées à votre secteur d'activité",
+      impact: "ROI optimisé"
     }
   ];
 
@@ -75,7 +63,7 @@ export const SocialProof: React.FC<SocialProofProps> = ({ variant = 'detailed' }
             ))}
           </div>
           <p className="text-sm text-gray-600">
-            4.8/5 basé sur 50+ avis clients
+            Solutions IA sur mesure
           </p>
         </div>
       </div>
@@ -97,37 +85,21 @@ export const SocialProof: React.FC<SocialProofProps> = ({ variant = 'detailed' }
         ))}
       </div>
 
-      {/* Témoignages détaillés */}
+      {/* Bénéfices et promesses */}
       <div className="space-y-4">
         <h3 className="text-xl font-semibold text-center text-gray-900">
-          Témoignages clients
+          Ce que vous pouvez attendre
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {testimonials.map((testimonial, index) => (
+          {benefits.map((benefit, index) => (
             <Card key={index} className="border border-gray-200 hover:shadow-md transition-shadow">
               <CardContent className="p-6">
-                {/* Rating */}
-                <div className="flex items-center mb-3">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 text-yellow-400 fill-current" />
-                  ))}
-                  <Badge variant="secondary" className="ml-2 text-xs">
-                    {testimonial.results}
+                <div className="text-center">
+                  <div className="font-semibold text-gray-900 mb-2">{benefit.title}</div>
+                  <p className="text-gray-700 text-sm mb-3">{benefit.description}</p>
+                  <Badge variant="secondary" className="text-xs">
+                    {benefit.impact}
                   </Badge>
-                </div>
-
-                {/* Témoignage */}
-                <p className="text-gray-700 text-sm mb-4 italic">
-                  "{testimonial.content}"
-                </p>
-
-                {/* Auteur */}
-                <div className="border-t pt-4">
-                  <div className="font-medium text-gray-900">{testimonial.name}</div>
-                  <div className="text-sm text-gray-600">{testimonial.role}</div>
-                  <div className="text-sm text-gray-500">
-                    {testimonial.company} • {testimonial.sector}
-                  </div>
                 </div>
               </CardContent>
             </Card>
