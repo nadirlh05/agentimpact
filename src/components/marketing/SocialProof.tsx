@@ -107,36 +107,6 @@ export const SocialProof: React.FC<SocialProofProps> = ({ variant = 'detailed' }
         </div>
       </div>
 
-      {/* Certifications et labels */}
-      <div className="bg-gray-50 rounded-lg p-6">
-        <h4 className="font-semibold text-gray-900 text-center mb-4">
-          Certifications et Garanties
-        </h4>
-        <div className="flex flex-wrap justify-center gap-3">
-          {certifications.map((cert, index) => (
-            <Badge key={index} variant="outline" className="text-xs">
-              {cert}
-            </Badge>
-          ))}
-        </div>
-        <p className="text-center text-xs text-gray-500 mt-3">
-          Sécurité et conformité garanties
-        </p>
-      </div>
-
-      {/* Logos clients (placeholder) */}
-      <div className="text-center">
-        <p className="text-sm text-gray-600 mb-4">
-          Ils nous font confiance
-        </p>
-        <div className="flex justify-center items-center space-x-8 opacity-60">
-          {[...Array(5)].map((_, i) => (
-            <div key={i} className="w-16 h-8 bg-gray-200 rounded flex items-center justify-center">
-              <Building2 className="w-6 h-6 text-gray-400" />
-            </div>
-          ))}
-        </div>
-      </div>
     </div>
   );
 };
