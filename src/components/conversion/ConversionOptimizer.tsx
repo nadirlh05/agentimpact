@@ -71,7 +71,10 @@ export const ConversionOptimizer: React.FC<ConversionOptimizerProps> = ({
             <Button 
               size="lg" 
               className={`w-full ${variant === 'primary' ? 'bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-700 hover:to-violet-700' : 'bg-green-600 hover:bg-green-700'} text-white font-semibold py-4 text-lg`}
-              onClick={() => handleCTAClick('primary_consultation')}
+              onClick={() => {
+                handleCTAClick('primary_consultation');
+                window.location.href = '/contact';
+              }}
             >
               Réserver ma consultation gratuite
               <ArrowRight className="w-5 h-5 ml-2" />
@@ -87,22 +90,6 @@ export const ConversionOptimizer: React.FC<ConversionOptimizerProps> = ({
       </Card>
 
 
-      {/* CTA secondaire */}
-      <div className="bg-gray-50 rounded-lg p-6 text-center">
-        <h4 className="font-semibold text-gray-900 mb-2">
-          Pas encore prêt pour une consultation ?
-        </h4>
-        <p className="text-gray-600 mb-4">
-          Découvrez nos services et cas d'usage en détail
-        </p>
-        <Button 
-          variant="outline" 
-          onClick={() => handleCTAClick('secondary_services')}
-          className="border-blue-600 text-blue-600 hover:bg-blue-50"
-        >
-          Explorer nos services
-        </Button>
-      </div>
     </div>
   );
 };

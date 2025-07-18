@@ -19,6 +19,14 @@ import { useAuth } from '@/contexts/AuthProvider';
 import { supabase } from '@/integrations/supabase/client';
 import { CalendlyWidget } from '@/components/calendly/CalendlyWidget';
 
+// Ensure Calendly script is loaded
+if (typeof window !== 'undefined' && !document.querySelector('script[src="https://assets.calendly.com/assets/external/widget.js"]')) {
+  const script = document.createElement('script');
+  script.src = 'https://assets.calendly.com/assets/external/widget.js';
+  script.async = true;
+  document.head.appendChild(script);
+}
+
 interface ClientStats {
   totalProjects: number;
   activeProjects: number;
@@ -190,14 +198,13 @@ const ClientDashboard = () => {
             <p className="text-gray-600 mb-4">
               Besoin d'aide ou d'une démonstration ? Réservez un créneau avec nos experts.
             </p>
-            <CalendlyWidget
-              type="button"
-              buttonText="Réserver un créneau"
-              buttonVariant="default"
-              size="sm"
-              className="w-full"
-              url="https://calendly.com/agentimpact/consultation-gratuite"
-            />
+            <div className="border rounded-lg overflow-hidden">
+              <div 
+                className="calendly-inline-widget" 
+                data-url="https://calendly.com/nadir-lahyani11/30min"
+                style={{ minWidth: '320px', height: '500px', width: '100%' }}
+              />
+            </div>
           </CardContent>
         </Card>
 
