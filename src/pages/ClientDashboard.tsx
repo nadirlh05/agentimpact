@@ -1,15 +1,12 @@
+
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { 
-  Bot, 
-  Lightbulb, 
   Calendar, 
   Clock, 
   CheckCircle,
-  ArrowRight,
-  Sparkles,
   TrendingUp,
   FileText,
   Settings
@@ -17,7 +14,6 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthProvider';
 import { supabase } from '@/integrations/supabase/client';
-import { CalendlyWidget } from '@/components/calendly/CalendlyWidget';
 
 // Ensure Calendly script is loaded
 if (typeof window !== 'undefined' && !document.querySelector('script[src="https://assets.calendly.com/assets/external/widget.js"]')) {
@@ -74,25 +70,6 @@ const ClientDashboard = () => {
     }
   };
 
-  const solutions = [
-    {
-      icon: Bot,
-      title: "Agent IA Facturation",
-      description: "Automatise vos factures et relances clients",
-      features: ["Génération automatique", "Relances personnalisées", "Suivi des paiements"],
-      color: "bg-blue-500",
-      action: () => navigate('/generator')
-    },
-    {
-      icon: Lightbulb,
-      title: "Agent IA Fournisseurs", 
-      description: "Optimise la gestion de vos fournisseurs",
-      features: ["Suivi des commandes", "Comparaison des prix", "Évaluation fournisseurs"],
-      color: "bg-green-500",
-      action: () => navigate('/generator')
-    }
-  ];
-
   return (
     <div className="space-y-8">
       {/* Header de bienvenue */}
@@ -148,41 +125,6 @@ const ClientDashboard = () => {
             </div>
           </CardContent>
         </Card>
-      </div>
-
-      {/* Solutions disponibles */}
-      <div>
-        <h2 className="text-2xl font-bold text-gray-900 mb-6">Solutions IA Disponibles</h2>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {solutions.map((solution, index) => (
-            <Card key={index} className="hover:shadow-lg transition-all duration-300 cursor-pointer" onClick={solution.action}>
-              <CardContent className="p-6">
-                <div className="flex items-start space-x-4">
-                  <div className={`w-12 h-12 ${solution.color} rounded-lg flex items-center justify-center flex-shrink-0`}>
-                    <solution.icon className="w-6 h-6 text-white" />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-xl font-semibold text-gray-900 mb-2">{solution.title}</h3>
-                    <p className="text-gray-600 mb-4">{solution.description}</p>
-                    <div className="space-y-2 mb-4">
-                      {solution.features.map((feature, idx) => (
-                        <div key={idx} className="flex items-center space-x-2">
-                          <CheckCircle className="w-4 h-4 text-green-500" />
-                          <span className="text-sm text-gray-700">{feature}</span>
-                        </div>
-                      ))}
-                    </div>
-                    <Button variant="outline" size="sm" className="w-full">
-                      <Sparkles className="w-4 h-4 mr-2" />
-                      Configurer ma solution
-                      <ArrowRight className="w-4 h-4 ml-2" />
-                    </Button>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
       </div>
 
       {/* Actions rapides */}
