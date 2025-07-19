@@ -16,7 +16,8 @@ import {
   DollarSign,
   MessageSquare,
   Code,
-  Bot
+  Bot,
+  Mail
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -175,9 +176,9 @@ const Index = () => {
             </p>
           </div>
           
-          {/* Grid with 3 services */}
+          {/* Grid with 4 services */}
           <div className="flex justify-center">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-6xl">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl">
               {/* Agent IA Facturation */}
               <Card className="border border-gray-200 hover:shadow-lg transition-all duration-300">
                 <CardContent className="p-8">
@@ -314,6 +315,53 @@ const Index = () => {
                     <div className="flex items-center space-x-2 text-xs text-gray-500">
                       <Clock className="w-3 h-3" />
                       <span>1-2 semaines</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Agent IA Gestion Emails */}
+              <Card className="border border-gray-200 hover:shadow-lg transition-all duration-300">
+                <CardContent className="p-8">
+                  <div className="flex flex-col items-center text-center mb-6">
+                    <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mb-4">
+                      <Mail className="w-8 h-8 text-white" />
+                    </div>
+                    <h3 className="text-xl font-semibold text-gray-900 mb-2">Agent IA gestion emails</h3>
+                    <p className="text-gray-600 text-sm">Automatise et optimise vos communications email</p>
+                  </div>
+                  
+                  <div className="space-y-3 mb-6">
+                    <h4 className="font-medium text-gray-900 text-sm">Fonctionnalités :</h4>
+                    <div className="space-y-2">
+                      <div className="flex items-center space-x-2">
+                        <CheckCircle className="w-4 h-4 text-green-500" />
+                        <span className="text-sm text-gray-700">Tri automatique des emails</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <CheckCircle className="w-4 h-4 text-green-500" />
+                        <span className="text-sm text-gray-700">Réponses automatiques intelligentes</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <CheckCircle className="w-4 h-4 text-green-500" />
+                        <span className="text-sm text-gray-700">Planification d'envois</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <CheckCircle className="w-4 h-4 text-green-500" />
+                        <span className="text-sm text-gray-700">Suivi d'engagement</span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-2">
+                      <Badge variant="outline" className="text-orange-600 border-orange-600 text-xs">
+                        Productivité : +60%
+                      </Badge>
+                    </div>
+                    <div className="flex items-center space-x-2 text-xs text-gray-500">
+                      <Clock className="w-3 h-3" />
+                      <span>1-3 semaines</span>
                     </div>
                   </div>
                 </CardContent>
