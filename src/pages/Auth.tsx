@@ -6,8 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Mail, Lock, User, ArrowLeft } from 'lucide-react';
-import logoImage from "@/assets/agentimpact-logo-clear.png";
+import { Zap, Mail, Lock, User, ArrowLeft } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthProvider';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
@@ -310,7 +309,7 @@ const Auth = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-secondary flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         {/* Header */}
         <div className="text-center mb-8">
@@ -325,11 +324,11 @@ const Auth = () => {
           </Button>
           
           <div className="flex items-center justify-center space-x-2 mb-4">
-            <div className="w-10 h-10 bg-gradient-primary rounded-lg flex items-center justify-center">
-              <img src={logoImage} alt="AgentImpact.fr" className="w-8 h-8" />
+            <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-violet-600 rounded-lg flex items-center justify-center">
+              <Zap className="w-6 h-6 text-white" />
             </div>
-            <span className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-              AgentImpact.fr
+            <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text text-transparent">
+              Générateur IA
             </span>
           </div>
           <p className="text-gray-600">Connectez-vous pour accéder au générateur</p>
@@ -390,7 +389,7 @@ const Auth = () => {
 
                   <Button 
                     type="submit" 
-                    className="w-full bg-gradient-primary hover:brightness-110"
+                    className="w-full bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-700 hover:to-violet-700"
                     disabled={isLoading}
                   >
                     {isLoading ? "Connexion..." : "Se connecter"}
@@ -456,7 +455,7 @@ const Auth = () => {
 
                   <Button 
                     type="submit" 
-                    className="w-full bg-gradient-primary hover:brightness-110"
+                    className="w-full bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-700 hover:to-violet-700"
                     disabled={isLoading}
                   >
                     {isLoading ? "Envoi en cours..." : "Envoyer le lien"}
@@ -522,7 +521,7 @@ const Auth = () => {
 
                     <Button 
                       type="submit" 
-                      className="w-full bg-gradient-primary hover:brightness-110"
+                      className="w-full bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-700 hover:to-violet-700"
                       disabled={isLoading}
                     >
                       {isLoading ? "Mise à jour..." : "Mettre à jour le mot de passe"}
@@ -602,7 +601,7 @@ const Auth = () => {
 
                   <Button 
                     type="submit" 
-                    className="w-full bg-gradient-primary hover:brightness-110"
+                    className="w-full bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-700 hover:to-violet-700"
                     disabled={isLoading}
                   >
                     {isLoading ? "Création du compte..." : "Créer un compte"}

@@ -37,14 +37,14 @@ export const FloatingActionButton: React.FC<FloatingActionButtonProps> = ({ clas
       label: 'Email',
       action: 'email',
       href: 'mailto:contact@agentimpact.fr',
-      color: 'bg-primary hover:brightness-110'
+      color: 'bg-blue-600 hover:bg-blue-700'
     },
     {
       icon: MessageSquare,
       label: 'Consultation',
       action: 'consultation',
       href: '#calendly',
-      color: 'bg-secondary hover:brightness-110'
+      color: 'bg-violet-600 hover:bg-violet-700'
     }
   ];
 
@@ -95,7 +95,7 @@ export const FloatingActionButton: React.FC<FloatingActionButtonProps> = ({ clas
           "w-14 h-14 rounded-full shadow-lg transition-all duration-300",
           isOpen 
             ? "bg-red-600 hover:bg-red-700 rotate-45" 
-            : "bg-gradient-primary hover:brightness-110"
+            : "bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-700 hover:to-violet-700"
         )}
         onClick={handleToggle}
       >

@@ -13,7 +13,7 @@ export const ContactInfo = () => {
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="flex items-center space-x-3">
-            <Mail className="w-5 h-5 text-primary" />
+            <Mail className="w-5 h-5 text-blue-600" />
             <div>
               <p className="font-medium">Email</p>
               <p className="text-gray-600">nadir.lahyani@outlook.fr</p>
@@ -69,7 +69,7 @@ export const ContactInfo = () => {
               { step: "3", title: "Proposition", desc: "Devis détaillé sous 48h" }
             ].map((step, index) => (
               <div key={index} className="flex items-start space-x-3">
-                <div className="w-8 h-8 bg-gradient-primary rounded-full flex items-center justify-center text-white text-sm font-bold">
+                <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-violet-600 rounded-full flex items-center justify-center text-white text-sm font-bold">
                   {step.step}
                 </div>
                 <div>

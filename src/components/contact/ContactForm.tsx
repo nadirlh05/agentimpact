@@ -212,7 +212,7 @@ export const ContactForm = ({ onSubmitSuccess }: ContactFormProps) => {
 
       <Button 
         type="submit" 
-        className="w-full bg-gradient-primary hover:brightness-110 text-lg py-3"
+        className="w-full bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-700 hover:to-violet-700 text-lg py-3"
         disabled={isSubmitting}
       >
         {isSubmitting ? (

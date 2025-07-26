@@ -2,6 +2,7 @@ import {
   Brain, 
   Sparkles, 
   ArrowRight, 
+  Zap, 
   Shield, 
   Users, 
   TrendingUp, 
@@ -21,7 +22,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
-import logoImage from "@/assets/agentimpact-logo-clear.png";
 import { Badge } from "@/components/ui/badge";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
@@ -72,15 +72,15 @@ const Index = () => {
         canonical="https://agentimpact.fr"
       />
       
-      <div className="min-h-screen bg-gradient-secondary">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
       {/* Header */}
       <header className="border-b bg-white/80 backdrop-blur-md sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 flex items-center justify-center">
-              <img src={logoImage} alt="AgentImpact.fr" className="w-10 h-10" />
+          <div className="flex items-center space-x-2">
+            <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-violet-600 rounded-lg flex items-center justify-center">
+              <Zap className="w-5 h-5 text-white" />
             </div>
-            <span className="text-xl font-bold bg-gradient-primary bg-clip-text text-transparent">
+            <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text text-transparent">
               AgentImpact.fr
             </span>
           </div>
@@ -88,7 +88,7 @@ const Index = () => {
             <Button 
               variant="ghost"
               onClick={() => navigate('/auth')}
-              className="text-primary hover:text-accent font-medium"
+              className="text-blue-600 hover:text-blue-700 font-medium"
             >
               Connexion
             </Button>
@@ -97,18 +97,18 @@ const Index = () => {
       </header>
 
       {/* Hero Section - IA Services */}
-      <section className="py-16 md:py-24 relative overflow-hidden bg-gradient-secondary">
+      <section className="py-16 md:py-24 relative overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
         <div className="container mx-auto px-4 text-center relative z-10">
           <div className="max-w-4xl mx-auto">
             <div className="flex justify-center mb-6">
               <div className="flex items-center space-x-2 bg-white/80 backdrop-blur-md px-4 py-2 rounded-full border">
-                <Brain className="w-5 h-5 text-primary" />
+                <Brain className="w-5 h-5 text-violet-600" />
                 <span className="text-sm font-medium text-gray-700">Spécialiste IA & Automatisation</span>
               </div>
             </div>
             
             <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-              Agents IA pour <span className="bg-gradient-primary bg-clip-text text-transparent">facturation & gestion clients/fournisseurs</span>
+              Agents IA pour <span className="bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text text-transparent">facturation & gestion clients/fournisseurs</span>
             </h1>
             <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
               Spécialiste des solutions IA pour automatiser votre facturation, optimiser la gestion de vos fournisseurs et améliorer vos relations clients. 
@@ -125,7 +125,7 @@ const Index = () => {
                   navigate('/services');
                 }}
                 size="lg"
-                className="bg-gradient-primary hover:brightness-110 text-lg px-8 py-4"
+                className="bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-lg px-8 py-4"
               >
                 <Sparkles className="w-5 h-5 mr-2" />
                 Découvrir mes services
@@ -140,7 +140,7 @@ const Index = () => {
                 }}
                 size="lg"
                 variant="outline"
-                className="border-2 border-primary text-primary hover:bg-primary hover:text-white text-lg px-8 py-4 bg-white"
+                className="border-2 border-violet-600 text-violet-600 hover:bg-violet-600 hover:text-white text-lg px-8 py-4 bg-white"
               >
                 Consultation gratuite
               </Button>
@@ -152,11 +152,11 @@ const Index = () => {
                 <span>Solutions personnalisées</span>
               </div>
               <div className="flex items-center space-x-2">
-                <Users className="w-4 h-4 text-primary" />
+                <Users className="w-4 h-4 text-blue-600" />
                 <span>Accompagnement dédié</span>
               </div>
               <div className="flex items-center space-x-2">
-                <TrendingUp className="w-4 h-4 text-primary" />
+                <TrendingUp className="w-4 h-4 text-violet-600" />
                 <span>Optimisation des processus</span>
               </div>
             </div>
@@ -183,7 +183,7 @@ const Index = () => {
               <Card className="border border-gray-200 hover:shadow-lg transition-all duration-300">
                 <CardContent className="p-8">
                   <div className="flex flex-col items-center text-center mb-6">
-                    <div className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center mb-4">
+                    <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mb-4">
                       <DollarSign className="w-8 h-8 text-white" />
                     </div>
                     <h3 className="text-xl font-semibold text-gray-900 mb-2">Agent IA facturation</h3>
@@ -230,7 +230,7 @@ const Index = () => {
               <Card className="border border-gray-200 hover:shadow-lg transition-all duration-300">
                 <CardContent className="p-8">
                   <div className="flex flex-col items-center text-center mb-6">
-                    <div className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center mb-4">
+                    <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mb-4">
                       <Lightbulb className="w-8 h-8 text-white" />
                     </div>
                     <h3 className="text-xl font-semibold text-gray-900 mb-2">Agent IA fournisseurs</h3>
@@ -261,7 +261,7 @@ const Index = () => {
                   
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
-                      <Badge variant="outline" className="text-primary border-primary text-xs">
+                      <Badge variant="outline" className="text-blue-600 border-blue-600 text-xs">
                         Économies : 15-25%
                       </Badge>
                     </div>
@@ -277,7 +277,7 @@ const Index = () => {
               <Card className="border border-gray-200 hover:shadow-lg transition-all duration-300">
                 <CardContent className="p-8">
                   <div className="flex flex-col items-center text-center mb-6">
-                    <div className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center mb-4">
+                    <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mb-4">
                       <Code className="w-8 h-8 text-white" />
                     </div>
                     <h3 className="text-xl font-semibold text-gray-900 mb-2">Agent IA création site internet</h3>
@@ -308,7 +308,7 @@ const Index = () => {
                   
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
-                      <Badge variant="outline" className="text-primary border-primary text-xs">
+                      <Badge variant="outline" className="text-violet-600 border-violet-600 text-xs">
                         ROI : +200%
                       </Badge>
                     </div>
@@ -324,7 +324,7 @@ const Index = () => {
               <Card className="border border-gray-200 hover:shadow-lg transition-all duration-300">
                 <CardContent className="p-8">
                   <div className="flex flex-col items-center text-center mb-6">
-                    <div className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center mb-4">
+                    <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mb-4">
                       <Mail className="w-8 h-8 text-white" />
                     </div>
                     <h3 className="text-xl font-semibold text-gray-900 mb-2">Agent IA gestion emails</h3>
@@ -380,7 +380,7 @@ const Index = () => {
 
 
       {/* Conversion Optimizer Section */}
-      <section className="py-16 bg-gradient-secondary">
+      <section className="py-16 bg-gradient-to-br from-blue-50 to-violet-50">
         <div className="container mx-auto px-4">
           <ConversionOptimizer 
             variant="primary"
@@ -391,19 +391,19 @@ const Index = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 bg-gradient-primary">
+      <section className="py-16 bg-gradient-to-r from-blue-600 via-violet-600 to-blue-700">
         <div className="container mx-auto px-4 text-center">
           <div className="max-w-3xl mx-auto text-white">
             <h2 className="text-3xl font-bold mb-4">
               Automatisez votre gestion administrative aujourd'hui
             </h2>
-            <p className="text-xl mb-8 text-white/80">
+            <p className="text-xl mb-8 text-blue-100">
               Réduisez vos erreurs de facturation et optimisez vos relations clients/fournisseurs avec l'IA
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button 
                 size="lg" 
-                className="bg-white text-secondary hover:bg-gray-100 font-semibold"
+                className="bg-white text-blue-600 hover:bg-gray-100 font-semibold"
                 onClick={() => navigate('/services')}
               >
                 <Rocket className="w-5 h-5 mr-2" />

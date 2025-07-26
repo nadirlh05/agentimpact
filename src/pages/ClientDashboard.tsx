@@ -73,7 +73,7 @@ const ClientDashboard = () => {
   return (
     <div className="space-y-8">
       {/* Header de bienvenue */}
-      <div className="bg-gradient-primary rounded-lg p-8 text-white">
+      <div className="bg-gradient-to-r from-blue-600 to-violet-600 rounded-lg p-8 text-white">
         <h1 className="text-3xl font-bold mb-2">
           Bonjour {user?.user_metadata?.full_name || user?.email?.split('@')[0]} ! 👋
         </h1>
@@ -87,8 +87,8 @@ const ClientDashboard = () => {
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center space-x-4">
-              <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-                <FileText className="w-6 h-6 text-primary" />
+              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                <FileText className="w-6 h-6 text-blue-600" />
               </div>
               <div>
                 <p className="text-sm font-medium text-gray-600">Total Projets</p>
@@ -115,8 +115,8 @@ const ClientDashboard = () => {
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center space-x-4">
-              <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-                <CheckCircle className="w-6 h-6 text-primary" />
+              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                <CheckCircle className="w-6 h-6 text-purple-600" />
               </div>
               <div>
                 <p className="text-sm font-medium text-gray-600">Terminés</p>
@@ -132,7 +132,7 @@ const ClientDashboard = () => {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center space-x-2">
-              <Calendar className="w-5 h-5 text-primary" />
+              <Calendar className="w-5 h-5 text-blue-600" />
               <span>Planifier une consultation</span>
             </CardTitle>
           </CardHeader>
@@ -153,7 +153,7 @@ const ClientDashboard = () => {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center space-x-2">
-              <Settings className="w-5 h-5 text-primary" />
+              <Settings className="w-5 h-5 text-purple-600" />
               <span>Configurateur d'offres</span>
             </CardTitle>
           </CardHeader>
@@ -182,8 +182,8 @@ const ClientDashboard = () => {
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="text-center p-4 border rounded-lg">
-              <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-2">
-                <span className="text-primary font-bold">1</span>
+              <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-2">
+                <span className="text-blue-600 font-bold">1</span>
               </div>
               <h4 className="font-semibold mb-2">Explorez nos solutions</h4>
               <p className="text-sm text-gray-600">Découvrez nos agents IA spécialisés</p>
@@ -196,8 +196,8 @@ const ClientDashboard = () => {
               <p className="text-sm text-gray-600">Adaptez l'IA à vos besoins</p>
             </div>
             <div className="text-center p-4 border rounded-lg">
-              <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-2">
-                <span className="text-primary font-bold">3</span>
+              <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-2">
+                <span className="text-purple-600 font-bold">3</span>
               </div>
               <h4 className="font-semibold mb-2">Planifiez le déploiement</h4>
               <p className="text-sm text-gray-600">Réservez votre consultation</p>
