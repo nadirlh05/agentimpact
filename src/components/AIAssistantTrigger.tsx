@@ -123,8 +123,8 @@ export const AIAssistantTrigger = ({
             onClick={handleManualOpen}
             className={`
               relative rounded-full w-14 h-14 p-0
-              bg-gradient-to-r from-blue-600 to-violet-600 
-              hover:from-blue-700 hover:to-violet-700
+              bg-gradient-primary 
+              hover:brightness-110
               text-white shadow-lg border-0
               transition-all duration-300 hover:scale-105
               ${showPulse ? 'animate-pulse scale-110' : ''}
@@ -146,7 +146,7 @@ export const AIAssistantTrigger = ({
               
               {/* Ripple animation */}
               {showPulse && (
-                <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-600 to-violet-600 animate-ping opacity-30" />
+                <div className="absolute inset-0 rounded-full bg-gradient-primary animate-ping opacity-30" />
               )}
             </div>
           </Button>

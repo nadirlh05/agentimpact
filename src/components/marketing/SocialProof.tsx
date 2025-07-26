@@ -10,10 +10,10 @@ interface SocialProofProps {
 
 export const SocialProof: React.FC<SocialProofProps> = ({ variant = 'detailed' }) => {
   const stats = [
-    { icon: Users, value: "100%", label: "Satisfaction garantie", color: "text-blue-600" },
+    { icon: Users, value: "100%", label: "Satisfaction garantie", color: "text-primary" },
     { icon: TrendingUp, value: "85%", label: "Gain de productivité possible", color: "text-green-600" },
     { icon: Award, value: "24h", label: "Support réactif", color: "text-yellow-600" },
-    { icon: Building2, value: "8+", label: "Secteurs d'activité", color: "text-purple-600" }
+    { icon: Building2, value: "8+", label: "Secteurs d'activité", color: "text-primary" }
   ];
 
   const benefits = [

@@ -50,7 +50,7 @@ export const ConversionOptimizer: React.FC<ConversionOptimizerProps> = ({
 
   const trustSignals = [
     { icon: CheckCircle, text: "99,9% de fiabilité", color: "text-green-600" },
-    { icon: TrendingUp, text: "ROI moyen 250%", color: "text-blue-600" },
+    { icon: TrendingUp, text: "ROI moyen 250%", color: "text-primary" },
     { icon: Star, text: "4.9/5 satisfaction client", color: "text-yellow-600" }
   ];
 
@@ -70,7 +70,7 @@ export const ConversionOptimizer: React.FC<ConversionOptimizerProps> = ({
           <div className="space-y-4">
             <Button 
               size="lg" 
-              className={`w-full ${variant === 'primary' ? 'bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-700 hover:to-violet-700' : 'bg-green-600 hover:bg-green-700'} text-white font-semibold py-4 text-lg`}
+              className={`w-full ${variant === 'primary' ? 'bg-gradient-primary hover:brightness-110' : 'bg-green-600 hover:bg-green-700'} text-white font-semibold py-4 text-lg`}
               onClick={() => {
                 handleCTAClick('primary_consultation');
                 window.location.href = '/contact';

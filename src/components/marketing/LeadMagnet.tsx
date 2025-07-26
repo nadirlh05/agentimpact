@@ -126,7 +126,7 @@ export const LeadMagnet: React.FC<LeadMagnetProps> = ({
   return (
     <Card className="border-2 border-blue-200 shadow-lg">
       <CardHeader className="text-center">
-        <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
+        <div className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center mx-auto mb-4">
           <IconComponent className="w-8 h-8 text-white" />
         </div>
         <CardTitle className="text-xl font-bold text-gray-900">
@@ -176,7 +176,7 @@ export const LeadMagnet: React.FC<LeadMagnetProps> = ({
           
           <Button 
             type="submit" 
-            className="w-full bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-700 hover:to-violet-700 text-white font-semibold"
+            className="w-full bg-gradient-primary hover:brightness-110 text-white font-semibold"
             disabled={isLoading}
           >
             {isLoading ? (

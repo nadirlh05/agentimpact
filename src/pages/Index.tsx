@@ -102,7 +102,7 @@ const Index = () => {
           <div className="max-w-4xl mx-auto">
             <div className="flex justify-center mb-6">
               <div className="flex items-center space-x-2 bg-white/80 backdrop-blur-md px-4 py-2 rounded-full border">
-                <Brain className="w-5 h-5 text-violet-600" />
+                <Brain className="w-5 h-5 text-primary" />
                 <span className="text-sm font-medium text-gray-700">Spécialiste IA & Automatisation</span>
               </div>
             </div>
@@ -125,7 +125,7 @@ const Index = () => {
                   navigate('/services');
                 }}
                 size="lg"
-                className="bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-lg px-8 py-4"
+                className="bg-gradient-primary hover:brightness-110 text-lg px-8 py-4"
               >
                 <Sparkles className="w-5 h-5 mr-2" />
                 Découvrir mes services
@@ -140,7 +140,7 @@ const Index = () => {
                 }}
                 size="lg"
                 variant="outline"
-                className="border-2 border-violet-600 text-violet-600 hover:bg-violet-600 hover:text-white text-lg px-8 py-4 bg-white"
+                className="border-2 border-primary text-primary hover:bg-primary hover:text-white text-lg px-8 py-4 bg-white"
               >
                 Consultation gratuite
               </Button>
@@ -152,11 +152,11 @@ const Index = () => {
                 <span>Solutions personnalisées</span>
               </div>
               <div className="flex items-center space-x-2">
-                <Users className="w-4 h-4 text-blue-600" />
+                <Users className="w-4 h-4 text-primary" />
                 <span>Accompagnement dédié</span>
               </div>
               <div className="flex items-center space-x-2">
-                <TrendingUp className="w-4 h-4 text-violet-600" />
+                <TrendingUp className="w-4 h-4 text-primary" />
                 <span>Optimisation des processus</span>
               </div>
             </div>
@@ -183,7 +183,7 @@ const Index = () => {
               <Card className="border border-gray-200 hover:shadow-lg transition-all duration-300">
                 <CardContent className="p-8">
                   <div className="flex flex-col items-center text-center mb-6">
-                    <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mb-4">
+                    <div className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center mb-4">
                       <DollarSign className="w-8 h-8 text-white" />
                     </div>
                     <h3 className="text-xl font-semibold text-gray-900 mb-2">Agent IA facturation</h3>
@@ -230,7 +230,7 @@ const Index = () => {
               <Card className="border border-gray-200 hover:shadow-lg transition-all duration-300">
                 <CardContent className="p-8">
                   <div className="flex flex-col items-center text-center mb-6">
-                    <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mb-4">
+                    <div className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center mb-4">
                       <Lightbulb className="w-8 h-8 text-white" />
                     </div>
                     <h3 className="text-xl font-semibold text-gray-900 mb-2">Agent IA fournisseurs</h3>
@@ -261,7 +261,7 @@ const Index = () => {
                   
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
-                      <Badge variant="outline" className="text-blue-600 border-blue-600 text-xs">
+                      <Badge variant="outline" className="text-primary border-primary text-xs">
                         Économies : 15-25%
                       </Badge>
                     </div>
@@ -277,7 +277,7 @@ const Index = () => {
               <Card className="border border-gray-200 hover:shadow-lg transition-all duration-300">
                 <CardContent className="p-8">
                   <div className="flex flex-col items-center text-center mb-6">
-                    <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mb-4">
+                    <div className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center mb-4">
                       <Code className="w-8 h-8 text-white" />
                     </div>
                     <h3 className="text-xl font-semibold text-gray-900 mb-2">Agent IA création site internet</h3>
@@ -308,7 +308,7 @@ const Index = () => {
                   
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
-                      <Badge variant="outline" className="text-violet-600 border-violet-600 text-xs">
+                      <Badge variant="outline" className="text-primary border-primary text-xs">
                         ROI : +200%
                       </Badge>
                     </div>
@@ -324,7 +324,7 @@ const Index = () => {
               <Card className="border border-gray-200 hover:shadow-lg transition-all duration-300">
                 <CardContent className="p-8">
                   <div className="flex flex-col items-center text-center mb-6">
-                    <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mb-4">
+                    <div className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center mb-4">
                       <Mail className="w-8 h-8 text-white" />
                     </div>
                     <h3 className="text-xl font-semibold text-gray-900 mb-2">Agent IA gestion emails</h3>
@@ -380,7 +380,7 @@ const Index = () => {
 
 
       {/* Conversion Optimizer Section */}
-      <section className="py-16 bg-gradient-to-br from-blue-50 to-violet-50">
+      <section className="py-16 bg-gradient-secondary">
         <div className="container mx-auto px-4">
           <ConversionOptimizer 
             variant="primary"
@@ -391,19 +391,19 @@ const Index = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 bg-gradient-to-r from-blue-600 via-violet-600 to-blue-700">
+      <section className="py-16 bg-gradient-primary">
         <div className="container mx-auto px-4 text-center">
           <div className="max-w-3xl mx-auto text-white">
             <h2 className="text-3xl font-bold mb-4">
               Automatisez votre gestion administrative aujourd'hui
             </h2>
-            <p className="text-xl mb-8 text-blue-100">
+            <p className="text-xl mb-8 text-white/80">
               Réduisez vos erreurs de facturation et optimisez vos relations clients/fournisseurs avec l'IA
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button 
                 size="lg" 
-                className="bg-white text-blue-600 hover:bg-gray-100 font-semibold"
+                className="bg-white text-secondary hover:bg-gray-100 font-semibold"
                 onClick={() => navigate('/services')}
               >
                 <Rocket className="w-5 h-5 mr-2" />

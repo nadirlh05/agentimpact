@@ -325,11 +325,11 @@ const Auth = () => {
           </Button>
           
           <div className="flex items-center justify-center space-x-2 mb-4">
-            <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-violet-600 rounded-lg flex items-center justify-center">
+            <div className="w-10 h-10 bg-gradient-primary rounded-lg flex items-center justify-center">
               <img src={logoImage} alt="AgentImpact.fr" className="w-8 h-8" />
             </div>
-            <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text text-transparent">
-              Générateur IA
+            <span className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent">
+              AgentImpact.fr
             </span>
           </div>
           <p className="text-gray-600">Connectez-vous pour accéder au générateur</p>
@@ -390,7 +390,7 @@ const Auth = () => {
 
                   <Button 
                     type="submit" 
-                    className="w-full bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-700 hover:to-violet-700"
+                    className="w-full bg-gradient-primary hover:brightness-110"
                     disabled={isLoading}
                   >
                     {isLoading ? "Connexion..." : "Se connecter"}
@@ -456,7 +456,7 @@ const Auth = () => {
 
                   <Button 
                     type="submit" 
-                    className="w-full bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-700 hover:to-violet-700"
+                    className="w-full bg-gradient-primary hover:brightness-110"
                     disabled={isLoading}
                   >
                     {isLoading ? "Envoi en cours..." : "Envoyer le lien"}
@@ -522,7 +522,7 @@ const Auth = () => {
 
                     <Button 
                       type="submit" 
-                      className="w-full bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-700 hover:to-violet-700"
+                      className="w-full bg-gradient-primary hover:brightness-110"
                       disabled={isLoading}
                     >
                       {isLoading ? "Mise à jour..." : "Mettre à jour le mot de passe"}
@@ -602,7 +602,7 @@ const Auth = () => {
 
                   <Button 
                     type="submit" 
-                    className="w-full bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-700 hover:to-violet-700"
+                    className="w-full bg-gradient-primary hover:brightness-110"
                     disabled={isLoading}
                   >
                     {isLoading ? "Création du compte..." : "Créer un compte"}

@@ -294,7 +294,7 @@ export const GeneratorForm = ({ onGenerate, isLoading }: GeneratorFormProps) => 
       <Button
         type="submit"
         disabled={!isFormValid || isLoading}
-        className="w-full bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-700 hover:to-violet-700"
+        className="w-full bg-gradient-primary hover:brightness-110"
         size="lg"
       >
         {isLoading ? (

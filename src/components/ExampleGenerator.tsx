@@ -153,7 +153,7 @@ export const ExampleGenerator = () => {
             <Button
               onClick={handleGenerate}
               disabled={isLoading}
-              className="bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-700 hover:to-violet-700"
+              className="bg-gradient-primary hover:brightness-110"
             >
               {isLoading ? (
                 <>
@@ -209,7 +209,7 @@ export const ExampleGenerator = () => {
               <div className="space-y-3">
                 {generatedExample.implementation.map((step, index) => (
                   <div key={index} className="flex items-start space-x-3">
-                    <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs font-bold">
+                    <div className="w-6 h-6 bg-primary text-white rounded-full flex items-center justify-center text-xs font-bold">
                       {index + 1}
                     </div>
                     <span className="text-sm text-gray-700">{step}</span>
@@ -219,13 +219,13 @@ export const ExampleGenerator = () => {
             </div>
 
             {/* Prix */}
-            <div className="bg-gradient-to-r from-blue-50 to-violet-50 p-4 rounded-lg">
+            <div className="bg-gradient-to-r from-primary/10 to-accent/10 p-4 rounded-lg">
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2">
-                  <DollarSign className="w-5 h-5 text-blue-600" />
+                  <DollarSign className="w-5 h-5 text-primary" />
                   <span className="font-semibold text-gray-900">Estimation tarifaire :</span>
                 </div>
-                <Badge variant="outline" className="text-blue-600 border-blue-600 font-bold">
+                <Badge variant="outline" className="text-primary border-primary font-bold">
                   {generatedExample.pricing}
                 </Badge>
               </div>
