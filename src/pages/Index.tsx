@@ -21,7 +21,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
-import logoImage from "@/assets/agentimpact-logo.png";
+import logoImage from "@/assets/agentimpact-logo-clear.png";
 import { Badge } from "@/components/ui/badge";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
@@ -72,13 +72,13 @@ const Index = () => {
         canonical="https://agentimpact.fr"
       />
       
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+      <div className="min-h-screen bg-gradient-secondary">
       {/* Header */}
       <header className="border-b bg-white/80 backdrop-blur-md sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <div className="w-8 h-8 flex items-center justify-center">
-              <img src={logoImage} alt="AgentImpact.fr" className="w-8 h-8" />
+          <div className="flex items-center space-x-3">
+            <div className="w-10 h-10 flex items-center justify-center">
+              <img src={logoImage} alt="AgentImpact.fr" className="w-10 h-10" />
             </div>
             <span className="text-xl font-bold bg-gradient-primary bg-clip-text text-transparent">
               AgentImpact.fr
@@ -97,7 +97,7 @@ const Index = () => {
       </header>
 
       {/* Hero Section - IA Services */}
-      <section className="py-16 md:py-24 relative overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+      <section className="py-16 md:py-24 relative overflow-hidden bg-gradient-secondary">
         <div className="container mx-auto px-4 text-center relative z-10">
           <div className="max-w-4xl mx-auto">
             <div className="flex justify-center mb-6">

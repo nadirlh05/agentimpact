@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import logoImage from "@/assets/agentimpact-logo.png";
+import logoImage from "@/assets/agentimpact-logo-clear.png";
 
 export const ContactHeader = () => {
   const navigate = useNavigate();
@@ -8,9 +8,9 @@ export const ContactHeader = () => {
   return (
     <header className="border-b bg-white/80 backdrop-blur-md sticky top-0 z-50">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-        <div className="flex items-center space-x-2">
-          <div className="w-8 h-8 flex items-center justify-center">
-            <img src={logoImage} alt="AgentImpact.fr" className="w-8 h-8" />
+        <div className="flex items-center space-x-3">
+          <div className="w-10 h-10 flex items-center justify-center">
+            <img src={logoImage} alt="AgentImpact.fr" className="w-10 h-10" />
           </div>
           <span className="text-xl font-bold bg-gradient-primary bg-clip-text text-transparent">
             AgentImpact.fr

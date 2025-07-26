@@ -14,20 +14,20 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import logoImage from "@/assets/agentimpact-logo.png";
+import logoImage from "@/assets/agentimpact-logo-clear.png";
 import { Badge } from '@/components/ui/badge';
 import { Link } from 'react-router-dom';
 import { CalendlyWidget } from '@/components/calendly/CalendlyWidget';
 
 const Services = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+    <div className="min-h-screen bg-gradient-secondary">
       {/* Header */}
       <div className="container mx-auto px-4 py-8">
         <div className="flex items-center justify-between mb-8">
           <Link to="/" className="flex items-center space-x-2">
             <div className="w-10 h-10 bg-gradient-to-r from-primary to-accent rounded-lg flex items-center justify-center">
-              <img src={logoImage} alt="AgentImpact.fr" className="w-6 h-6" />
+              <img src={logoImage} alt="AgentImpact.fr" className="w-8 h-8" />
             </div>
             <span className="text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
               Générateur IA

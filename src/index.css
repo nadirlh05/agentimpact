@@ -7,20 +7,20 @@
 
 @layer base {
   :root {
-    --background: 240 100% 99%;
-    --foreground: 222.2 84% 4.9%;
+    --background: 0 0% 100%;
+    --foreground: 210 24% 16%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 210 24% 16%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 210 24% 16%;
 
     --primary: 188 100% 47%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 40% 98%;
-    --secondary-foreground: 215 16% 47%;
+    --secondary: 210 24% 16%;
+    --secondary-foreground: 0 0% 100%;
 
     --muted: 210 40% 98%;
     --muted-foreground: 215 16% 47%;
@@ -37,7 +37,7 @@
 
     /* Brand gradients */
     --gradient-primary: linear-gradient(135deg, hsl(188, 100%, 47%), hsl(186, 100%, 45%));
-    --gradient-secondary: linear-gradient(135deg, hsl(188, 80%, 85%), hsl(186, 70%, 70%));
+    --gradient-secondary: linear-gradient(135deg, hsl(210, 24%, 16%), hsl(188, 100%, 47%));
     
     /* Shadows */
     --shadow-soft: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
