@@ -6,7 +6,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Zap, Mail, Lock, User, ArrowLeft } from 'lucide-react';
+import { Mail, Lock, User, ArrowLeft } from 'lucide-react';
+import logoImage from "@/assets/agentimpact-logo.png";
 import { useAuth } from '@/contexts/AuthProvider';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
@@ -325,7 +326,7 @@ const Auth = () => {
           
           <div className="flex items-center justify-center space-x-2 mb-4">
             <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-violet-600 rounded-lg flex items-center justify-center">
-              <Zap className="w-6 h-6 text-white" />
+              <img src={logoImage} alt="AgentImpact.fr" className="w-6 h-6" />
             </div>
             <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text text-transparent">
               Générateur IA

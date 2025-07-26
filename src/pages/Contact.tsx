@@ -5,7 +5,7 @@ import { ContactInfo } from "@/components/contact/ContactInfo";
 const Contact = () => {
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+    <div className="min-h-screen bg-gradient-secondary">
       <ContactHeader />
 
       {/* Hero Section */}
@@ -13,7 +13,7 @@ const Contact = () => {
         <div className="container mx-auto px-4 text-center">
           <div className="max-w-4xl mx-auto">
             <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-              Consultation <span className="bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text text-transparent">Gratuite</span>
+              Consultation <span className="bg-gradient-primary bg-clip-text text-transparent">Gratuite</span>
             </h1>
             <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
               Discutons de vos besoins en IA et découvrons ensemble comment transformer votre entreprise.

@@ -2,7 +2,6 @@ import {
   Brain, 
   Sparkles, 
   ArrowRight, 
-  Zap, 
   Shield, 
   Users, 
   TrendingUp, 
@@ -22,6 +21,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
+import logoImage from "@/assets/agentimpact-logo.png";
 import { Badge } from "@/components/ui/badge";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
@@ -77,10 +77,10 @@ const Index = () => {
       <header className="border-b bg-white/80 backdrop-blur-md sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-violet-600 rounded-lg flex items-center justify-center">
-              <Zap className="w-5 h-5 text-white" />
+            <div className="w-8 h-8 flex items-center justify-center">
+              <img src={logoImage} alt="AgentImpact.fr" className="w-8 h-8" />
             </div>
-            <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text text-transparent">
+            <span className="text-xl font-bold bg-gradient-primary bg-clip-text text-transparent">
               AgentImpact.fr
             </span>
           </div>
@@ -88,7 +88,7 @@ const Index = () => {
             <Button 
               variant="ghost"
               onClick={() => navigate('/auth')}
-              className="text-blue-600 hover:text-blue-700 font-medium"
+              className="text-primary hover:text-accent font-medium"
             >
               Connexion
             </Button>
@@ -108,7 +108,7 @@ const Index = () => {
             </div>
             
             <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-              Agents IA pour <span className="bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text text-transparent">facturation & gestion clients/fournisseurs</span>
+              Agents IA pour <span className="bg-gradient-primary bg-clip-text text-transparent">facturation & gestion clients/fournisseurs</span>
             </h1>
             <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
               Spécialiste des solutions IA pour automatiser votre facturation, optimiser la gestion de vos fournisseurs et améliorer vos relations clients. 

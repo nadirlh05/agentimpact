@@ -8,13 +8,13 @@ import {
   MessageCircle, 
   ChevronRight,
   ArrowRight,
-  Zap,
   Target,
   Rocket,
   BarChart3
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import logoImage from "@/assets/agentimpact-logo.png";
 import { Badge } from '@/components/ui/badge';
 import { Link } from 'react-router-dom';
 import { CalendlyWidget } from '@/components/calendly/CalendlyWidget';
@@ -27,7 +27,7 @@ const Services = () => {
         <div className="flex items-center justify-between mb-8">
           <Link to="/" className="flex items-center space-x-2">
             <div className="w-10 h-10 bg-gradient-to-r from-primary to-accent rounded-lg flex items-center justify-center">
-              <Zap className="w-6 h-6 text-white" />
+              <img src={logoImage} alt="AgentImpact.fr" className="w-6 h-6" />
             </div>
             <span className="text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
               Générateur IA
