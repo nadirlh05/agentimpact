@@ -207,9 +207,9 @@ const Services = () => {
             <CalendlyWidget
               type="button"
               buttonText="Consultation gratuite"
-              buttonVariant="outline"
+              buttonVariant="default"
               size="lg"
-              className="border-white text-white hover:bg-white hover:text-primary px-8 py-3 text-lg font-semibold"
+              className="bg-accent text-white hover:bg-accent/90 border-2 border-white/20 px-8 py-3 text-lg font-semibold shadow-lg"
               url="https://calendly.com/nadir-lahyani11/30min"
             />
           </div>
