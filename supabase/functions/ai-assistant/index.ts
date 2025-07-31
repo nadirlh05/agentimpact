@@ -44,14 +44,58 @@ const serve_handler = async (req: Request): Promise<Response> => {
 
     const { message, sessionId, userId }: AssistantRequest = await req.json();
     
+    // Rate limiting - Get client IP or user ID for rate limiting
+    const clientIP = req.headers.get('x-forwarded-for') || req.headers.get('x-real-ip') || 'unknown';
+    const identifier = userId || clientIP;
+    
+    // Check rate limit (30 requests per 10 minutes for AI assistant)
+    const { data: rateLimitData, error: rateLimitError } = await supabaseClient
+      .rpc('check_rate_limit', {
+        _identifier: identifier,
+        _endpoint: 'ai-assistant',
+        _max_requests: 30,
+        _window_minutes: 10
+      });
+    
+    if (rateLimitError || !rateLimitData) {
+      console.log('Rate limit check failed, allowing request');
+    } else if (!rateLimitData) {
+      return new Response(
+        JSON.stringify({ 
+          error: 'Rate limit exceeded. Please try again later.',
+          retry_after: 600 
+        }),
+        { status: 429, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+    
+    // Input validation and sanitization
     if (!message || !sessionId) {
       return new Response(
         JSON.stringify({ error: 'Message and sessionId are required' }),
         { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
+    
+    if (typeof message !== 'string' || typeof sessionId !== 'string') {
+      return new Response(
+        JSON.stringify({ error: 'Invalid input types' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+    
+    // Sanitize inputs
+    const sanitizedMessage = message.trim().substring(0, 1000); // Limit message length
+    const sanitizedSessionId = sessionId.trim().substring(0, 100);
+    
+    if (sanitizedMessage.length === 0) {
+      return new Response(
+        JSON.stringify({ error: 'Message cannot be empty' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
 
-    console.log(`Processing message from user ${userId || 'anonymous'}: ${message}`);
+    console.log(`Processing message from user ${userId || 'anonymous'}: ${sanitizedMessage.substring(0, 50)}...`);
 
     // Retrieve relevant knowledge from the knowledge base
     const { data: knowledgeData, error: knowledgeError } = await supabaseClient
@@ -66,13 +110,13 @@ const serve_handler = async (req: Request): Promise<Response> => {
     const knowledgeBase = knowledgeData || [];
     
     // Find relevant knowledge based on keywords
-    const relevantKnowledge = findRelevantKnowledge(message, knowledgeBase);
+    const relevantKnowledge = findRelevantKnowledge(sanitizedMessage, knowledgeBase);
     
     // Build context for Gemini
     const systemPrompt = buildSystemPrompt(relevantKnowledge);
     
     // Call Gemini API
-    const geminiResponse = await callGeminiAPI(geminiApiKey, systemPrompt, message);
+    const geminiResponse = await callGeminiAPI(geminiApiKey, systemPrompt, sanitizedMessage);
     
     if (!geminiResponse.success) {
       console.error('Gemini API error:', geminiResponse.error);
@@ -88,7 +132,7 @@ const serve_handler = async (req: Request): Promise<Response> => {
     const assistantResponse = geminiResponse.content;
     
     // Analyze if the user needs human support
-    const needsHumanSupport = analyzeNeedForHumanSupport(message, assistantResponse);
+    const needsHumanSupport = analyzeNeedForHumanSupport(sanitizedMessage, assistantResponse);
     
     // Save conversation to database
     try {
@@ -96,10 +140,10 @@ const serve_handler = async (req: Request): Promise<Response> => {
         .from('ai_assistant_conversations')
         .insert({
           user_id: userId || null,
-          session_id: sessionId,
-          user_message: message,
+          session_id: sanitizedSessionId,
+          user_message: sanitizedMessage,
           assistant_response: assistantResponse,
-          sentiment: analyzeSentiment(message),
+          sentiment: analyzeSentiment(sanitizedMessage),
           resolved: !needsHumanSupport
         });
 

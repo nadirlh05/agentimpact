@@ -18,6 +18,7 @@ export const useUserRole = () => {
       }
 
       try {
+        // More secure role fetching with proper error handling
         const { data, error } = await supabase
           .from('profiles')
           .select('role')
@@ -25,14 +26,24 @@ export const useUserRole = () => {
           .single();
 
         if (error) {
-          // Error handled by setting loading state
-          setRole('client'); // Default to client on error
+          console.error('Error fetching user role:', error);
+          // Don't default to any role on error - force authentication
+          setRole(null);
         } else {
-          setRole(data?.role || 'client');
+          // Only accept valid roles
+          const validRoles: UserRole[] = ['admin', 'client'];
+          const userRole = data?.role as UserRole;
+          
+          if (validRoles.includes(userRole)) {
+            setRole(userRole);
+          } else {
+            console.error('Invalid role detected:', data?.role);
+            setRole(null);
+          }
         }
       } catch (error) {
-        // Error handled by setting loading state
-        setRole('client');
+        console.error('Failed to fetch user role:', error);
+        setRole(null);
       } finally {
         setLoading(false);
       }

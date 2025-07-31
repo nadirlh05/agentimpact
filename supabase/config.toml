@@ -20,25 +20,8 @@ external_sms_enabled = true
 external_anonymous_users_enabled = false
 external_url = "http://localhost:54321"
 
-[functions.create-payment]
-verify_jwt = false
-
-[functions.gmail-support]
-verify_jwt = false
-
+# Public endpoints that need to be accessible without authentication
 [functions.ai-assistant]
-verify_jwt = false
-
-[functions.whatsapp-handler]
-verify_jwt = false
-
-[functions.whatsapp-test]
-verify_jwt = false
-
-[functions.debug-env]
-verify_jwt = false
-
-[functions.twilio-test]
 verify_jwt = false
 
 [functions.contact-consultation]
@@ -47,8 +30,29 @@ verify_jwt = false
 [functions.tally-webhook]
 verify_jwt = false
 
-[functions.analytics]
+[functions.resend-webhook]
 verify_jwt = false
 
-[functions.resend-webhook]
+# Protected endpoints that require authentication
+[functions.create-payment]
+verify_jwt = true
+
+[functions.gmail-support]
+verify_jwt = true
+
+[functions.analytics]
+verify_jwt = true
+
+# Test/debug endpoints - disable in production
+[functions.whatsapp-test]
+verify_jwt = true
+
+[functions.debug-env]
+verify_jwt = true
+
+[functions.twilio-test]
+verify_jwt = true
+
+# Webhook handlers with their own validation
+[functions.whatsapp-handler]
 verify_jwt = false
