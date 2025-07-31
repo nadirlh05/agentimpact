@@ -28,6 +28,9 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
+    // Rate limiting for contact form to prevent spam
+    const clientIP = req.headers.get('x-forwarded-for') || req.headers.get('x-real-ip') || 'unknown';
+    
     // Vérifier que la clé API Resend est disponible
     const resendApiKey = Deno.env.get("RESEND_API_KEY");
     if (!resendApiKey) {
@@ -39,18 +42,52 @@ const handler = async (req: Request): Promise<Response> => {
     
     const formData: ConsultationRequest = await req.json();
     
+    // Input validation and sanitization
+    if (!formData.nom || !formData.prenom || !formData.email || !formData.message) {
+      return new Response(JSON.stringify({ 
+        error: "Champs requis manquants: nom, prénom, email et message sont obligatoires" 
+      }), {
+        status: 400,
+        headers: { "Content-Type": "application/json", ...corsHeaders },
+      });
+    }
+    
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      return new Response(JSON.stringify({ 
+        error: "Format d'email invalide" 
+      }), {
+        status: 400,
+        headers: { "Content-Type": "application/json", ...corsHeaders },
+      });
+    }
+    
+    // Sanitize input data
+    const sanitizedData = {
+      nom: formData.nom.trim().substring(0, 100),
+      prenom: formData.prenom.trim().substring(0, 100),
+      email: formData.email.trim().toLowerCase().substring(0, 254),
+      entreprise: formData.entreprise?.trim().substring(0, 200) || '',
+      secteur: formData.secteur?.trim().substring(0, 100) || '',
+      typeConsultation: formData.typeConsultation?.trim().substring(0, 100) || '',
+      budget: formData.budget?.trim().substring(0, 50) || '',
+      message: formData.message.trim().substring(0, 2000),
+      telephone: formData.telephone?.trim().substring(0, 20) || ''
+    };
+    
     console.log("Nouvelle demande de consultation reçue:", {
-      prenom: formData.prenom,
-      nom: formData.nom,
-      email: formData.email,
-      entreprise: formData.entreprise
+      prenom: sanitizedData.prenom,
+      nom: sanitizedData.nom,
+      email: sanitizedData.email,
+      entreprise: sanitizedData.entreprise
     });
 
     // Email vers l'admin (vous)
     const adminEmailResponse = await resend.emails.send({
       from: "AgentImpact <onboarding@resend.dev>",
       to: ["nadir.lahyani@outlook.fr"], // Votre email
-      subject: `🚀 Nouvelle demande de consultation - ${formData.entreprise || 'Entreprise'}`,
+      subject: `🚀 Nouvelle demande de consultation - ${sanitizedData.entreprise || 'Entreprise'}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h1 style="color: #3B82F6; border-bottom: 2px solid #3B82F6; padding-bottom: 10px;">
@@ -59,22 +96,22 @@ const handler = async (req: Request): Promise<Response> => {
           
           <div style="background-color: #F8FAFC; padding: 20px; border-radius: 8px; margin: 20px 0;">
             <h2 style="color: #1E40AF; margin-top: 0;">Informations du Contact</h2>
-            <p><strong>Nom :</strong> ${formData.prenom} ${formData.nom}</p>
-            <p><strong>Email :</strong> <a href="mailto:${formData.email}">${formData.email}</a></p>
-            <p><strong>Téléphone :</strong> ${formData.telephone || 'Non renseigné'}</p>
-            <p><strong>Entreprise :</strong> ${formData.entreprise}</p>
-            <p><strong>Secteur :</strong> ${formData.secteur || 'Non spécifié'}</p>
+            <p><strong>Nom :</strong> ${sanitizedData.prenom} ${sanitizedData.nom}</p>
+            <p><strong>Email :</strong> <a href="mailto:${sanitizedData.email}">${sanitizedData.email}</a></p>
+            <p><strong>Téléphone :</strong> ${sanitizedData.telephone || 'Non renseigné'}</p>
+            <p><strong>Entreprise :</strong> ${sanitizedData.entreprise}</p>
+            <p><strong>Secteur :</strong> ${sanitizedData.secteur || 'Non spécifié'}</p>
           </div>
 
           <div style="background-color: #EFF6FF; padding: 20px; border-radius: 8px; margin: 20px 0;">
             <h2 style="color: #1E40AF; margin-top: 0;">Détails de la Demande</h2>
-            <p><strong>Type de consultation :</strong> ${formData.typeConsultation || 'Non spécifié'}</p>
-            <p><strong>Budget approximatif :</strong> ${formData.budget || 'Non défini'}</p>
+            <p><strong>Type de consultation :</strong> ${sanitizedData.typeConsultation || 'Non spécifié'}</p>
+            <p><strong>Budget approximatif :</strong> ${sanitizedData.budget || 'Non défini'}</p>
           </div>
 
           <div style="background-color: #F0FDF4; padding: 20px; border-radius: 8px; margin: 20px 0;">
             <h2 style="color: #16A34A; margin-top: 0;">Message</h2>
-            <p style="white-space: pre-wrap;">${formData.message}</p>
+            <p style="white-space: pre-wrap;">${sanitizedData.message}</p>
           </div>
 
           <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #E5E7EB;">
@@ -87,7 +124,7 @@ const handler = async (req: Request): Promise<Response> => {
           </div>
 
           <div style="text-align: center; margin-top: 30px;">
-            <a href="mailto:${formData.email}?subject=Re: Consultation gratuite - AgenceImpact.com" 
+            <a href="mailto:${sanitizedData.email}?subject=Re: Consultation gratuite - AgenceImpact.com" 
                style="background-color: #3B82F6; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; display: inline-block;">
               Répondre par Email
             </a>
@@ -99,7 +136,7 @@ const handler = async (req: Request): Promise<Response> => {
     // Email de confirmation au client
     const clientEmailResponse = await resend.emails.send({
       from: "AgentImpact <onboarding@resend.dev>",
-      to: [formData.email],
+      to: [sanitizedData.email],
       subject: "Confirmation de votre demande de consultation",
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
@@ -107,9 +144,9 @@ const handler = async (req: Request): Promise<Response> => {
             Merci pour votre demande de consultation !
           </h1>
           
-          <p>Bonjour ${formData.prenom},</p>
+          <p>Bonjour ${sanitizedData.prenom},</p>
           
-          <p>Nous avons bien reçu votre demande de consultation gratuite pour <strong>${formData.entreprise}</strong>.</p>
+          <p>Nous avons bien reçu votre demande de consultation gratuite pour <strong>${sanitizedData.entreprise}</strong>.</p>
           
           <div style="background-color: #EFF6FF; padding: 20px; border-radius: 8px; margin: 20px 0;">
             <h2 style="color: #1E40AF; margin-top: 0;">Prochaines étapes</h2>
@@ -123,9 +160,9 @@ const handler = async (req: Request): Promise<Response> => {
 
           <div style="background-color: #F0FDF4; padding: 20px; border-radius: 8px; margin: 20px 0;">
             <h2 style="color: #16A34A; margin-top: 0;">Récapitulatif de votre demande</h2>
-            <p><strong>Type de consultation :</strong> ${formData.typeConsultation || 'Découverte IA'}</p>
-            <p><strong>Secteur :</strong> ${formData.secteur || 'Non spécifié'}</p>
-            <p><strong>Budget :</strong> ${formData.budget || 'À définir'}</p>
+            <p><strong>Type de consultation :</strong> ${sanitizedData.typeConsultation || 'Découverte IA'}</p>
+            <p><strong>Secteur :</strong> ${sanitizedData.secteur || 'Non spécifié'}</p>
+            <p><strong>Budget :</strong> ${sanitizedData.budget || 'À définir'}</p>
           </div>
 
           <p>En attendant notre contact, n'hésitez pas à consulter nos <a href="https://votre-domaine.com/services" style="color: #3B82F6;">services</a> pour mieux comprendre nos solutions IA.</p>

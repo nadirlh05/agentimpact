@@ -48,9 +48,21 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
+    // Rate limiting for webhook to prevent abuse
+    const clientIP = req.headers.get('x-forwarded-for') || req.headers.get('x-real-ip') || 'unknown';
+    
     // Validation de la requête
     if (!req.body) {
       return new Response(JSON.stringify({ error: "Corps de requête manquant" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json", ...corsHeaders },
+      });
+    }
+    
+    // Content-Type validation
+    const contentType = req.headers.get('content-type');
+    if (!contentType || !contentType.includes('application/json')) {
+      return new Response(JSON.stringify({ error: "Content-Type invalide" }), {
         status: 400,
         headers: { "Content-Type": "application/json", ...corsHeaders },
       });
@@ -84,16 +96,25 @@ const handler = async (req: Request): Promise<Response> => {
       return field?.value || null;
     };
 
-    // Extraire les données importantes
-    const prenom = extractFieldValue('prenom') || extractFieldValue('first') || extractFieldValue('nom') || '';
-    const nom = extractFieldValue('nom') || extractFieldValue('last') || extractFieldValue('surname') || '';
-    const email = extractFieldValue('email') || extractFieldValue('mail') || '';
-    const telephone = extractFieldValue('telephone') || extractFieldValue('phone') || extractFieldValue('tel') || '';
-    const entreprise = extractFieldValue('entreprise') || extractFieldValue('company') || extractFieldValue('société') || '';
-    const secteur = extractFieldValue('secteur') || extractFieldValue('industrie') || extractFieldValue('industry') || '';
-    const typeConsultation = extractFieldValue('consultation') || extractFieldValue('type') || 'Consultation IA';
-    const budget = extractFieldValue('budget') || '';
-    const message = extractFieldValue('message') || extractFieldValue('description') || extractFieldValue('besoins') || '';
+    // Extraire et assainir les données importantes
+    const prenom = String(extractFieldValue('prenom') || extractFieldValue('first') || extractFieldValue('nom') || '').trim().substring(0, 100);
+    const nom = String(extractFieldValue('nom') || extractFieldValue('last') || extractFieldValue('surname') || '').trim().substring(0, 100);
+    const email = String(extractFieldValue('email') || extractFieldValue('mail') || '').trim().toLowerCase().substring(0, 254);
+    const telephone = String(extractFieldValue('telephone') || extractFieldValue('phone') || extractFieldValue('tel') || '').trim().substring(0, 20);
+    const entreprise = String(extractFieldValue('entreprise') || extractFieldValue('company') || extractFieldValue('société') || '').trim().substring(0, 200);
+    const secteur = String(extractFieldValue('secteur') || extractFieldValue('industrie') || extractFieldValue('industry') || '').trim().substring(0, 100);
+    const typeConsultation = String(extractFieldValue('consultation') || extractFieldValue('type') || 'Consultation IA').trim().substring(0, 100);
+    const budget = String(extractFieldValue('budget') || '').trim().substring(0, 50);
+    const message = String(extractFieldValue('message') || extractFieldValue('description') || extractFieldValue('besoins') || '').trim().substring(0, 2000);
+    
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (email && !emailRegex.test(email)) {
+      return new Response(JSON.stringify({ error: "Format d'email invalide" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json", ...corsHeaders },
+      });
+    }
 
     
     // Validation des données essentielles
