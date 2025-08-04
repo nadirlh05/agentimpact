@@ -189,6 +189,11 @@ const AppContent = () => {
               <Support />
             </AuthenticatedLayout>
           } />
+          <Route path="/services" element={
+            <AuthenticatedLayout>
+              <Services />
+            </AuthenticatedLayout>
+          } />
           <Route path="/contact" element={
             <AuthenticatedLayout>
               <Contact />
