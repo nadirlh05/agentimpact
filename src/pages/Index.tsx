@@ -25,7 +25,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import { AIAssistantTrigger } from "@/components/AIAssistantTrigger";
+
 import { useAnalytics } from "@/lib/analytics";
 import ConversionOptimizer from "@/components/conversion/ConversionOptimizer";
 import LeadMagnet from "@/components/marketing/LeadMagnet";
@@ -426,8 +426,6 @@ const Index = () => {
       {/* Floating Action Button */}
       <FloatingActionButton />
 
-        {/* AI Assistant */}
-        <AIAssistantTrigger autoTriggerEnabled={true} timerDelay={25000} />
       </div>
     </>
   );

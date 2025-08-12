@@ -1,7 +1,7 @@
 
 import { SidebarProvider, SidebarInset, SidebarTrigger } from '@/components/ui/sidebar';
 import { AppSidebar } from './AppSidebar';
-import { AIAssistantTrigger } from './AIAssistantTrigger';
+
 
 interface AuthenticatedLayoutProps {
   children: React.ReactNode;
@@ -33,8 +33,6 @@ const AuthenticatedLayout = ({ children }: AuthenticatedLayoutProps) => {
         </SidebarInset>
       </div>
       
-      {/* AI Assistant */}
-      <AIAssistantTrigger autoTriggerEnabled={false} />
     </SidebarProvider>
   );
 };
