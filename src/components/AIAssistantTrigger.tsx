@@ -3,6 +3,7 @@ import { MessageCircle, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { AIAssistant } from './AIAssistant';
+const ASSISTANT_DISABLED = true;
 
 interface AIAssistantTriggerProps {
   autoTriggerEnabled?: boolean;
@@ -17,6 +18,9 @@ export const AIAssistantTrigger = ({
   inactivityDelay = 45000, // 45 seconds
   className = ''
 }: AIAssistantTriggerProps) => {
+  if (ASSISTANT_DISABLED) {
+    return null;
+  }
   const [isOpen, setIsOpen] = useState(false);
   const [triggerSource, setTriggerSource] = useState<'manual' | 'timer' | 'exit-intent' | 'inactivity'>('manual');
   const [showPulse, setShowPulse] = useState(false);
