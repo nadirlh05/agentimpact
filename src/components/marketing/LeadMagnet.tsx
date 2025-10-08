@@ -27,33 +27,33 @@ export const LeadMagnet: React.FC<LeadMagnetProps> = ({
 
   const leadMagnets = {
     checklist: {
-      title: "Checklist : 15 Points pour Automatiser votre Facturation",
-      description: "Guide pratique pour identifier et automatiser vos processus de facturation",
+      title: "Checklist : 15 Points pour Automatiser votre Prospection Immobilière",
+      description: "Guide pratique pour identifier et automatiser vos processus de prospection",
       icon: CheckCircle,
       benefits: [
-        "Réduisez les erreurs de facturation de 90%",
-        "Automatisez les relances clients",
-        "Gagnez 10h par semaine",
-        "Améliorez votre trésorerie"
+        "Multipliez vos prises de mandats par 3",
+        "Automatisez la prospection vendeurs",
+        "Gagnez 15h par semaine",
+        "Augmentez votre CA de 40%"
       ]
     },
     guide: {
-      title: "Guide Complet : IA pour PME (50 pages)",
-      description: "Tout ce que vous devez savoir sur l'IA pour transformer votre entreprise",
+      title: "Guide Complet : IA pour Agents Immobiliers (50 pages)",
+      description: "Transformez votre activité immobilière avec l'intelligence artificielle",
       icon: FileText,
       benefits: [
-        "Cas d'usage concrets par secteur",
-        "ROI et retours d'expérience",
-        "Étapes d'implémentation détaillées",
-        "Éviter les pièges courants"
+        "20+ cas d'usage immobilier concrets",
+        "ROI calculé par service",
+        "Comparatif des solutions IA marché",
+        "Plan de déploiement détaillé"
       ]
     },
     template: {
-      title: "Template : Cahier des Charges IA",
-      description: "Modèle complet pour définir votre projet d'automatisation",
+      title: "Template : Cahier des Charges IA Immobilier",
+      description: "Modèle complet pour définir votre projet d'automatisation immobilière",
       icon: Download,
       benefits: [
-        "Structure éprouvée",
+        "Structure éprouvée pour l'immobilier",
         "Questions essentielles à se poser",
         "Critères de sélection des outils IA",
         "Planning type de déploiement"

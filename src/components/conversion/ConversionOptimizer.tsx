@@ -30,8 +30,8 @@ export const ConversionOptimizer: React.FC<ConversionOptimizerProps> = ({
   const testimonials = [
     {
       name: "Marie D.",
-      company: "Startup Tech",
-      text: "L'automatisation IA a réduit nos erreurs de facturation de 95%",
+      company: "Agence MDL Immobilier",
+      text: "L'automatisation IA a multiplié nos prises de mandats par 3",
       rating: 5
     },
     {
@@ -42,8 +42,8 @@ export const ConversionOptimizer: React.FC<ConversionOptimizerProps> = ({
     },
     {
       name: "Sophie M.",
-      company: "E-commerce",
-      text: "Agent IA clients : +40% de satisfaction, -60% temps traitement",
+      company: "Mandataire Immobilier Premium",
+      text: "Agent IA : +40% de satisfaction acquéreurs, -60% temps traitement",
       rating: 5
     }
   ];
@@ -61,10 +61,10 @@ export const ConversionOptimizer: React.FC<ConversionOptimizerProps> = ({
       <Card className="border-2 border-blue-200 shadow-lg">
         <CardContent className="p-6 text-center">
           <h3 className="text-2xl font-bold text-gray-900 mb-4">
-            Transformez votre entreprise avec l'IA
+            Transformez votre agence immobilière avec l'IA
           </h3>
           <p className="text-gray-600 mb-6">
-            Audit gratuit de 45 minutes pour identifier vos opportunités d'automatisation
+            Audit gratuit de 45 minutes pour identifier vos opportunités d'automatisation immobilière
           </p>
           
           <div className="space-y-4">

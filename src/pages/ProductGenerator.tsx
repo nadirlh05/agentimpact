@@ -20,17 +20,17 @@ const ProductGenerator = () => {
 
   const exemplesSolutions = [
     {
-      titre: "Agent IA Facturation Intelligente",
-      description: "Automatisation complète de votre processus de facturation",
+      titre: "Agent IA Prospection Immobilière",
+      description: "Automatisation complète de votre prospection vendeurs",
       icon: Bot,
       couleur: "bg-blue-500",
       exemples: [
-        "Génération automatique de factures",
-        "Relances clients personnalisées",
-        "Détection d'anomalies de paiement",
-        "Intégration comptabilité automatique"
+        "Identification automatique de prospects",
+        "Scripts de prospection personnalisés",
+        "Suivi automatique des contacts",
+        "Prédiction des vendeurs potentiels"
       ],
-      solution: "Agent Facturation Pro"
+      solution: "Agent Prospection Pro"
     },
     {
       titre: "Agent IA Gestion Biens Immobiliers",

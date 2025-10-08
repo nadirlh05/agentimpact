@@ -172,22 +172,22 @@ const Index = () => {
               Solutions spécialisées
             </h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
-              Agents IA dédiés à la gestion financière et administrative de votre entreprise
+              Agents IA dédiés à votre activité immobilière : prospection, gestion et relation client
             </p>
           </div>
           
           {/* Grid with 4 services */}
           <div className="flex justify-center">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl">
-              {/* Agent IA Facturation */}
+              {/* Agent IA Prospection */}
               <Card className="border border-gray-200 hover:shadow-lg transition-all duration-300">
                 <CardContent className="p-8">
                   <div className="flex flex-col items-center text-center mb-6">
                     <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mb-4">
-                      <DollarSign className="w-8 h-8 text-white" />
+                      <Users className="w-8 h-8 text-white" />
                     </div>
-                    <h3 className="text-xl font-semibold text-gray-900 mb-2">Agent IA facturation</h3>
-                    <p className="text-gray-600 text-sm">Automatise vos factures et relances clients</p>
+                    <h3 className="text-xl font-semibold text-gray-900 mb-2">Agent IA prospection</h3>
+                    <p className="text-gray-600 text-sm">Automatise votre recherche de mandats</p>
                   </div>
                   
                   <div className="space-y-3 mb-6">
@@ -195,19 +195,19 @@ const Index = () => {
                     <div className="space-y-2">
                       <div className="flex items-center space-x-2">
                         <CheckCircle className="w-4 h-4 text-green-500" />
-                        <span className="text-sm text-gray-700">Création automatique des factures</span>
+                        <span className="text-sm text-gray-700">Identification prospects vendeurs</span>
                       </div>
                       <div className="flex items-center space-x-2">
                         <CheckCircle className="w-4 h-4 text-green-500" />
-                        <span className="text-sm text-gray-700">Relances clients par email</span>
+                        <span className="text-sm text-gray-700">Scripts personnalisés</span>
                       </div>
                       <div className="flex items-center space-x-2">
                         <CheckCircle className="w-4 h-4 text-green-500" />
-                        <span className="text-sm text-gray-700">Suivi des paiements</span>
+                        <span className="text-sm text-gray-700">Relances automatiques</span>
                       </div>
                       <div className="flex items-center space-x-2">
                         <CheckCircle className="w-4 h-4 text-green-500" />
-                        <span className="text-sm text-gray-700">Rapports simplifiés</span>
+                        <span className="text-sm text-gray-700">Suivi des contacts</span>
                       </div>
                     </div>
                   </div>
@@ -215,7 +215,7 @@ const Index = () => {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
                       <Badge variant="outline" className="text-green-600 border-green-600 text-xs">
-                        Gain de temps : 80%
+                        +300% de mandats
                       </Badge>
                     </div>
                     <div className="flex items-center space-x-2 text-xs text-gray-500">

@@ -32,16 +32,14 @@ export const ExampleGenerator = () => {
   });
 
   const businessTypes = [
-    "PME/TPE",
-    "E-commerce", 
-    "Services B2B",
-    "Distribution/Négoce",
-    "Consulting/Services",
-    "Manufacturing/Production",
-    "SaaS/Tech",
-    "Retail/Commerce",
-    "Agence/Freelance",
-    "Autre"
+    "Agence immobilière",
+    "Mandataire immobilier indépendant",
+    "Réseau de mandataires",
+    "Transaction immobilière",
+    "Gestion locative",
+    "Immobilier commercial",
+    "Immobilier de luxe",
+    "Promotion immobilière"
   ];
 
   const budgetRanges = [
@@ -101,7 +99,7 @@ export const ExampleGenerator = () => {
         <CardHeader>
           <CardTitle className="flex items-center space-x-2">
             <Lightbulb className="w-5 h-5 text-yellow-500" />
-            <span>Générateur de solutions IA Facturation & Gestion</span>
+            <span>Générateur de solutions IA Immobilier</span>
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
