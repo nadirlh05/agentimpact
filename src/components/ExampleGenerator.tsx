@@ -140,9 +140,9 @@ export const ExampleGenerator = () => {
           </div>
 
           <div className="space-y-2">
-            <Label>Défis en facturation/gestion clients-fournisseurs</Label>
+            <Label>Défis en gestion immobilière</Label>
             <Textarea
-              placeholder="Ex: Nous perdons du temps sur la facturation manuelle et les relances clients, ou nos relations fournisseurs sont mal organisées..."
+              placeholder="Ex: Nous perdons du temps sur la prospection manuelle, le suivi des mandats est compliqué, ou la diffusion des annonces est chronophage..."
               value={formData.challenge}
               onChange={(e) => setFormData(prev => ({ ...prev, challenge: e.target.value }))}
               rows={3}

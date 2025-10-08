@@ -82,7 +82,7 @@ const handleIncomingMessage = async (messageData: WhatsAppMessage) => {
   console.log('Ticket créé:', ticket.id);
 
   // Envoyer une confirmation automatique
-  const confirmationMessage = `Bonjour ${senderName} ! 👋\n\nNous avons bien reçu votre message concernant nos solutions IA d'automatisation.\n\nVotre demande a été enregistrée (Ticket #${ticket.id.slice(-8)}) et notre équipe vous répondra dans les plus brefs délais.\n\nPour plus d'informations sur nos services d'automatisation IA (facturation, gestion fournisseurs, CRM clients), visitez notre site.\n\nMerci de votre confiance ! 🤖✨`;
+  const confirmationMessage = `Bonjour ${senderName} ! 👋\n\nNous avons bien reçu votre message concernant nos solutions IA pour agents immobiliers.\n\nVotre demande a été enregistrée (Ticket #${ticket.id.slice(-8)}) et notre équipe vous répondra dans les plus brefs délais.\n\nPour plus d'informations sur nos services d'automatisation IA (prospection, gestion biens, CRM immobilier), visitez notre site.\n\nMerci de votre confiance ! 🤖✨`;
 
   try {
     const result = await sendWhatsAppMessage(phoneNumber, confirmationMessage);

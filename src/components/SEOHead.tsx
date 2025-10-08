@@ -8,8 +8,8 @@ interface SEOHeadProps {
 }
 
 const SEOHead = ({ 
-  title = "AgentImpact.fr - Solutions IA sur mesure | Automatisation & Agents Intelligents",
-  description = "🚀 Transformez votre entreprise avec nos solutions IA personnalisées : facturation automatique, CRM intelligent, gestion fournisseurs. Consultation gratuite ✅ ROI garanti 📈",
+  title = "AgentImpact.fr - Solutions IA pour Agents Immobiliers | Automatisation & Prospection",
+  description = "🚀 Solutions IA dédiées aux agents immobiliers et mandataires : prospection automatique, gestion de biens, CRM intelligent. Consultation gratuite ✅ +60% de productivité 📈",
   canonical = "https://agentimpact.fr",
   ogImage = "https://agentimpact.fr/og-image.jpg"
 }: SEOHeadProps) => {

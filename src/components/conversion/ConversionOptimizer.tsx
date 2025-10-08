@@ -36,8 +36,8 @@ export const ConversionOptimizer: React.FC<ConversionOptimizerProps> = ({
     },
     {
       name: "Thomas L.",
-      company: "PME Services",
-      text: "ROI de 300% en 6 mois grâce à l'optimisation fournisseurs",
+      company: "Agence Immobilière L&P",
+      text: "ROI de 300% en 6 mois grâce à l'automatisation de la prospection",
       rating: 5
     },
     {

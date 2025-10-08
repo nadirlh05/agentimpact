@@ -67,8 +67,8 @@ const Index = () => {
   return (
     <>
       <SEOHead 
-        title="AgentImpact.fr - Solutions IA sur mesure | Automatisation & Agents Intelligents"
-        description="🚀 Transformez votre entreprise avec nos solutions IA personnalisées : facturation automatique, CRM intelligent, gestion fournisseurs. Consultation gratuite ✅ ROI garanti 📈"
+        title="AgentImpact.fr - Solutions IA pour Agents Immobiliers | Automatisation & Prospection"
+        description="🚀 Solutions IA dédiées aux agents immobiliers et mandataires : prospection automatique, gestion de biens, CRM intelligent. Consultation gratuite ✅ +60% de productivité 📈"
         canonical="https://agentimpact.fr"
       />
       
@@ -108,11 +108,11 @@ const Index = () => {
             </div>
             
             <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-              Agents IA pour <span className="bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text text-transparent">facturation & gestion clients/fournisseurs</span>
+              Agents IA pour <span className="bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text text-transparent">agents immobiliers & mandataires</span>
             </h1>
             <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-              Spécialiste des solutions IA pour automatiser votre facturation, optimiser la gestion de vos fournisseurs et améliorer vos relations clients. 
-              Réduisez vos coûts administratifs de 70%.
+              Solutions IA spécialisées pour automatiser votre prospection, gérer vos biens et optimiser votre relation client. 
+              Gagnez 70% de temps sur vos tâches administratives.
             </p>
             
             <div className="mb-8 flex flex-col sm:flex-row gap-4 justify-center">
@@ -226,15 +226,15 @@ const Index = () => {
                 </CardContent>
               </Card>
 
-              {/* Agent IA Fournisseurs */}
+              {/* Agent IA Gestion Biens Immobiliers */}
               <Card className="border border-gray-200 hover:shadow-lg transition-all duration-300">
                 <CardContent className="p-8">
                   <div className="flex flex-col items-center text-center mb-6">
                     <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mb-4">
                       <Lightbulb className="w-8 h-8 text-white" />
                     </div>
-                    <h3 className="text-xl font-semibold text-gray-900 mb-2">Agent IA fournisseurs</h3>
-                    <p className="text-gray-600 text-sm">Optimise la gestion de vos fournisseurs</p>
+                    <h3 className="text-xl font-semibold text-gray-900 mb-2">Agent IA gestion biens</h3>
+                    <p className="text-gray-600 text-sm">Gère et optimise votre portefeuille immobilier</p>
                   </div>
                   
                   <div className="space-y-3 mb-6">
@@ -242,19 +242,19 @@ const Index = () => {
                     <div className="space-y-2">
                       <div className="flex items-center space-x-2">
                         <CheckCircle className="w-4 h-4 text-green-500" />
-                        <span className="text-sm text-gray-700">Suivi des commandes</span>
+                        <span className="text-sm text-gray-700">Estimation automatique</span>
                       </div>
                       <div className="flex items-center space-x-2">
                         <CheckCircle className="w-4 h-4 text-green-500" />
-                        <span className="text-sm text-gray-700">Comparaison des prix</span>
+                        <span className="text-sm text-gray-700">Suivi des mandats</span>
                       </div>
                       <div className="flex items-center space-x-2">
                         <CheckCircle className="w-4 h-4 text-green-500" />
-                        <span className="text-sm text-gray-700">Alertes de livraison</span>
+                        <span className="text-sm text-gray-700">Alertes visites & signatures</span>
                       </div>
                       <div className="flex items-center space-x-2">
                         <CheckCircle className="w-4 h-4 text-green-500" />
-                        <span className="text-sm text-gray-700">Évaluation fournisseurs</span>
+                        <span className="text-sm text-gray-700">Diffusion multi-portails</span>
                       </div>
                     </div>
                   </div>
@@ -262,7 +262,7 @@ const Index = () => {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
                       <Badge variant="outline" className="text-blue-600 border-blue-600 text-xs">
-                        Économies : 15-25%
+                        Gain de temps : 60%
                       </Badge>
                     </div>
                     <div className="flex items-center space-x-2 text-xs text-gray-500">
@@ -398,7 +398,7 @@ const Index = () => {
               Automatisez votre gestion administrative aujourd'hui
             </h2>
             <p className="text-xl mb-8 text-blue-100">
-              Réduisez vos erreurs de facturation et optimisez vos relations clients/fournisseurs avec l'IA
+              Automatisez votre prospection et multipliez vos transactions immobilières avec l'IA
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button 

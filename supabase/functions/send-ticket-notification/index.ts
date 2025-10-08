@@ -102,8 +102,8 @@ const handler = async (req: Request): Promise<Response> => {
           
           <p style="font-size: 14px; color: #64748b;">
             Cordialement,<br>
-            L'équipe AgenceImpact.com<br>
-            Experts en Automatisation IA pour la Gestion de Fournisseurs
+            L'équipe AgentImpact.fr<br>
+            Experts en Automatisation IA pour Agents Immobiliers
           </p>
         </div>
       `,

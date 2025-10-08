@@ -33,17 +33,17 @@ const ProductGenerator = () => {
       solution: "Agent Facturation Pro"
     },
     {
-      titre: "Gestionnaire IA Fournisseurs",
-      description: "Optimisez vos relations et négociations fournisseurs",
+      titre: "Agent IA Gestion Biens Immobiliers",
+      description: "Optimisez la gestion de votre portefeuille immobilier",
       icon: MessageSquare,
-      couleur: "bg-green-500",
-      exemples: [
-        "Suivi automatique des commandes",
-        "Négociation de prix intelligente",
-        "Évaluation performance fournisseurs",
-        "Prédiction des ruptures de stock"
+      avantages: [
+        "Estimation automatique des biens",
+        "Suivi intelligent des mandats",
+        "Diffusion multi-portails automatique",
+        "Alertes visites et signatures",
+        "Analyse du marché local"
       ],
-      solution: "Gestionnaire Fournisseurs IA"
+      solution: "Agent IA Gestion Biens"
     },
     {
       titre: "CRM Client Intelligence",
@@ -173,11 +173,11 @@ const ProductGenerator = () => {
         {/* Section d'introduction */}
         <div className="text-center mb-12">
             <h1 className="text-4xl font-bold text-gray-900 mb-4">
-              Agents IA pour Facturation & Gestion Clients/Fournisseurs
+              Agents IA pour Agents Immobiliers & Mandataires
             </h1>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Solutions spécialisées pour automatiser votre gestion administrative, optimiser vos relations
-              clients/fournisseurs et réduire vos coûts de 70%.
+            <p className="text-gray-600 mb-8">
+              Solutions spécialisées pour automatiser votre prospection, gérer vos biens et optimiser votre relation client. 
+              Gagnez 70% de temps sur vos tâches administratives.
             </p>
         </div>
 

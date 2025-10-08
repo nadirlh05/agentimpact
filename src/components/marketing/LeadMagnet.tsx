@@ -55,7 +55,7 @@ export const LeadMagnet: React.FC<LeadMagnetProps> = ({
       benefits: [
         "Structure éprouvée",
         "Questions essentielles à se poser",
-        "Critères de sélection fournisseurs",
+        "Critères de sélection des outils IA",
         "Planning type de déploiement"
       ]
     }
