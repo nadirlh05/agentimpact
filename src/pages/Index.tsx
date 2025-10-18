@@ -108,7 +108,7 @@ const Index = () => {
             </div>
             
             <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-              Agents IA pour <span className="bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text text-transparent">agents immobiliers & mandataires</span>
+              Boostez votre activité immobilière avec <span className="bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text text-transparent">l'Intelligence Artificielle</span>
             </h1>
             <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
               Solutions IA spécialisées pour automatiser votre prospection, gérer vos biens et optimiser votre relation client. 
