@@ -18,9 +18,14 @@ import { Tables } from '@/integrations/supabase/types';
 import { useToast } from '@/hooks/use-toast';
 
 type Profile = Tables<'profiles'>;
+type UserRole = Tables<'user_roles'>;
+
+type ProfileWithRole = Profile & {
+  role: string | null;
+};
 
 const AdminUsers = () => {
-  const [users, setUsers] = useState<Profile[]>([]);
+  const [users, setUsers] = useState<ProfileWithRole[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const { toast } = useToast();
@@ -31,13 +36,31 @@ const AdminUsers = () => {
 
   const fetchUsers = async () => {
     try {
-      const { data, error } = await supabase
+      // Fetch profiles
+      const { data: profilesData, error: profilesError } = await supabase
         .from('profiles')
         .select('*')
         .order('created_at', { ascending: false });
 
-      if (error) throw error;
-      setUsers(data || []);
+      if (profilesError) throw profilesError;
+
+      // Fetch user roles
+      const { data: rolesData, error: rolesError } = await supabase
+        .from('user_roles')
+        .select('*');
+
+      if (rolesError) throw rolesError;
+
+      // Combine profiles with their roles
+      const usersWithRoles = (profilesData || []).map(profile => {
+        const userRole = rolesData?.find(r => r.user_id === profile.id);
+        return {
+          ...profile,
+          role: userRole?.role || null
+        };
+      });
+
+      setUsers(usersWithRoles);
     } catch (error) {
       // Error handled by user feedback
     } finally {
@@ -47,12 +70,20 @@ const AdminUsers = () => {
 
   const updateUserRole = async (userId: string, newRole: 'admin' | 'client') => {
     try {
-      const { error } = await supabase
-        .from('profiles')
-        .update({ role: newRole })
-        .eq('id', userId);
+      // First, delete existing roles for this user
+      const { error: deleteError } = await supabase
+        .from('user_roles')
+        .delete()
+        .eq('user_id', userId);
 
-      if (error) throw error;
+      if (deleteError) throw deleteError;
+
+      // Then insert the new role
+      const { error: insertError } = await supabase
+        .from('user_roles')
+        .insert({ user_id: userId, role: newRole });
+
+      if (insertError) throw insertError;
       
       toast({
         title: "Rôle mis à jour",

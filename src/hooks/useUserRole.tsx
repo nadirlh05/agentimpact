@@ -18,11 +18,11 @@ export const useUserRole = () => {
       }
 
       try {
-        // More secure role fetching with proper error handling
+        // Fetch role from secure user_roles table
         const { data, error } = await supabase
-          .from('profiles')
+          .from('user_roles')
           .select('role')
-          .eq('id', user.id)
+          .eq('user_id', user.id)
           .single();
 
         if (error) {

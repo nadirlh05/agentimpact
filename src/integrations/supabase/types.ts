@@ -7,7 +7,7 @@ export type Json =
   | Json[]
 
 export type Database = {
-  // Allows to automatically instanciate createClient with right options
+  // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
     PostgrestVersion: "12.2.3 (519615d)"
@@ -559,7 +559,6 @@ export type Database = {
           email: string | null
           full_name: string | null
           id: string
-          role: Database["public"]["Enums"]["app_role"]
           updated_at: string
         }
         Insert: {
@@ -567,7 +566,6 @@ export type Database = {
           email?: string | null
           full_name?: string | null
           id: string
-          role?: Database["public"]["Enums"]["app_role"]
           updated_at?: string
         }
         Update: {
@@ -575,7 +573,6 @@ export type Database = {
           email?: string | null
           full_name?: string | null
           id?: string
-          role?: Database["public"]["Enums"]["app_role"]
           updated_at?: string
         }
         Relationships: []
@@ -679,6 +676,27 @@ export type Database = {
         }
         Relationships: []
       }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -686,8 +704,8 @@ export type Database = {
     Functions: {
       check_rate_limit: {
         Args: {
-          _identifier: string
           _endpoint: string
+          _identifier: string
           _max_requests?: number
           _window_minutes?: number
         }
@@ -696,17 +714,17 @@ export type Database = {
       get_analytics_stats: {
         Args: { start_date: string }
         Returns: {
-          total_page_views: number
-          unique_visitors: number
-          total_sessions: number
-          top_pages: Json
           events_by_day: Json
-          user_actions: Json
           performance_metrics: Json
+          top_pages: Json
+          total_page_views: number
+          total_sessions: number
+          unique_visitors: number
+          user_actions: Json
         }[]
       }
       get_current_user_role: {
-        Args: Record<PropertyKey, never>
+        Args: never
         Returns: Database["public"]["Enums"]["app_role"]
       }
       has_role: {
