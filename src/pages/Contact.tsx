@@ -5,7 +5,7 @@ import { ContactInfo } from "@/components/contact/ContactInfo";
 const Contact = () => {
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+    <div className="min-h-screen bg-gradient-to-br from-background via-card to-background">
       <ContactHeader />
 
       {/* Hero Section */}

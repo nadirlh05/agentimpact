@@ -4,6 +4,7 @@ import { createRoot } from 'react-dom/client'
 import App from './App.tsx'
 import './index.css'
 import { optimizedAnalytics } from './lib/analytics-optimized.ts'
+import { ThemeProvider } from "next-themes"
 
 // Initialize optimized analytics
 if (typeof window !== 'undefined') {
@@ -35,4 +36,8 @@ if (typeof window !== 'undefined') {
   }
 }
 
-createRoot(document.getElementById("root")!).render(<App />);
+createRoot(document.getElementById("root")!).render(
+  <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+    <App />
+  </ThemeProvider>
+);
