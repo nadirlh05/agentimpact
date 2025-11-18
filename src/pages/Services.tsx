@@ -210,7 +210,7 @@ const Services = () => {
               buttonVariant="default"
               size="lg"
               className="bg-accent text-white hover:bg-accent/90 border-2 border-white/20 px-8 py-3 text-lg font-semibold shadow-lg"
-              url="https://calendly.com/nadir-lahyani11/30min"
+              url="https://calendly.com/nadir-lahyani-agentimpact/30min"
             />
           </div>
         </div>

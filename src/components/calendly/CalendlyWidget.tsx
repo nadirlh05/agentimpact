@@ -26,7 +26,7 @@ declare global {
 
 export const CalendlyWidget: React.FC<CalendlyWidgetProps> = ({
   type = 'button',
-  url = 'https://calendly.com/nadir-lahyani11/30min',
+  url = 'https://calendly.com/nadir-lahyani-agentimpact/30min',
   prefill,
   className = '',
   buttonText = 'Planifier une consultation',
@@ -55,7 +55,7 @@ export const CalendlyWidget: React.FC<CalendlyWidgetProps> = ({
   }, []);
 
   const handleCalendlyClick = () => {
-    const calendlyUrl = url || 'https://calendly.com/nadir-lahyani11/30min';
+    const calendlyUrl = url || 'https://calendly.com/nadir-lahyani-agentimpact/30min';
     window.open(calendlyUrl, '_blank', 'noopener,noreferrer');
   };
 
@@ -99,7 +99,7 @@ export const ConsultationButton: React.FC<{
 }> = ({ className, size = 'default', variant = 'default' }) => (
   <CalendlyWidget
     type="button"
-    url="https://calendly.com/nadir-lahyani11/30min"
+    url="https://calendly.com/nadir-lahyani-agentimpact/30min"
     buttonText="Consultation gratuite"
     buttonVariant={variant}
     size={size}
@@ -114,7 +114,7 @@ export const SuiviButton: React.FC<{
 }> = ({ className, size = 'default' }) => (
   <CalendlyWidget
     type="button"
-    url="https://calendly.com/nadir-lahyani11/30min"
+    url="https://calendly.com/nadir-lahyani-agentimpact/30min"
     buttonText="Planifier un suivi"
     buttonVariant="outline"
     size={size}
@@ -129,7 +129,7 @@ export const DemoButton: React.FC<{
 }> = ({ className, size = 'default' }) => (
   <CalendlyWidget
     type="button"
-    url="https://calendly.com/nadir-lahyani11/30min"
+    url="https://calendly.com/nadir-lahyani-agentimpact/30min"
     buttonText="Demander une démo"
     buttonVariant="secondary"
     size={size}

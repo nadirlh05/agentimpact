@@ -143,7 +143,7 @@ const ClientDashboard = () => {
             <div className="border rounded-lg overflow-hidden">
               <div 
                 className="calendly-inline-widget" 
-                data-url="https://calendly.com/nadir-lahyani11/30min"
+                data-url="https://calendly.com/nadir-lahyani-agentimpact/30min"
                 style={{ minWidth: '320px', height: '500px', width: '100%' }}
               />
             </div>
