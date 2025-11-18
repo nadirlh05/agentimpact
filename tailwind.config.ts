@@ -69,17 +69,13 @@ export default {
 				}
 			},
 			backgroundImage: {
-				'gradient-primary': 'var(--gradient-primary)',
-				'gradient-accent': 'var(--gradient-accent)',
-				'gradient-dark': 'var(--gradient-dark)'
+				'gradient-subtle': 'var(--gradient-subtle)',
+				'gradient-light': 'var(--gradient-light)'
 			},
 			boxShadow: {
 				'soft': 'var(--shadow-soft)',
 				'medium': 'var(--shadow-medium)',
-				'large': 'var(--shadow-large)',
-				'glow': 'var(--shadow-glow)',
-				'glow-purple': 'var(--shadow-glow-purple)',
-				'glow-green': 'var(--shadow-glow-green)'
+				'large': 'var(--shadow-large)'
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
