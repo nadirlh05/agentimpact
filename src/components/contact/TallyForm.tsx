@@ -31,7 +31,7 @@ export const TallyForm = () => {
               </p>
               <CalendlyWidget
                 type="inline"
-                url="https://calendly.com/nadir-lahyani11/30min"
+                url="https://calendly.com/nadir-lahyani-agentimpact/30min"
                 className="w-full"
               />
             </div>

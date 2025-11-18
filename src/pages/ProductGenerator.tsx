@@ -282,7 +282,7 @@ const ProductGenerator = () => {
                 buttonVariant="secondary"
                 size="lg"
                 className="bg-white text-primary hover:bg-gray-100"
-                url="https://calendly.com/nadir-lahyani11/30min"
+                url="https://calendly.com/nadir-lahyani-agentimpact/30min"
               />
               <Button 
                 size="lg" 

@@ -73,7 +73,7 @@ export const FloatingActionButton: React.FC<FloatingActionButtonProps> = ({ clas
                   handleActionClick(action.action);
                   if (action.href === '#calendly') {
                     // Ouvrir Calendly directement dans un nouvel onglet
-                    window.open('https://calendly.com/nadir-lahyani11/30min', '_blank', 'noopener,noreferrer');
+                    window.open('https://calendly.com/nadir-lahyani-agentimpact/30min', '_blank', 'noopener,noreferrer');
                   } else if (action.href.startsWith('#')) {
                     // Handle other internal actions
                   } else {

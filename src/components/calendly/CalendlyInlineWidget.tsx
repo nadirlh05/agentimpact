@@ -8,7 +8,7 @@ interface CalendlyInlineWidgetProps {
 }
 
 export const CalendlyInlineWidget: React.FC<CalendlyInlineWidgetProps> = ({
-  url = 'https://calendly.com/nadir-lahyani11/30min',
+  url = 'https://calendly.com/nadir-lahyani-agentimpact/30min',
   minWidth = '320px',
   height = '700px',
   className = ''
