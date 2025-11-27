@@ -72,15 +72,15 @@ const Index = () => {
         canonical="https://agentimpact.fr"
       />
       
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+      <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="border-b bg-white/80 backdrop-blur-md sticky top-0 z-50">
+      <header className="border-b border-border bg-card/80 backdrop-blur-md sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-violet-600 rounded-lg flex items-center justify-center">
-              <Zap className="w-5 h-5 text-white" />
+            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+              <Zap className="w-5 h-5 text-primary-foreground" />
             </div>
-            <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text text-transparent">
+            <span className="text-xl font-bold text-primary">
               AgentImpact.fr
             </span>
           </div>
@@ -88,7 +88,7 @@ const Index = () => {
             <Button 
               variant="ghost"
               onClick={() => navigate('/auth')}
-              className="text-blue-600 hover:text-blue-700 font-medium"
+              className="text-primary hover:text-primary/80 font-medium"
             >
               Connexion
             </Button>
@@ -97,20 +97,20 @@ const Index = () => {
       </header>
 
       {/* Hero Section - IA Services */}
-      <section className="py-16 md:py-24 relative overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+      <section className="py-16 md:py-24 relative overflow-hidden bg-gradient-to-b from-[hsl(210,29%,8%)] to-secondary">
         <div className="container mx-auto px-4 text-center relative z-10">
           <div className="max-w-4xl mx-auto">
             <div className="flex justify-center mb-6">
-              <div className="flex items-center space-x-2 bg-white/80 backdrop-blur-md px-4 py-2 rounded-full border">
-                <Brain className="w-5 h-5 text-violet-600" />
-                <span className="text-sm font-medium text-gray-700">Spécialiste IA & Automatisation</span>
+              <div className="flex items-center space-x-2 bg-secondary/50 backdrop-blur-md px-4 py-2 rounded-full border border-border/30">
+                <Brain className="w-5 h-5 text-primary" />
+                <span className="text-sm font-medium text-muted-foreground">Spécialiste IA & Automatisation</span>
               </div>
             </div>
             
-            <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-              Boostez votre activité immobilière avec <span className="bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text text-transparent">l'Intelligence Artificielle</span>
+            <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
+              Boostez votre activité immobilière avec <span className="text-primary">l'Intelligence Artificielle</span>
             </h1>
-            <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+            <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
               Solutions IA spécialisées pour automatiser votre prospection, gérer vos biens et optimiser votre relation client. 
               Gagnez 70% de temps sur vos tâches administratives.
             </p>
@@ -125,7 +125,7 @@ const Index = () => {
                   navigate('/services');
                 }}
                 size="lg"
-                className="bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-lg px-8 py-4"
+                className="text-lg px-8 py-4"
               >
                 <Sparkles className="w-5 h-5 mr-2" />
                 Découvrir mes services
@@ -140,23 +140,23 @@ const Index = () => {
                 }}
                 size="lg"
                 variant="outline"
-                className="border-2 border-violet-600 text-violet-600 hover:bg-violet-600 hover:text-white text-lg px-8 py-4 bg-white"
+                className="border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground text-lg px-8 py-4"
               >
                 Consultation gratuite
               </Button>
             </div>
 
-            <div className="flex justify-center items-center space-x-8 text-sm text-gray-500">
+            <div className="flex justify-center items-center space-x-8 text-sm text-muted-foreground">
               <div className="flex items-center space-x-2">
-                <CheckCircle className="w-4 h-4 text-green-600" />
+                <CheckCircle className="w-4 h-4 text-green-500" />
                 <span>Solutions personnalisées</span>
               </div>
               <div className="flex items-center space-x-2">
-                <Users className="w-4 h-4 text-blue-600" />
+                <Users className="w-4 h-4 text-primary" />
                 <span>Accompagnement dédié</span>
               </div>
               <div className="flex items-center space-x-2">
-                <TrendingUp className="w-4 h-4 text-violet-600" />
+                <TrendingUp className="w-4 h-4 text-primary" />
                 <span>Optimisation des processus</span>
               </div>
             </div>
@@ -165,13 +165,13 @@ const Index = () => {
       </section>
 
       {/* Solutions Spécialisées Section */}
-      <section className="py-16 bg-white">
+      <section className="py-16 bg-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl font-bold text-foreground mb-4">
               Solutions spécialisées
             </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
+            <p className="text-muted-foreground max-w-2xl mx-auto">
               Agents IA dédiés à votre activité immobilière : prospection, gestion et relation client
             </p>
           </div>
@@ -180,34 +180,34 @@ const Index = () => {
           <div className="flex justify-center">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl">
               {/* Agent IA Prospection */}
-              <Card className="border border-gray-200 hover:shadow-lg transition-all duration-300">
+              <Card className="border border-border hover:shadow-lg transition-all duration-300">
                 <CardContent className="p-8">
                   <div className="flex flex-col items-center text-center mb-6">
-                    <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mb-4">
-                      <Users className="w-8 h-8 text-white" />
+                    <div className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center mb-4">
+                      <Users className="w-8 h-8 text-primary-foreground" />
                     </div>
-                    <h3 className="text-xl font-semibold text-gray-900 mb-2">Agent IA prospection</h3>
-                    <p className="text-gray-600 text-sm">Automatise votre recherche de mandats</p>
+                    <h3 className="text-xl font-semibold text-foreground mb-2">Agent IA prospection</h3>
+                    <p className="text-muted-foreground text-sm">Automatise votre recherche de mandats</p>
                   </div>
                   
                   <div className="space-y-3 mb-6">
-                    <h4 className="font-medium text-gray-900 text-sm">Fonctionnalités :</h4>
+                    <h4 className="font-medium text-foreground text-sm">Fonctionnalités :</h4>
                     <div className="space-y-2">
                       <div className="flex items-center space-x-2">
                         <CheckCircle className="w-4 h-4 text-green-500" />
-                        <span className="text-sm text-gray-700">Identification prospects vendeurs</span>
+                        <span className="text-sm text-muted-foreground">Identification prospects vendeurs</span>
                       </div>
                       <div className="flex items-center space-x-2">
                         <CheckCircle className="w-4 h-4 text-green-500" />
-                        <span className="text-sm text-gray-700">Scripts personnalisés</span>
+                        <span className="text-sm text-muted-foreground">Scripts personnalisés</span>
                       </div>
                       <div className="flex items-center space-x-2">
                         <CheckCircle className="w-4 h-4 text-green-500" />
-                        <span className="text-sm text-gray-700">Relances automatiques</span>
+                        <span className="text-sm text-muted-foreground">Relances automatiques</span>
                       </div>
                       <div className="flex items-center space-x-2">
                         <CheckCircle className="w-4 h-4 text-green-500" />
-                        <span className="text-sm text-gray-700">Suivi des contacts</span>
+                        <span className="text-sm text-muted-foreground">Suivi des contacts</span>
                       </div>
                     </div>
                   </div>
@@ -218,7 +218,7 @@ const Index = () => {
                         +300% de mandats
                       </Badge>
                     </div>
-                    <div className="flex items-center space-x-2 text-xs text-gray-500">
+                    <div className="flex items-center space-x-2 text-xs text-muted-foreground">
                       <Clock className="w-3 h-3" />
                       <span>2-3 semaines</span>
                     </div>
@@ -227,45 +227,45 @@ const Index = () => {
               </Card>
 
               {/* Agent IA Gestion Biens Immobiliers */}
-              <Card className="border border-gray-200 hover:shadow-lg transition-all duration-300">
+              <Card className="border border-border hover:shadow-lg transition-all duration-300">
                 <CardContent className="p-8">
                   <div className="flex flex-col items-center text-center mb-6">
-                    <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mb-4">
-                      <Lightbulb className="w-8 h-8 text-white" />
+                    <div className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center mb-4">
+                      <Lightbulb className="w-8 h-8 text-primary-foreground" />
                     </div>
-                    <h3 className="text-xl font-semibold text-gray-900 mb-2">Agent IA gestion biens</h3>
-                    <p className="text-gray-600 text-sm">Gère et optimise votre portefeuille immobilier</p>
+                    <h3 className="text-xl font-semibold text-foreground mb-2">Agent IA gestion biens</h3>
+                    <p className="text-muted-foreground text-sm">Gère et optimise votre portefeuille immobilier</p>
                   </div>
                   
                   <div className="space-y-3 mb-6">
-                    <h4 className="font-medium text-gray-900 text-sm">Fonctionnalités :</h4>
+                    <h4 className="font-medium text-foreground text-sm">Fonctionnalités :</h4>
                     <div className="space-y-2">
                       <div className="flex items-center space-x-2">
                         <CheckCircle className="w-4 h-4 text-green-500" />
-                        <span className="text-sm text-gray-700">Estimation automatique</span>
+                        <span className="text-sm text-muted-foreground">Estimation automatique</span>
                       </div>
                       <div className="flex items-center space-x-2">
                         <CheckCircle className="w-4 h-4 text-green-500" />
-                        <span className="text-sm text-gray-700">Suivi des mandats</span>
+                        <span className="text-sm text-muted-foreground">Suivi des mandats</span>
                       </div>
                       <div className="flex items-center space-x-2">
                         <CheckCircle className="w-4 h-4 text-green-500" />
-                        <span className="text-sm text-gray-700">Alertes visites & signatures</span>
+                        <span className="text-sm text-muted-foreground">Alertes visites & signatures</span>
                       </div>
                       <div className="flex items-center space-x-2">
                         <CheckCircle className="w-4 h-4 text-green-500" />
-                        <span className="text-sm text-gray-700">Diffusion multi-portails</span>
+                        <span className="text-sm text-muted-foreground">Diffusion multi-portails</span>
                       </div>
                     </div>
                   </div>
                   
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
-                      <Badge variant="outline" className="text-blue-600 border-blue-600 text-xs">
+                      <Badge variant="outline" className="text-primary border-primary text-xs">
                         Gain de temps : 60%
                       </Badge>
                     </div>
-                    <div className="flex items-center space-x-2 text-xs text-gray-500">
+                    <div className="flex items-center space-x-2 text-xs text-muted-foreground">
                       <Clock className="w-3 h-3" />
                       <span>2-4 semaines</span>
                     </div>
@@ -274,45 +274,45 @@ const Index = () => {
               </Card>
 
               {/* Agent IA Création Site internet */}
-              <Card className="border border-gray-200 hover:shadow-lg transition-all duration-300">
+              <Card className="border border-border hover:shadow-lg transition-all duration-300">
                 <CardContent className="p-8">
                   <div className="flex flex-col items-center text-center mb-6">
-                    <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mb-4">
-                      <Code className="w-8 h-8 text-white" />
+                    <div className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center mb-4">
+                      <Code className="w-8 h-8 text-primary-foreground" />
                     </div>
-                    <h3 className="text-xl font-semibold text-gray-900 mb-2">Agent IA création site internet</h3>
-                    <p className="text-gray-600 text-sm">Crée votre site web professionnel automatiquement</p>
+                    <h3 className="text-xl font-semibold text-foreground mb-2">Agent IA création site internet</h3>
+                    <p className="text-muted-foreground text-sm">Crée votre site web professionnel automatiquement</p>
                   </div>
                   
                   <div className="space-y-3 mb-6">
-                    <h4 className="font-medium text-gray-900 text-sm">Fonctionnalités :</h4>
+                    <h4 className="font-medium text-foreground text-sm">Fonctionnalités :</h4>
                     <div className="space-y-2">
                       <div className="flex items-center space-x-2">
                         <CheckCircle className="w-4 h-4 text-green-500" />
-                        <span className="text-sm text-gray-700">Design responsive automatique</span>
+                        <span className="text-sm text-muted-foreground">Design responsive automatique</span>
                       </div>
                       <div className="flex items-center space-x-2">
                         <CheckCircle className="w-4 h-4 text-green-500" />
-                        <span className="text-sm text-gray-700">Génération de contenu IA</span>
+                        <span className="text-sm text-muted-foreground">Génération de contenu IA</span>
                       </div>
                       <div className="flex items-center space-x-2">
                         <CheckCircle className="w-4 h-4 text-green-500" />
-                        <span className="text-sm text-gray-700">Optimisation SEO intégrée</span>
+                        <span className="text-sm text-muted-foreground">Optimisation SEO intégrée</span>
                       </div>
                       <div className="flex items-center space-x-2">
                         <CheckCircle className="w-4 h-4 text-green-500" />
-                        <span className="text-sm text-gray-700">Hébergement inclus</span>
+                        <span className="text-sm text-muted-foreground">Hébergement inclus</span>
                       </div>
                     </div>
                   </div>
                   
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
-                      <Badge variant="outline" className="text-violet-600 border-violet-600 text-xs">
+                      <Badge variant="outline" className="text-primary border-primary text-xs">
                         ROI : +200%
                       </Badge>
                     </div>
-                    <div className="flex items-center space-x-2 text-xs text-gray-500">
+                    <div className="flex items-center space-x-2 text-xs text-muted-foreground">
                       <Clock className="w-3 h-3" />
                       <span>1-2 semaines</span>
                     </div>
@@ -321,34 +321,34 @@ const Index = () => {
               </Card>
 
               {/* Agent IA Gestion Emails */}
-              <Card className="border border-gray-200 hover:shadow-lg transition-all duration-300">
+              <Card className="border border-border hover:shadow-lg transition-all duration-300">
                 <CardContent className="p-8">
                   <div className="flex flex-col items-center text-center mb-6">
-                    <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mb-4">
-                      <Mail className="w-8 h-8 text-white" />
+                    <div className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center mb-4">
+                      <Mail className="w-8 h-8 text-primary-foreground" />
                     </div>
-                    <h3 className="text-xl font-semibold text-gray-900 mb-2">Agent IA gestion emails</h3>
-                    <p className="text-gray-600 text-sm">Automatise et optimise vos communications email</p>
+                    <h3 className="text-xl font-semibold text-foreground mb-2">Agent IA gestion emails</h3>
+                    <p className="text-muted-foreground text-sm">Automatise et optimise vos communications email</p>
                   </div>
                   
                   <div className="space-y-3 mb-6">
-                    <h4 className="font-medium text-gray-900 text-sm">Fonctionnalités :</h4>
+                    <h4 className="font-medium text-foreground text-sm">Fonctionnalités :</h4>
                     <div className="space-y-2">
                       <div className="flex items-center space-x-2">
                         <CheckCircle className="w-4 h-4 text-green-500" />
-                        <span className="text-sm text-gray-700">Tri automatique des emails</span>
+                        <span className="text-sm text-muted-foreground">Tri automatique des emails</span>
                       </div>
                       <div className="flex items-center space-x-2">
                         <CheckCircle className="w-4 h-4 text-green-500" />
-                        <span className="text-sm text-gray-700">Réponses automatiques intelligentes</span>
+                        <span className="text-sm text-muted-foreground">Réponses automatiques intelligentes</span>
                       </div>
                       <div className="flex items-center space-x-2">
                         <CheckCircle className="w-4 h-4 text-green-500" />
-                        <span className="text-sm text-gray-700">Planification d'envois</span>
+                        <span className="text-sm text-muted-foreground">Planification d'envois</span>
                       </div>
                       <div className="flex items-center space-x-2">
                         <CheckCircle className="w-4 h-4 text-green-500" />
-                        <span className="text-sm text-gray-700">Suivi d'engagement</span>
+                        <span className="text-sm text-muted-foreground">Suivi d'engagement</span>
                       </div>
                     </div>
                   </div>
@@ -359,7 +359,7 @@ const Index = () => {
                         Productivité : +60%
                       </Badge>
                     </div>
-                    <div className="flex items-center space-x-2 text-xs text-gray-500">
+                    <div className="flex items-center space-x-2 text-xs text-muted-foreground">
                       <Clock className="w-3 h-3" />
                       <span>1-3 semaines</span>
                     </div>
@@ -372,7 +372,7 @@ const Index = () => {
       </section>
 
       {/* Preuve Sociale Section */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-16 bg-muted">
         <div className="container mx-auto px-4">
           <SocialProof variant="detailed" />
         </div>
@@ -380,7 +380,7 @@ const Index = () => {
 
 
       {/* Conversion Optimizer Section */}
-      <section className="py-16 bg-gradient-to-br from-blue-50 to-violet-50">
+      <section className="py-16 bg-background">
         <div className="container mx-auto px-4">
           <ConversionOptimizer 
             variant="primary"
@@ -391,19 +391,19 @@ const Index = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 bg-gradient-to-r from-blue-600 via-violet-600 to-blue-700">
+      <section className="py-16 bg-gradient-to-r from-primary via-[hsl(173,80%,25%)] to-primary">
         <div className="container mx-auto px-4 text-center">
           <div className="max-w-3xl mx-auto text-white">
             <h2 className="text-3xl font-bold mb-4">
               Automatisez votre gestion administrative aujourd'hui
             </h2>
-            <p className="text-xl mb-8 text-blue-100">
+            <p className="text-xl mb-8 text-primary-foreground/80">
               Automatisez votre prospection et multipliez vos transactions immobilières avec l'IA
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button 
                 size="lg" 
-                className="bg-white text-blue-600 hover:bg-gray-100 font-semibold"
+                className="bg-white text-primary hover:bg-muted font-semibold"
                 onClick={() => navigate('/services')}
               >
                 <Rocket className="w-5 h-5 mr-2" />

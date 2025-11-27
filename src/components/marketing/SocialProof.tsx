@@ -10,10 +10,10 @@ interface SocialProofProps {
 
 export const SocialProof: React.FC<SocialProofProps> = ({ variant = 'detailed' }) => {
   const stats = [
-    { icon: Users, value: "100%", label: "Satisfaction garantie", color: "text-blue-600" },
+    { icon: Users, value: "100%", label: "Satisfaction garantie", color: "text-primary" },
     { icon: TrendingUp, value: "85%", label: "Gain de productivité possible", color: "text-green-600" },
     { icon: Award, value: "24h", label: "Support réactif", color: "text-yellow-600" },
-    { icon: Building2, value: "8+", label: "Secteurs d'activité", color: "text-purple-600" }
+    { icon: Building2, value: "8+", label: "Secteurs d'activité", color: "text-secondary-foreground" }
   ];
 
   const benefits = [
@@ -49,8 +49,8 @@ export const SocialProof: React.FC<SocialProofProps> = ({ variant = 'detailed' }
           {stats.map((stat, index) => (
             <div key={index} className="text-center">
               <stat.icon className={`w-6 h-6 mx-auto mb-2 ${stat.color}`} />
-              <div className="font-bold text-lg">{stat.value}</div>
-              <div className="text-xs text-gray-600">{stat.label}</div>
+              <div className="font-bold text-lg text-foreground">{stat.value}</div>
+              <div className="text-xs text-muted-foreground">{stat.label}</div>
             </div>
           ))}
         </div>
@@ -62,7 +62,7 @@ export const SocialProof: React.FC<SocialProofProps> = ({ variant = 'detailed' }
               <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
             ))}
           </div>
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-muted-foreground">
             Solutions IA sur mesure
           </p>
         </div>
@@ -78,8 +78,8 @@ export const SocialProof: React.FC<SocialProofProps> = ({ variant = 'detailed' }
           <Card key={index} className="text-center">
             <CardContent className="p-6">
               <stat.icon className={`w-8 h-8 mx-auto mb-3 ${stat.color}`} />
-              <div className="text-2xl font-bold text-gray-900">{stat.value}</div>
-              <div className="text-sm text-gray-600 mt-1">{stat.label}</div>
+              <div className="text-2xl font-bold text-foreground">{stat.value}</div>
+              <div className="text-sm text-muted-foreground mt-1">{stat.label}</div>
             </CardContent>
           </Card>
         ))}
@@ -87,16 +87,16 @@ export const SocialProof: React.FC<SocialProofProps> = ({ variant = 'detailed' }
 
       {/* Bénéfices et promesses */}
       <div className="space-y-4">
-        <h3 className="text-xl font-semibold text-center text-gray-900">
+        <h3 className="text-xl font-semibold text-center text-foreground">
           Ce que vous pouvez attendre
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {benefits.map((benefit, index) => (
-            <Card key={index} className="border border-gray-200 hover:shadow-md transition-shadow">
+            <Card key={index} className="border border-border hover:shadow-md transition-shadow">
               <CardContent className="p-6">
                 <div className="text-center">
-                  <div className="font-semibold text-gray-900 mb-2">{benefit.title}</div>
-                  <p className="text-gray-700 text-sm mb-3">{benefit.description}</p>
+                  <div className="font-semibold text-foreground mb-2">{benefit.title}</div>
+                  <p className="text-muted-foreground text-sm mb-3">{benefit.description}</p>
                   <Badge variant="secondary" className="text-xs">
                     {benefit.impact}
                   </Badge>
