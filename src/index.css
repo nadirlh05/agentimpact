@@ -7,100 +7,107 @@
 
 @layer base {
   :root {
-    /* Palette Sobre & Minimaliste */
-    --background: 0 0% 100%;
-    --foreground: 0 0% 10%;
+    /* Palette Élégante et Sobre */
+    --background: 210 20% 98%;
+    --foreground: 210 29% 10%;
 
     --card: 0 0% 100%;
-    --card-foreground: 0 0% 10%;
+    --card-foreground: 210 29% 10%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 10%;
+    --popover-foreground: 210 29% 10%;
 
-    --primary: 210 24% 22%;
+    /* Teal élégant comme couleur principale */
+    --primary: 173 83% 30%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 100 11% 57%;
-    --secondary-foreground: 0 0% 100%;
+    /* Ardoise pour le secondaire */
+    --secondary: 215 25% 27%;
+    --secondary-foreground: 210 20% 98%;
 
-    --muted: 220 14% 96%;
-    --muted-foreground: 217 11% 47%;
+    --muted: 214 32% 91%;
+    --muted-foreground: 215 16% 47%;
 
-    --accent: 100 11% 57%;
+    /* Teal comme accent */
+    --accent: 173 83% 30%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 100 11% 57%;
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 173 83% 30%;
 
-    /* Gradients subtils */
-    --gradient-subtle: linear-gradient(135deg, hsl(210, 24%, 22%) 0%, hsl(0, 0%, 10%) 100%);
-    --gradient-light: linear-gradient(135deg, hsl(210, 20%, 98%) 0%, hsl(220, 14%, 96%) 100%);
+    /* Gradients élégants et subtils */
+    --gradient-subtle: linear-gradient(180deg, hsl(210, 29%, 10%) 0%, hsl(215, 25%, 27%) 100%);
+    --gradient-light: linear-gradient(180deg, hsl(210, 20%, 98%) 0%, hsl(214, 32%, 91%) 100%);
+    --gradient-cta: linear-gradient(135deg, hsl(173, 83%, 30%) 0%, hsl(173, 80%, 25%) 100%);
     
     /* Ombres discrètes et naturelles */
     --shadow-soft: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
     --shadow-medium: 0 2px 8px 0 rgba(0, 0, 0, 0.08);
     --shadow-large: 0 4px 16px 0 rgba(0, 0, 0, 0.1);
+    --shadow-teal: 0 4px 12px rgba(13, 148, 136, 0.2);
 
     --radius: 0.5rem;
 
-    --sidebar-background: 0 0% 10%;
+    --sidebar-background: 210 29% 10%;
     --sidebar-foreground: 210 20% 98%;
-    --sidebar-primary: 100 11% 57%;
+    --sidebar-primary: 173 83% 30%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 210 24% 22%;
+    --sidebar-accent: 215 25% 27%;
     --sidebar-accent-foreground: 210 20% 98%;
-    --sidebar-border: 0 0% 20%;
-    --sidebar-ring: 100 11% 57%;
+    --sidebar-border: 215 25% 20%;
+    --sidebar-ring: 173 83% 30%;
   }
 
   .dark {
-    --background: 0 0% 10%;
+    --background: 210 29% 10%;
     --foreground: 210 20% 98%;
 
-    --card: 217 33% 17%;
+    --card: 215 25% 17%;
     --card-foreground: 210 20% 98%;
 
-    --popover: 217 33% 17%;
+    --popover: 215 25% 17%;
     --popover-foreground: 210 20% 98%;
 
-    --primary: 210 24% 22%;
+    --primary: 173 83% 30%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 100 11% 57%;
-    --secondary-foreground: 0 0% 100%;
+    --secondary: 215 25% 27%;
+    --secondary-foreground: 210 20% 98%;
 
-    --muted: 217 33% 17%;
-    --muted-foreground: 217 11% 65%;
+    --muted: 215 25% 17%;
+    --muted-foreground: 215 20% 65%;
 
-    --accent: 100 11% 57%;
+    --accent: 173 83% 30%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 217 17% 35%;
-    --input: 217 33% 17%;
-    --ring: 100 11% 57%;
+    --border: 215 20% 25%;
+    --input: 215 25% 17%;
+    --ring: 173 83% 30%;
 
-    --gradient-subtle: linear-gradient(135deg, hsl(210, 24%, 22%) 0%, hsl(0, 0%, 10%) 100%);
-    --gradient-light: linear-gradient(135deg, hsl(217, 33%, 17%) 0%, hsl(0, 0%, 10%) 100%);
+    --gradient-subtle: linear-gradient(180deg, hsl(210, 29%, 10%) 0%, hsl(215, 25%, 17%) 100%);
+    --gradient-light: linear-gradient(180deg, hsl(215, 25%, 17%) 0%, hsl(210, 29%, 10%) 100%);
+    --gradient-cta: linear-gradient(135deg, hsl(173, 83%, 30%) 0%, hsl(173, 80%, 25%) 100%);
     
     --shadow-soft: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
     --shadow-medium: 0 2px 8px 0 rgba(0, 0, 0, 0.4);
     --shadow-large: 0 4px 16px 0 rgba(0, 0, 0, 0.5);
+    --shadow-teal: 0 4px 12px rgba(13, 148, 136, 0.25);
     
-    --sidebar-background: 0 0% 10%;
+    --sidebar-background: 210 29% 10%;
     --sidebar-foreground: 210 20% 98%;
-    --sidebar-primary: 100 11% 57%;
+    --sidebar-primary: 173 83% 30%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 217 33% 17%;
+    --sidebar-accent: 215 25% 17%;
     --sidebar-accent-foreground: 210 20% 98%;
-    --sidebar-border: 217 17% 35%;
-    --sidebar-ring: 100 11% 57%;
+    --sidebar-border: 215 20% 25%;
+    --sidebar-ring: 173 83% 30%;
   }
 }
 
@@ -119,7 +126,7 @@
   }
 }
 
-/* Design Sobre & Minimaliste */
+/* Design Sobre & Élégant */
 @layer components {
   .card-minimal {
     background: hsl(var(--card));
@@ -161,6 +168,16 @@
 
   .section-subtle {
     background: hsl(var(--muted));
+  }
+
+  .section-dark {
+    background: hsl(210, 29%, 10%);
+    color: hsl(210, 20%, 98%);
+  }
+
+  /* Hero background élégant */
+  .hero-bg {
+    background: linear-gradient(180deg, hsl(210, 29%, 8%) 0%, hsl(215, 25%, 17%) 100%);
   }
 }
 
