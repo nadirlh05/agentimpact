@@ -1,7 +1,6 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { Resend } from "npm:resend@2.0.0";
-
-const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -21,6 +20,12 @@ interface ConsultationRequest {
   telephone?: string;
 }
 
+// Mask PII for logging
+const maskEmail = (email: string): string => {
+  const [user, domain] = email.split('@');
+  return `${user[0]}***@${domain}`;
+};
+
 const handler = async (req: Request): Promise<Response> => {
   // Handle CORS preflight requests
   if (req.method === "OPTIONS") {
@@ -28,8 +33,27 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
-    // Rate limiting for contact form to prevent spam
     const clientIP = req.headers.get('x-forwarded-for') || req.headers.get('x-real-ip') || 'unknown';
+    
+    // Rate limiting check using Supabase
+    const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
+    const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
+    const supabase = createClient(supabaseUrl, supabaseKey);
+    
+    const { data: rateLimitOk } = await supabase.rpc('check_rate_limit', {
+      _identifier: clientIP,
+      _endpoint: 'contact-consultation',
+      _max_requests: 5,
+      _window_minutes: 60
+    });
+
+    if (!rateLimitOk) {
+      console.log(`Rate limit exceeded for IP: ${clientIP.substring(0, 8)}***`);
+      return new Response(
+        JSON.stringify({ error: 'Trop de demandes. Veuillez réessayer plus tard.' }),
+        { status: 429, headers: { 'Content-Type': 'application/json', ...corsHeaders } }
+      );
+    }
     
     // Vérifier que la clé API Resend est disponible
     const resendApiKey = Deno.env.get("RESEND_API_KEY");
@@ -38,7 +62,7 @@ const handler = async (req: Request): Promise<Response> => {
       throw new Error("Configuration email manquante");
     }
     
-    console.log("Clé API Resend disponible:", resendApiKey ? "✓" : "✗");
+    const resend = new Resend(resendApiKey);
     
     const formData: ConsultationRequest = await req.json();
     
@@ -76,11 +100,13 @@ const handler = async (req: Request): Promise<Response> => {
       telephone: formData.telephone?.trim().substring(0, 20) || ''
     };
     
+    // Log with masked PII
     console.log("Nouvelle demande de consultation reçue:", {
-      prenom: sanitizedData.prenom,
-      nom: sanitizedData.nom,
-      email: sanitizedData.email,
-      entreprise: sanitizedData.entreprise
+      prenom: sanitizedData.prenom[0] + '***',
+      nom: sanitizedData.nom[0] + '***',
+      email: maskEmail(sanitizedData.email),
+      entreprise: sanitizedData.entreprise,
+      timestamp: new Date().toISOString()
     });
 
     // Email vers l'admin (vous)
@@ -178,7 +204,7 @@ const handler = async (req: Request): Promise<Response> => {
       `,
     });
 
-    console.log("Emails envoyés:", { adminEmailResponse, clientEmailResponse });
+    console.log("Emails envoyés avec succès");
 
     return new Response(JSON.stringify({ 
       success: true, 
@@ -191,7 +217,7 @@ const handler = async (req: Request): Promise<Response> => {
       },
     });
   } catch (error: any) {
-    console.error("Erreur dans contact-consultation function:", error);
+    console.error("Erreur dans contact-consultation function:", error.message);
     return new Response(
       JSON.stringify({ 
         error: "Erreur lors de l'envoi", 
